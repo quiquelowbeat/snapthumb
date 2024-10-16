@@ -10,8 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.snapthumb.thumbnailgenerator.image_creation.background.application.BackgroundRegister;
-import com.snapthumb.thumbnailgenerator.image_creation.background.domain.Background;
+import com.snapthumb.thumbnailgenerator.image_creation.background.application.UploadedBackgroundRegister;
 import com.snapthumb.thumbnailgenerator.image_creation.background.domain.UploadedBackground;
 import com.snapthumb.thumbnailgenerator.image_creation.background.domain.UploadedBackgroundRequest;
 
@@ -19,19 +18,19 @@ import com.snapthumb.thumbnailgenerator.image_creation.background.domain.Uploade
 @RequestMapping("/v1/uploaded-backgrounds")
 public class UploadedBackgroundController {
 
-    private final BackgroundRegister backgroundRegister;
+    private final UploadedBackgroundRegister register;
 
-    public UploadedBackgroundController(BackgroundRegister backgroundRegister) {
-        this.backgroundRegister = backgroundRegister;
+    public UploadedBackgroundController(UploadedBackgroundRegister register) {
+        this.register = register;
     }
 
     @PutMapping("/{uuid}")
     public ResponseEntity<String> saveUploadedBackground(@PathVariable String uuid,
             @RequestBody UploadedBackgroundRequest request) {
         try {
-            Background background = new UploadedBackground(UUID.fromString(uuid), request.url(), request.title(),
+            UploadedBackground background = new UploadedBackground(UUID.fromString(uuid), request.url(), request.title(),
                     request.description());
-            backgroundRegister.save(background);
+            register.save(background);
             return ResponseEntity.ok("Background saved successfully");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
