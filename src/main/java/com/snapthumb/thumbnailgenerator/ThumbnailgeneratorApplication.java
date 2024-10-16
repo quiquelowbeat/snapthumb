@@ -4,10 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class ThumbnailgeneratorApplication {
+public class ThumbnailGeneratorApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(ThumbnailgeneratorApplication.class, args);
+		SpringApplication.run(ThumbnailGeneratorApplication.class, args);
 	}
 
 }
