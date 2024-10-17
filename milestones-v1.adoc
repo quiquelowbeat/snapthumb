@@ -1,0 +1,89 @@
+= SPEC-1: Backend Milestones V1
+:sectnums:
+:toc:
+
+== Milestones
+
+1. **Phase 1: Project Setup and Basic Architecture, and Docker Configuration**
+   *Must Have*:
+   - Set up the **Spring Boot** project with dependencies for clean or hexagonal architecture.
+   - Create domain entities (`Background`, `Text`, `Subject`, `User`) and their repositories (`BackgroundRepository`, `TextRepository`, `SubjectRepository`, `UserRepository`) in the domain layer.
+   - Set up the application and infrastructure layers with basic controllers and services.
+   - Set up **Docker** for containerization to simplify project setup and ensure consistency across environments.
+   - Create a simple **Dockerfile** to package the Spring Boot application and a **docker-compose.yml** to run both the backend and the database.
+   - Create REST controllers for background upload.
+   - Define and implement initial use cases like `GenerateThumbnail`.
+
+   **Deliverable**: Functional project with clean/hexagonal architecture, and a basic image upload and thumbnail generation flow.
+
+2. **Phase 2: Image Processing Integration**
+   *Must Have*:
+   - Configure image processing dependencies (such as **OpenCV**).
+   - Implement the image processing service using **OpenCV** or similar libraries in the infrastructure layer.
+   - Add functionality for **face detection** and **cropping**.
+   - Create a use case for receiving and processing images in the backend.
+   - Implement tests for the image processing flow.
+
+   **Deliverable**: Image processing service fully functional and tested, exposed through a REST controller.
+
+3. **Phase 3: AI Integration for Thumbnail Generation**
+   *Must Have*:
+   - Integrate an AI model, such as **Stable Diffusion** or **ControlNet**, in the infrastructure layer for automatic thumbnail generation.
+   - Implement a service for generating full-body thumbnails and other customized images.
+   - Create REST controllers to handle requests for AI-based thumbnail generation.
+   - Test the AI service implementation.
+
+   **Deliverable**: Functional AI-powered thumbnail generation service, accessible via a REST endpoint.
+
+4. **Phase 4: Image Storage and Management**
+   *Must Have*:
+   - Integrate a storage service like **AWS S3** to handle image uploads and storage.
+   - Store image metadata (e.g., generated image URLs) in the database.
+   - Implement necessary repositories for managing images and their metadata in the infrastructure layer.
+   - Create a use case for handling image upload and storage.
+
+   **Deliverable**: Fully integrated image storage and management system with metadata persistence in the database.
+
+5. **Phase 5: User Authentication and Security**
+   *Should Have*:
+   - Implement user authentication using **OAuth 2.0** or **JWT (JSON Web Tokens)**.
+   - Create secure endpoints for **user registration** and **login**.
+   - Protect sensitive endpoints (such as those for generating thumbnails and uploading images) with authentication.
+   - Implement role-based or permission-based validation to restrict access to certain functionalities.
+
+   **Deliverable**: Fully functional user authentication system with secure protection for sensitive backend endpoints.
+
+6. **Phase 6: Processing and Storage Optimization**
+   *Must Have*:
+   - Optimize the image processing service for **performance improvements** (parallel task execution, resource efficiency).
+   - Review the image upload logic to S3 to optimize efficiency, potentially using **presigned URLs**.
+   - Implement **caching** for generated images to avoid redundant processing.
+   - Perform performance tests and optimize the service for high load scenarios.
+
+   **Deliverable**: Optimized backend with efficient image processing and storage, including caching for improved response times.
+
+7. **Phase 7: Production Deployment and Testing**
+   *Must Have*:
+   - Set up production deployment on platforms like **AWS EC2**, **Google Cloud**, or similar services.
+   - Implement a CI/CD pipeline using **GitHub Actions** or similar to automate deployment.
+   - Conduct extensive load and performance testing in the production environment.
+   - Implement logging and monitoring tools to track production performance.
+
+   **Deliverable**: Backend deployed to a production environment, fully monitored and capable of handling real-world traffic.
+
+8. **Phase 8: Scalability and Maintenance**
+   *Could Have*:
+   - Scale the backend to support multiple concurrent users by optimizing cloud infrastructure and database setup.
+   - Improve backend performance for high demand scenarios by implementing **auto-scaling** and **load balancing**.
+   - Implement backup and disaster recovery strategies to ensure data and image persistence.
+   - Review and enhance the authentication and authorization system for improved security (e.g., multi-factor authentication, stronger password policies).
+
+   **Deliverable**: Scalable backend capable of handling high loads with robust backup and security mechanisms.
+
+9. **Phase 9: Final Validation and Testing**
+   *Must Have*:
+   - Run unit, integration, and load tests to validate key use cases.
+   - Ensure all backend layers (application, infrastructure, domain) are properly decoupled and tested.
+   - Validate the security and integrity of the authentication and authorization system.
+
+   **Deliverable**: Fully tested and validated backend, ready for production use with high reliability and performance.
