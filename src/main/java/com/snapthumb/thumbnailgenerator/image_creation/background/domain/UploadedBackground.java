@@ -2,13 +2,8 @@ package com.snapthumb.thumbnailgenerator.image_creation.background.domain;
 
 import java.util.UUID;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-
-@Entity
 public class UploadedBackground implements Background {
 
-    @Id
     private UUID uuid;
     private String url;
     private String title;
