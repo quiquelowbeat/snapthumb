@@ -1,10 +1,12 @@
 package com.snapthumb.thumbnailgenerator.user_management.infrastructure.outbound;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
 
 import com.snapthumb.thumbnailgenerator.user_management.domain.DomainPasswordEncoder;
 import com.snapthumb.thumbnailgenerator.user_management.domain.value_objects.HashedPassword;
 
+@Service
 public class BCryptPasswordEncoderAdapter implements DomainPasswordEncoder {
 
     private final BCryptPasswordEncoder passwordEncoder;

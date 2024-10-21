@@ -1,37 +1,57 @@
 package com.snapthumb.thumbnailgenerator.user_management.infrastructure.inbound;
 
+import java.util.UUID;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.snapthumb.thumbnailgenerator.user_management.application.UserFinder;
 import com.snapthumb.thumbnailgenerator.user_management.application.UserRegister;
-import com.snapthumb.thumbnailgenerator.user_management.domain.UserRequest;
+import com.snapthumb.thumbnailgenerator.user_management.domain.User;
+import com.snapthumb.thumbnailgenerator.user_management.domain.UserDoesNotExists;
+import com.snapthumb.thumbnailgenerator.user_management.domain.dtos.DTOFactory;
+import com.snapthumb.thumbnailgenerator.user_management.domain.dtos.UserRequest;
+import com.snapthumb.thumbnailgenerator.user_management.domain.dtos.UserResponse;
 
 @RestController
 @RequestMapping("/v1/users")
 public class UserController {
 
-    private final UserRegister userRegister;
+    private final UserRegister register;
+    private final UserFinder finder;
 
-    public UserController(UserRegister userRegister) {
-        this.userRegister = userRegister;
+    public UserController(UserRegister register, UserFinder finder) {
+        this.register = register;
+        this.finder = finder;
     }
 
     @PutMapping("/{uuid}")
     public ResponseEntity<String> registerUser(@PathVariable String uuid,
             @RequestBody UserRequest request) {
         try {
-            userRegister.register(uuid, request.name(), request.lastName(),
-               request.email(), request.rawPassword());
+            register.register(uuid, request.name(), request.lastName(),
+                    request.email(), request.rawPassword());
             return ResponseEntity.status(HttpStatus.CREATED).body("User saved successfully");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Error saving user data");
         }
     }
-    
+
+    @GetMapping("/{uuid}")
+    public ResponseEntity<UserResponse> findUserBy(@PathVariable String uuid) {
+        try {
+            User user = finder.find(uuid);
+            UserResponse userResponse = DTOFactory.create(user);
+            return ResponseEntity.ok().body(userResponse);
+        } catch (UserDoesNotExists e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
 }
