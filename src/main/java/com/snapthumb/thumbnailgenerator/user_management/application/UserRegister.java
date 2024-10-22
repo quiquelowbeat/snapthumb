@@ -23,8 +23,8 @@ public class UserRegister {
         this.encoder = encoder;
     }
 
-    public void register(String uuid, String name, String lastName, String email, String rawPassword) {
-        HashedPassword hashedPassword = encoder.encode(rawPassword);
+    public void register(String uuid, String name, String lastName, String email, String password) {
+        HashedPassword hashedPassword = encoder.encode(password);
         User user = new User(UUID.fromString(uuid), new Name(name), new LastName(lastName),
                 new Email(email), hashedPassword);
         repository.save(user);

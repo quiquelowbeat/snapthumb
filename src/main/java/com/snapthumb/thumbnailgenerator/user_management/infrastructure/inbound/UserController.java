@@ -1,7 +1,5 @@
 package com.snapthumb.thumbnailgenerator.user_management.infrastructure.inbound;
 
-import java.util.UUID;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,7 +34,7 @@ public class UserController {
             @RequestBody UserRequest request) {
         try {
             register.register(uuid, request.name(), request.lastName(),
-                    request.email(), request.rawPassword());
+                    request.email(), request.password());
             return ResponseEntity.status(HttpStatus.CREATED).body("User saved successfully");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
