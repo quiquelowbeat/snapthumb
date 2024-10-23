@@ -1,6 +1,7 @@
 services:
   backend:
     environment:
+        - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005
         - DB_HOST=${DB_HOST}
         - DB_PORT=${DB_PORT}
         - DB_NAME=${DB_NAME}
@@ -12,7 +13,7 @@ services:
         - SPRING_SECURITY_PASSWORD=${SPRING_SECURITY_PASSWORD}
     build: 
       context: .
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.debug
       args:
         JAR_FILE: ${JAR_FILE}
     ports:

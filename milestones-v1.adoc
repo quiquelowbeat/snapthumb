@@ -10,7 +10,9 @@
    - Create domain entities (`Background`, `Text`, `Subject`, `User`) and their repositories (`BackgroundRepository`, `TextRepository`, `SubjectRepository`, `UserRepository`) in the domain layer.
    - Set up the application and infrastructure layers with basic controllers and services.
    - Set up **Docker** for containerization to simplify project setup and ensure consistency across environments.
-   - Create a simple **Dockerfile** to package the Spring Boot application and a **docker-compose.yml** to run both the backend and the database.
+   - Create a simple **Dockerfile** to package the Spring Boot application and a **docker-compose.yml** to run the backend, with configuration to connect to an external database.
+   - Configure the application to use the external database connection.
+   - Set up environment variables in the **docker-compose.yml** for database connection details.
    - Create REST controllers for background upload.
    - Define and implement initial use cases like `GenerateThumbnail`.
 

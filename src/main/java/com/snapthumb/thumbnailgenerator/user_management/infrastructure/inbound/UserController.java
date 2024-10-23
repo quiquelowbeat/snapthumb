@@ -1,6 +1,7 @@
 package com.snapthumb.thumbnailgenerator.user_management.infrastructure.inbound;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,10 +13,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.snapthumb.thumbnailgenerator.user_management.application.UserFinder;
 import com.snapthumb.thumbnailgenerator.user_management.application.UserRegister;
 import com.snapthumb.thumbnailgenerator.user_management.domain.User;
-import com.snapthumb.thumbnailgenerator.user_management.domain.UserDoesNotExists;
 import com.snapthumb.thumbnailgenerator.user_management.domain.dtos.DTOFactory;
 import com.snapthumb.thumbnailgenerator.user_management.domain.dtos.UserRequest;
 import com.snapthumb.thumbnailgenerator.user_management.domain.dtos.UserResponse;
+import com.snapthumb.thumbnailgenerator.user_management.domain.exceptions.CantSaveUser;
+import com.snapthumb.thumbnailgenerator.user_management.domain.exceptions.UserDoesNotExist;
 
 @RestController
 @RequestMapping("/v1/users")
@@ -36,7 +38,7 @@ public class UserController {
             register.register(uuid, request.name(), request.lastName(),
                     request.email(), request.password());
             return ResponseEntity.status(HttpStatus.CREATED).body("User saved successfully");
-        } catch (Exception e) {
+        } catch (CantSaveUser e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Error saving user data");
         }
@@ -48,7 +50,7 @@ public class UserController {
             User user = finder.find(uuid);
             UserResponse userResponse = DTOFactory.create(user);
             return ResponseEntity.ok().body(userResponse);
-        } catch (UserDoesNotExists e) {
+        } catch (UserDoesNotExist e) {
             return ResponseEntity.notFound().build();
         }
     }

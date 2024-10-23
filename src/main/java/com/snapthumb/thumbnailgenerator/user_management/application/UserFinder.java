@@ -6,8 +6,8 @@ import java.util.UUID;
 import org.springframework.stereotype.Service;
 
 import com.snapthumb.thumbnailgenerator.user_management.domain.User;
-import com.snapthumb.thumbnailgenerator.user_management.domain.UserDoesNotExists;
 import com.snapthumb.thumbnailgenerator.user_management.domain.UserRepository;
+import com.snapthumb.thumbnailgenerator.user_management.domain.exceptions.UserDoesNotExist;
 
 @Service
 public class UserFinder {
@@ -21,7 +21,7 @@ public class UserFinder {
     public User find(String uuid) {
         Optional<User> user = repository.search(UUID.fromString(uuid));
         if (user.isEmpty()) {
-            throw new UserDoesNotExists(uuid);
+            throw new UserDoesNotExist(uuid);
         }
         return user.get();
     }
