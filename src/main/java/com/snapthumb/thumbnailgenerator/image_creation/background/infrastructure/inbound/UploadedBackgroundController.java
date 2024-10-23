@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.snapthumb.thumbnailgenerator.image_creation.background.application.UploadedBackgroundRegister;
-import com.snapthumb.thumbnailgenerator.image_creation.background.domain.UploadedBackgroundRequest;
+import com.snapthumb.thumbnailgenerator.image_creation.background.infrastructure.dtos.UploadedBackgroundRequest;
 
 @RestController
 @RequestMapping("/v1/uploaded-backgrounds")

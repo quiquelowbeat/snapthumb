@@ -1,4 +1,4 @@
-package com.snapthumb.thumbnailgenerator.user_management.domain.dtos;
+package com.snapthumb.thumbnailgenerator.user_management.infrastructure.dtos;
 
 import java.time.LocalDateTime;
 
@@ -7,11 +7,11 @@ import lombok.Getter;
 @Getter
 public class UserResponse {
 
-    private String uuid;
-    private String name;
-    private String lastName;
-    private String email;
-    private LocalDateTime registeredAt;
+    private final String uuid;
+    private final String name;
+    private final String lastName;
+    private final String email;
+    private final LocalDateTime registeredAt;
 
     public UserResponse(String uuid, String name, String lastName, String email, LocalDateTime registeredAt) {
         this.uuid = uuid;

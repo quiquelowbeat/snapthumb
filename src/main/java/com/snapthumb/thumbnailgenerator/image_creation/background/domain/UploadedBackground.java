@@ -2,12 +2,12 @@ package com.snapthumb.thumbnailgenerator.image_creation.background.domain;
 
 import java.util.UUID;
 
-public class UploadedBackground implements Background {
+public class UploadedBackground {
 
-    private UUID uuid;
-    private String url;
-    private String title;
-    private String description;
+    private final UUID uuid;
+    private final String url;
+    private final String title;
+    private final String description;
 
     public UploadedBackground(UUID uuid, String url, String title, String description) {
         this.uuid = uuid;
@@ -16,7 +16,6 @@ public class UploadedBackground implements Background {
         this.description = description;
     }
 
-    @Override
     public UUID uuid() {
         return uuid;
     }
@@ -25,19 +24,12 @@ public class UploadedBackground implements Background {
         return url;
     }
 
-    @Override
     public String title() {
         return title;
     }
 
-    @Override
     public String description() {
         return description;
-    }
-
-    @Override
-    public boolean isGeneratedByAI() {
-        return false;
     }
 
 }

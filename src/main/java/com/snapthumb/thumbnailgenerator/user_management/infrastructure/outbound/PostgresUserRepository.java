@@ -4,19 +4,17 @@ import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.snapthumb.thumbnailgenerator.user_management.domain.User;
 import com.snapthumb.thumbnailgenerator.user_management.domain.UserRepository;
+import com.snapthumb.thumbnailgenerator.user_management.infrastructure.persistence.UserEntity;
 
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.NoResultException;
-import jakarta.persistence.PersistenceContext;
-import jakarta.persistence.Query;
 
 @Repository
 public class PostgresUserRepository implements UserRepository {
 
-    @PersistenceContext
     private final EntityManager entityManager;
 
     public PostgresUserRepository(EntityManager entityManager) {
@@ -24,28 +22,15 @@ public class PostgresUserRepository implements UserRepository {
     }
 
     @Override
+    @Transactional
     public void save(User user) {
-        String sql = "INSERT INTO users (uuid, name, last_name, email, password) VALUES (:uuid, :name, :last_name, :email, :password)";
-        Query query = entityManager.createNativeQuery(sql);
-        query.setParameter("uuid", user.uuid());
-        query.setParameter("name", user.name());
-        query.setParameter("last_name", user.lastName());
-        query.setParameter("email", user.email());
-        query.setParameter("password", user.hashedPassword());
-        query.executeUpdate();
+        entityManager.persist(UserEntity.fromDomainModel(user));
     }
 
     @Override
     public Optional<User> search(UUID uuid) {
-        String sql = "SELECT uuid, name, last_name, email, password FROM users WHERE uuid = :uuid";
-        Query query = entityManager.createNativeQuery(sql);
-        query.setParameter("uuid", uuid);
-        try {
-            User user = (User) query.getSingleResult();
-            return Optional.of(user);
-        } catch (NoResultException e) {
-            return Optional.empty();
-        }
+        UserEntity entity = entityManager.find(UserEntity.class, uuid);
+        return Optional.ofNullable(entity).map(UserEntity::toDomainModel);
     }
 
 }

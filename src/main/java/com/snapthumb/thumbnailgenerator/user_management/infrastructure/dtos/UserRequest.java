@@ -1,11 +1,11 @@
-package com.snapthumb.thumbnailgenerator.user_management.domain.dtos;
+package com.snapthumb.thumbnailgenerator.user_management.infrastructure.dtos;
 
 public class UserRequest {
 
-    private String name;
-    private String lastName;
-    private String email;
-    private String password;
+    private final String name;
+    private final String lastName;
+    private final String email;
+    private final String password;
 
     public UserRequest(String name, String lastName, String email, String password) {
         this.name = name;

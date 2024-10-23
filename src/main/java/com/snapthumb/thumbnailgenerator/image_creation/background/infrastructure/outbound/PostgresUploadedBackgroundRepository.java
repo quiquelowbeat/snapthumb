@@ -1,6 +1,5 @@
 package com.snapthumb.thumbnailgenerator.image_creation.background.infrastructure.outbound;
 
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.snapthumb.thumbnailgenerator.image_creation.background.domain.UploadedBackground;

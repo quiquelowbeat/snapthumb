@@ -1,10 +1,10 @@
-package com.snapthumb.thumbnailgenerator.user_management.domain.dtos;
+package com.snapthumb.thumbnailgenerator.user_management.infrastructure.dtos;
 
 import com.snapthumb.thumbnailgenerator.user_management.domain.User;
 
-public class DTOFactory {
+public class DTOUserFactory {
 
-    private DTOFactory() {
+    private DTOUserFactory() {
     }
 
     public static UserResponse create(User user) {

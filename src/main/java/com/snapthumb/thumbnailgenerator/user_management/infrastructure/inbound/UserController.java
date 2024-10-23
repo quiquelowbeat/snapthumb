@@ -13,11 +13,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.snapthumb.thumbnailgenerator.user_management.application.UserFinder;
 import com.snapthumb.thumbnailgenerator.user_management.application.UserRegister;
 import com.snapthumb.thumbnailgenerator.user_management.domain.User;
-import com.snapthumb.thumbnailgenerator.user_management.domain.dtos.DTOFactory;
-import com.snapthumb.thumbnailgenerator.user_management.domain.dtos.UserRequest;
-import com.snapthumb.thumbnailgenerator.user_management.domain.dtos.UserResponse;
 import com.snapthumb.thumbnailgenerator.user_management.domain.exceptions.CantSaveUser;
 import com.snapthumb.thumbnailgenerator.user_management.domain.exceptions.UserDoesNotExist;
+import com.snapthumb.thumbnailgenerator.user_management.infrastructure.dtos.DTOUserFactory;
+import com.snapthumb.thumbnailgenerator.user_management.infrastructure.dtos.UserRequest;
+import com.snapthumb.thumbnailgenerator.user_management.infrastructure.dtos.UserResponse;
 
 @RestController
 @RequestMapping("/v1/users")
@@ -48,7 +48,7 @@ public class UserController {
     public ResponseEntity<UserResponse> findUserBy(@PathVariable String uuid) {
         try {
             User user = finder.find(uuid);
-            UserResponse userResponse = DTOFactory.create(user);
+            UserResponse userResponse = DTOUserFactory.create(user);
             return ResponseEntity.ok().body(userResponse);
         } catch (UserDoesNotExist e) {
             return ResponseEntity.notFound().build();
