@@ -8,8 +8,8 @@ public class DTOUserFactory {
     }
 
     public static UserResponse create(User user) {
-        return new UserResponse(user.uuid().toString(), user.name().value(), user.lastName().value(),
-                user.email().value(), user.registeredAt());
+        return new UserResponse(user.stringUuid(), user.firstName(), user.lastName(), user.email(),
+                user.registeredAt());
     }
 
 }

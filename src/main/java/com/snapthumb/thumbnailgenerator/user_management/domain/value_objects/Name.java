@@ -2,19 +2,25 @@ package com.snapthumb.thumbnailgenerator.user_management.domain.value_objects;
 
 public class Name {
 
-    private final String value;
+    private final String firstName;
+    private final String lastName;
 
-    public Name(String value) {
-        this.value = value;
+    public Name(String firstName, String lastName) {
+        this.firstName = firstName;
+        this.lastName = lastName;
     }
 
-    public String value() {
-        return value;
+    public String firstName() {
+        return firstName;
+    }
+
+    public String lastName() {
+        return lastName;
     }
 
     @Override
     public String toString() {
-        return value;
+        return firstName + " " + lastName;
     }
 
 }

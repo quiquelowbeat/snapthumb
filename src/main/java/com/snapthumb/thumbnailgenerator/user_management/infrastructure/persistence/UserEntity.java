@@ -4,10 +4,6 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 import com.snapthumb.thumbnailgenerator.user_management.domain.User;
-import com.snapthumb.thumbnailgenerator.user_management.domain.value_objects.Email;
-import com.snapthumb.thumbnailgenerator.user_management.domain.value_objects.HashedPassword;
-import com.snapthumb.thumbnailgenerator.user_management.domain.value_objects.LastName;
-import com.snapthumb.thumbnailgenerator.user_management.domain.value_objects.Name;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -19,7 +15,7 @@ import jakarta.persistence.Table;
 public class UserEntity {
     @Id
     private UUID uuid;
-    private String name;
+    private String firstName;
     private String lastName;
     private String email;
     private String password;
@@ -29,10 +25,10 @@ public class UserEntity {
     protected UserEntity() {
     }
 
-    public UserEntity(UUID uuid, String name, String lastName, String email, String password,
+    public UserEntity(UUID uuid, String firstName, String lastName, String email, String password,
             LocalDateTime registeredAt) {
         this.uuid = uuid;
-        this.name = name;
+        this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
@@ -40,17 +36,17 @@ public class UserEntity {
     }
 
     public User toDomainModel() {
-        return User.createWithRegisteredAt(
-                this.uuid,
-                new Name(this.name),
-                new LastName(this.lastName),
-                new Email(this.email),
-                new HashedPassword(this.password),
+        return User.createFromPrimitivesWithRegisteredAt(
+                this.uuid.toString(),
+                this.firstName,
+                this.lastName,
+                this.email,
+                this.password,
                 this.registeredAt);
     }
 
     public static UserEntity fromDomainModel(User user) {
-        return new UserEntity(user.uuid(), user.name().value(), user.lastName().value(), user.email().value(),
-                user.hashedPassword().value(), user.registeredAt());
+        return new UserEntity(user.uuid(), user.firstName(), user.lastName(), user.email(), user.hashedPassword(),
+                user.registeredAt());
     }
 }
