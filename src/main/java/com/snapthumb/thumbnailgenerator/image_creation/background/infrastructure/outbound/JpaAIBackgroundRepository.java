@@ -10,11 +10,11 @@ import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 
 @Repository
-public class PostgresAiBackgroundRepository implements AIBackgroundRepository {
+public class JpaAIBackgroundRepository implements AIBackgroundRepository {
 
     private final EntityManager entityManager;
 
-    public PostgresAiBackgroundRepository(EntityManager entityManager) {
+    public JpaAIBackgroundRepository(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
 

@@ -1,4 +1,4 @@
-package com.snapthumb.thumbnailgenerator.user_management.infrastructure.outbound;
+package com.snapthumb.thumbnailgenerator.user_management.infrastructure.security;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;

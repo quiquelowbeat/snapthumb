@@ -13,11 +13,11 @@ import com.snapthumb.thumbnailgenerator.user_management.infrastructure.persisten
 import jakarta.persistence.EntityManager;
 
 @Repository
-public class PostgresUserRepository implements UserRepository {
+public class JpaUserRepository implements UserRepository {
 
     private final EntityManager entityManager;
 
-    public PostgresUserRepository(EntityManager entityManager) {
+    public JpaUserRepository(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
 

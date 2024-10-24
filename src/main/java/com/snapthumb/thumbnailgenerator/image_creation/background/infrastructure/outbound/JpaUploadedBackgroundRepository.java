@@ -10,12 +10,12 @@ import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;
 
 @Repository
-public class PostgresUploadedBackgroundRepository implements UploadedBackgroundRepository {
+public class JpaUploadedBackgroundRepository implements UploadedBackgroundRepository {
 
     @PersistenceContext
     private final EntityManager entityManager;
 
-    public PostgresUploadedBackgroundRepository(EntityManager entityManager) {
+    public JpaUploadedBackgroundRepository(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
 
