@@ -25,9 +25,9 @@ public class User {
     }
 
     public static User createFromPrimitives(String uuid, String firstName, String lastName, String email,
-            HashedPassword hashedPassword) {
+            String hashedPassword) {
         return new User(UUID.fromString(uuid), new Name(firstName, lastName), new Email(email),
-                hashedPassword, LocalDateTime.now());
+                new HashedPassword(hashedPassword), LocalDateTime.now());
     }
 
     public static User createFromPrimitivesWithRegisteredAt(String uuid, String firstName, String lastName,

@@ -34,7 +34,7 @@ public class UserController {
     public ResponseEntity<String> registerUser(@PathVariable String uuid,
             @RequestBody UserRequest request) {
         try {
-            register.register(uuid, request.name(), request.lastName(),
+            register.register(uuid, request.firstName(), request.lastName(),
                     request.email(), request.password());
             return ResponseEntity.status(HttpStatus.CREATED).body("User saved successfully");
         } catch (CantSaveUser e) {

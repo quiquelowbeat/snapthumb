@@ -23,10 +23,10 @@ public class UserRegister {
         this.encoder = encoder;
     }
 
-    public void register(String uuid, String name, String lastName, String email, String password) {
+    public void register(String uuid, String firstName, String lastName, String email, String password) {
         try {
             HashedPassword hashedPassword = encoder.encode(password);
-            User user = User.createFromPrimitives(uuid, name, lastName, email, hashedPassword);
+            User user = User.createFromPrimitives(uuid, firstName, lastName, email, hashedPassword.value());
             repository.save(user);
         } catch (PersistenceException e) {
             log.error("Can't save user with UUID: {}", uuid, e);
