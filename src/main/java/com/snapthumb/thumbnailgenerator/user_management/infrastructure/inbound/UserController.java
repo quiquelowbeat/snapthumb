@@ -1,7 +1,6 @@
 package com.snapthumb.thumbnailgenerator.user_management.infrastructure.inbound;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,7 +13,7 @@ import com.snapthumb.thumbnailgenerator.user_management.application.UserFinder;
 import com.snapthumb.thumbnailgenerator.user_management.application.UserRegister;
 import com.snapthumb.thumbnailgenerator.user_management.domain.User;
 import com.snapthumb.thumbnailgenerator.user_management.domain.exceptions.CantSaveUser;
-import com.snapthumb.thumbnailgenerator.user_management.domain.exceptions.UserDoesNotExist;
+import com.snapthumb.thumbnailgenerator.user_management.domain.exceptions.UserNotFound;
 import com.snapthumb.thumbnailgenerator.user_management.infrastructure.dtos.DTOUserFactory;
 import com.snapthumb.thumbnailgenerator.user_management.infrastructure.dtos.UserRequest;
 import com.snapthumb.thumbnailgenerator.user_management.infrastructure.dtos.UserResponse;
@@ -50,7 +49,7 @@ public class UserController {
             User user = finder.find(uuid);
             UserResponse userResponse = DTOUserFactory.create(user);
             return ResponseEntity.ok().body(userResponse);
-        } catch (UserDoesNotExist e) {
+        } catch (UserNotFound e) {
             return ResponseEntity.notFound().build();
         }
     }

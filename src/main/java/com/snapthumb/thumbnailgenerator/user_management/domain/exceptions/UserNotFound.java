@@ -1,10 +1,10 @@
 package com.snapthumb.thumbnailgenerator.user_management.domain.exceptions;
 
-public class UserDoesNotExist extends RuntimeException {
+public class UserNotFound extends RuntimeException {
 
     private final String uuid;
 
-    public UserDoesNotExist(String uuid) {
+    public UserNotFound(String uuid) {
         super();
         this.uuid = uuid;
     }

@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.snapthumb.thumbnailgenerator.user_management.domain.User;
 import com.snapthumb.thumbnailgenerator.user_management.domain.UserRepository;
-import com.snapthumb.thumbnailgenerator.user_management.domain.exceptions.UserDoesNotExist;
+import com.snapthumb.thumbnailgenerator.user_management.domain.exceptions.UserNotFound;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -25,7 +25,7 @@ public class UserFinder {
         Optional<User> user = repository.search(UUID.fromString(uuid));
         if (user.isEmpty()) {
             log.error("User not found with UUID: {}", uuid);
-            throw new UserDoesNotExist(uuid);
+            throw new UserNotFound(uuid);
         }
         return user.get();
     }
