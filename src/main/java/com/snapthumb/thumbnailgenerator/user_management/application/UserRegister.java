@@ -13,6 +13,7 @@ import com.snapthumb.thumbnailgenerator.user_management.domain.value_objects.Has
 import com.snapthumb.thumbnailgenerator.user_management.domain.value_objects.LastName;
 import com.snapthumb.thumbnailgenerator.user_management.domain.value_objects.Name;
 
+import jakarta.persistence.PersistenceException;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -33,9 +34,9 @@ public class UserRegister {
             User user = User.create(UUID.fromString(uuid), new Name(name), new LastName(lastName),
                     new Email(email), hashedPassword);
             repository.save(user);
-        } catch (Exception e) {
+        } catch (PersistenceException e) {
             log.error("Can't save user with UUID: {}", uuid, e);
-            throw new CantSaveUser(uuid);
+            throw new CantSaveUser(e, uuid);
         }
     }
 

@@ -9,6 +9,9 @@ import com.snapthumb.thumbnailgenerator.user_management.domain.User;
 import com.snapthumb.thumbnailgenerator.user_management.domain.UserRepository;
 import com.snapthumb.thumbnailgenerator.user_management.domain.exceptions.UserDoesNotExist;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Service
 public class UserFinder {
 
@@ -21,6 +24,7 @@ public class UserFinder {
     public User find(String uuid) {
         Optional<User> user = repository.search(UUID.fromString(uuid));
         if (user.isEmpty()) {
+            log.error("User not found with UUID: {}", uuid);
             throw new UserDoesNotExist(uuid);
         }
         return user.get();
