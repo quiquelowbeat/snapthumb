@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import com.snapthumb.thumbnailgenerator.user_management.domain.DomainPasswordEncoder;
 import com.snapthumb.thumbnailgenerator.user_management.domain.User;
 import com.snapthumb.thumbnailgenerator.user_management.domain.UserRepository;
-import com.snapthumb.thumbnailgenerator.user_management.domain.exceptions.CantSaveUser;
+import com.snapthumb.thumbnailgenerator.user_management.domain.exceptions.CantRegisterUser;
 import com.snapthumb.thumbnailgenerator.user_management.domain.value_objects.HashedPassword;
 
 import jakarta.persistence.PersistenceException;
@@ -30,7 +30,7 @@ public class UserRegister {
             repository.save(user);
         } catch (PersistenceException e) {
             log.error("Can't save user with UUID: {}", uuid, e);
-            throw new CantSaveUser(e, uuid);
+            throw new CantRegisterUser(e, uuid);
         }
     }
 

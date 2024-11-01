@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.snapthumb.thumbnailgenerator.user_management.application.UserFinder;
 import com.snapthumb.thumbnailgenerator.user_management.application.UserRegister;
 import com.snapthumb.thumbnailgenerator.user_management.domain.User;
-import com.snapthumb.thumbnailgenerator.user_management.domain.exceptions.CantSaveUser;
+import com.snapthumb.thumbnailgenerator.user_management.domain.exceptions.CantRegisterUser;
 import com.snapthumb.thumbnailgenerator.user_management.domain.exceptions.UserNotFound;
 import com.snapthumb.thumbnailgenerator.user_management.infrastructure.dtos.DTOUserFactory;
 import com.snapthumb.thumbnailgenerator.user_management.infrastructure.dtos.UserRequest;
@@ -37,7 +37,7 @@ public class UserController {
             register.register(uuid, request.firstName(), request.lastName(),
                     request.email(), request.password());
             return ResponseEntity.status(HttpStatus.CREATED).body("User saved successfully");
-        } catch (CantSaveUser e) {
+        } catch (CantRegisterUser e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Error saving user data");
         }
