@@ -24,7 +24,7 @@ public class UserFinder {
     public User find(String uuid) {
         Optional<User> user = repository.search(UUID.fromString(uuid));
         if (user.isEmpty()) {
-            log.error("User not found with UUID: {}", uuid);
+            log.error("User not found with UUID: {}.", uuid);
             throw new UserNotFound(uuid);
         }
         return user.get();

@@ -29,7 +29,7 @@ public class UserRegister {
             User user = User.createFromPrimitives(uuid, firstName, lastName, email, hashedPassword.value());
             repository.save(user);
         } catch (PersistenceException e) {
-            log.error("Can't save user with UUID: {}", uuid, e);
+            log.error("Can't save user with UUID: {}.", uuid, e);
             throw new CantRegisterUser(e, uuid);
         }
     }

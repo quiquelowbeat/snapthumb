@@ -24,7 +24,7 @@ public class AIBackgroundFinder {
     public AIBackground find(String uuid) {
         Optional<AIBackground> aiBackground = repository.search(UUID.fromString(uuid));
         if (aiBackground.isEmpty()) {
-            log.error("AI Background not found with UUID: {}", uuid);
+            log.error("AI Background not found with UUID: {}.", uuid);
             throw new AIBackgroundNotFound(uuid);
         }
         return aiBackground.get();
