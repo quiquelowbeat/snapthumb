@@ -7,7 +7,7 @@ import java.util.stream.Stream;
 public class AIBackgroundMother {
 
         private static AIBackground createRandomBackground() {
-                return AIBackground.create(
+                return AIBackground.createFromPrimitives(
                                 UUID.randomUUID(),
                                 RandomAIBackgroundData.getRandomUrl(),
                                 RandomAIBackgroundData.getRandomPrompt(),
@@ -18,7 +18,7 @@ public class AIBackgroundMother {
 
         public static AIBackground createCustomBackground(UUID uuid, String url, String prompt, String title,
                         String description, LocalDateTime createdAt) {
-                return AIBackground.create(
+                return AIBackground.createFromPrimitives(
                                 uuid,
                                 url,
                                 prompt,

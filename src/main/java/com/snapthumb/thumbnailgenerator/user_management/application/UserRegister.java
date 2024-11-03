@@ -28,6 +28,9 @@ public class UserRegister {
             HashedPassword hashedPassword = encoder.encode(password);
             User user = User.createFromPrimitives(uuid, firstName, lastName, email, hashedPassword.value());
             repository.save(user);
+        } catch (IllegalArgumentException e) {
+            log.error("Invalid UUID format: {}.", uuid, e);
+            throw new CantRegisterUser(e, uuid);
         } catch (PersistenceException e) {
             log.error("Can't save user with UUID: {}.", uuid, e);
             throw new CantRegisterUser(e, uuid);

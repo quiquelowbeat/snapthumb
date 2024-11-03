@@ -40,7 +40,7 @@ public class AIBackgroundEntity {
     }
 
     public AIBackground toDomainModel() {
-        return AIBackground.createWithRegisteredAt(
+        return AIBackground.createFromPrimitivesWithRegisteredAt(
                 this.uuid,
                 this.url,
                 this.prompt,

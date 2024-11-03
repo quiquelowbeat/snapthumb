@@ -22,12 +22,17 @@ public class AIBackgroundFinder {
     }
 
     public AIBackground find(String uuid) {
-        Optional<AIBackground> aiBackground = repository.search(UUID.fromString(uuid));
-        if (aiBackground.isEmpty()) {
-            log.error("AI Background not found with UUID: {}.", uuid);
+        try {
+            Optional<AIBackground> aiBackground = repository.search(UUID.fromString(uuid));
+            if (aiBackground.isEmpty()) {
+                log.error("AI Background not found with UUID: {}.", uuid);
+                throw new AIBackgroundNotFound(uuid);
+            }
+            return aiBackground.get();
+        } catch (IllegalArgumentException e) {
+            log.error("Invalid UUID format: {}.", uuid);
             throw new AIBackgroundNotFound(uuid);
         }
-        return aiBackground.get();
     }
     
 }

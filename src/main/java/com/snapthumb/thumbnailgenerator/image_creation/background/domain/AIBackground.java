@@ -31,12 +31,13 @@ public class AIBackground {
         this.registeredAt = new DateRegistered(registeredAt);
     }
 
-    public static AIBackground create(UUID uuid, String url, String prompt, String title, String description,
+    public static AIBackground createFromPrimitives(UUID uuid, String url, String prompt, String title,
+            String description,
             LocalDateTime createdAt) {
         return new AIBackground(uuid, url, prompt, title, description, createdAt, LocalDateTime.now());
     }
 
-    public static AIBackground createWithRegisteredAt(UUID uuid, String url, String prompt, String title,
+    public static AIBackground createFromPrimitivesWithRegisteredAt(UUID uuid, String url, String prompt, String title,
             String description, LocalDateTime createdAt, LocalDateTime registeredAt) {
         return new AIBackground(uuid, url, prompt, title, description, createdAt, registeredAt);
     }

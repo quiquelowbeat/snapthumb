@@ -26,7 +26,7 @@ public class AIBackgroundRegister {
     public void register(String uuid, String url, String prompt, String title, String description,
             LocalDateTime createdAt) {
         try {
-            AIBackground background = AIBackground.create(UUID.fromString(uuid), url, prompt, title,
+            AIBackground background = AIBackground.createFromPrimitives(UUID.fromString(uuid), url, prompt, title,
                     description, createdAt);
             repository.save(background);
         } catch (PersistenceException e) {
