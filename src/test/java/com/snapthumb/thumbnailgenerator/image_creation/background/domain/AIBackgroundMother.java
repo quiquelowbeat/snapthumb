@@ -6,7 +6,7 @@ import java.util.stream.Stream;
 
 public class AIBackgroundMother {
 
-        public static AIBackground createRandomBackground() {
+        private static AIBackground createRandomBackground() {
                 return AIBackground.create(
                                 UUID.randomUUID(),
                                 RandomAIBackgroundData.getRandomUrl(),
