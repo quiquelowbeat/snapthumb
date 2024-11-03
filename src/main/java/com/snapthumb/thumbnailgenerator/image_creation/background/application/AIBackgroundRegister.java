@@ -29,14 +29,14 @@ public class AIBackgroundRegister {
             AIBackground background = AIBackground.createFromPrimitives(UUID.fromString(uuid), url, prompt, title,
                     description, createdAt);
             repository.save(background);
-        } catch (PersistenceException e) {
-            log.error("Can't save AI Background with UUID: {}.", uuid, e);
+        } catch (InvalidBackgroundArgument e) {
+            log.error("Can't save AI Background.", e);
             throw new CantRegisterBackground(e, uuid);
         } catch (IllegalArgumentException | NullPointerException e) {
             log.error("Can't save AI Background.", e);
             throw new CantRegisterBackground(e, uuid);
-        } catch (InvalidBackgroundArgument e) {
-            log.error("Can't save AI Background.", e);
+        } catch (PersistenceException e) {
+            log.error("Can't save AI Background with UUID: {}.", uuid, e);
             throw new CantRegisterBackground(e, uuid);
         }
     }
