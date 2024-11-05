@@ -1,5 +1,10 @@
 package com.snapthumb.thumbnailgenerator.user_management.domain.value_objects;
 
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
+
+@EqualsAndHashCode
+@ToString
 public class Name {
 
     private final String firstName;
@@ -16,11 +21,6 @@ public class Name {
 
     public String lastName() {
         return lastName;
-    }
-
-    @Override
-    public String toString() {
-        return firstName + " " + lastName;
     }
 
 }

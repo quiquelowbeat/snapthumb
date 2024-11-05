@@ -5,27 +5,27 @@ import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
-import com.snapthumb.thumbnailgenerator.image_creation.background.domain.AIBackground;
-import com.snapthumb.thumbnailgenerator.image_creation.background.domain.AIBackgroundRepository;
+import com.snapthumb.thumbnailgenerator.image_creation.background.domain.UploadedBackground;
+import com.snapthumb.thumbnailgenerator.image_creation.background.domain.UploadedBackgroundRepository;
 import com.snapthumb.thumbnailgenerator.image_creation.background.domain.exceptions.BackgroundNotFound;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
-public class AIBackgroundFinder {
+public class UploadedBackgroundFinder {
 
-    private final AIBackgroundRepository repository;
+    private final UploadedBackgroundRepository repository;
 
-    public AIBackgroundFinder(AIBackgroundRepository repository) {
+    public UploadedBackgroundFinder(UploadedBackgroundRepository repository) {
         this.repository = repository;
     }
 
-    public AIBackground find(String uuid) {
+    public UploadedBackground find(String uuid) {
         try {
-            Optional<AIBackground> optionalBackground = repository.search(UUID.fromString(uuid));
+            Optional<UploadedBackground> optionalBackground = repository.search(UUID.fromString(uuid));
             if (optionalBackground.isEmpty()) {
-                log.error("AI Background not found with UUID: {}.", uuid);
+                log.error("Uploaded Background not found with UUID: {}.", uuid);
                 throw new BackgroundNotFound(uuid);
             }
             return optionalBackground.get();

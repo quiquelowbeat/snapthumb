@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.snapthumb.thumbnailgenerator.image_creation.background.application.UploadedBackgroundRegister;
+import com.snapthumb.thumbnailgenerator.image_creation.background.domain.exceptions.CantRegisterBackground;
 import com.snapthumb.thumbnailgenerator.image_creation.background.infrastructure.dtos.UploadedBackgroundRequest;
 
 @RestController
@@ -25,11 +26,12 @@ public class UploadedBackgroundController {
     public ResponseEntity<String> saveUploadedBackground(@PathVariable String uuid,
             @RequestBody UploadedBackgroundRequest request) {
         try {
-            uploadedBackgroundRegister.register(uuid, request.url(), request.title(), request.description());
-            return ResponseEntity.ok("Background saved successfully");
-        } catch (Exception e) {
+            uploadedBackgroundRegister.register(uuid, request.url(), request.title(), request.description(),
+                    request.uploadedAt());
+            return ResponseEntity.ok("Background saved successfully.");
+        } catch (CantRegisterBackground e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Error saving background data");
+                    .body("Error saving uploaded background data.");
         }
     }
 }

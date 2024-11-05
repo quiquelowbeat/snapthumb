@@ -1,19 +1,41 @@
 package com.snapthumb.thumbnailgenerator.image_creation.background.domain;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
+
+import com.snapthumb.thumbnailgenerator.image_creation.background.domain.value_objects.Description;
+import com.snapthumb.thumbnailgenerator.image_creation.background.domain.value_objects.RegistrationDate;
+import com.snapthumb.thumbnailgenerator.image_creation.background.domain.value_objects.Title;
+import com.snapthumb.thumbnailgenerator.image_creation.background.domain.value_objects.UploadDate;
+import com.snapthumb.thumbnailgenerator.image_creation.background.domain.value_objects.Url;
 
 public class UploadedBackground {
 
     private final UUID uuid;
-    private final String url;
-    private final String title;
-    private final String description;
+    private final Url url;
+    private final Title title;
+    private final Description description;
+    private final UploadDate uploadedAt;
+    private final RegistrationDate registeredAt;
 
-    public UploadedBackground(UUID uuid, String url, String title, String description) {
+    private UploadedBackground(UUID uuid, String url, String title, String description, LocalDateTime uploadedAt,
+            LocalDateTime registeredAt) {
         this.uuid = uuid;
-        this.url = url;
-        this.title = title;
-        this.description = description;
+        this.url = new Url(url);
+        this.title = new Title(title);
+        this.description = new Description(description);
+        this.uploadedAt = new UploadDate(uploadedAt);
+        this.registeredAt = new RegistrationDate(registeredAt);
+    }
+
+    public static UploadedBackground createFromPrimitives(UUID uuid, String url, String title, String description,
+            LocalDateTime uploadedAt) {
+        return new UploadedBackground(uuid, url, title, description, uploadedAt, LocalDateTime.now());
+    }
+
+    public static UploadedBackground createFromPrimitivesWithRegisteredAt(UUID uuid, String url, String title,
+            String description, LocalDateTime uploadedAt, LocalDateTime registeredAt) {
+        return new UploadedBackground(uuid, url, title, description, uploadedAt, registeredAt);
     }
 
     public UUID uuid() {
@@ -21,15 +43,23 @@ public class UploadedBackground {
     }
 
     public String url() {
-        return url;
+        return url.value();
     }
 
     public String title() {
-        return title;
+        return title.value();
     }
 
     public String description() {
-        return description;
+        return description.value();
+    }
+
+    public LocalDateTime uploadedAt() {
+        return uploadedAt.value();
+    }
+
+    public LocalDateTime registeredAt() {
+        return registeredAt.value();
     }
 
 }

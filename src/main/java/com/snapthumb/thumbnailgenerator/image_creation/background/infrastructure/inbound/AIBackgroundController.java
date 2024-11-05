@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.snapthumb.thumbnailgenerator.image_creation.background.application.AIBackgroundRegister;
+import com.snapthumb.thumbnailgenerator.image_creation.background.domain.exceptions.CantRegisterBackground;
 import com.snapthumb.thumbnailgenerator.image_creation.background.infrastructure.dtos.AIBackgroundRequest;
 
 @RestController
@@ -25,11 +26,12 @@ public class AIBackgroundController {
     public ResponseEntity<String> saveAIBackground(@PathVariable String uuid,
             @RequestBody AIBackgroundRequest request) {
         try {
-            aiBackgroundRegister.register(uuid, request.url(), request.prompt(), request.title(), request.description(), request.createdAt());
-            return ResponseEntity.status(HttpStatus.CREATED).body("AI generated background saved successfully");
-        } catch (Exception e) {
+            aiBackgroundRegister.register(uuid, request.url(), request.prompt(), request.title(), request.description(),
+                    request.createdAt());
+            return ResponseEntity.status(HttpStatus.CREATED).body("AI generated background saved successfully.");
+        } catch (CantRegisterBackground e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Error saving AI generated background data");
+                    .body("Error saving AI generated background data.");
         }
     }
 }

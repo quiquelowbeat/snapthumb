@@ -1,10 +1,10 @@
 package com.snapthumb.thumbnailgenerator.image_creation.background.domain.exceptions;
 
-public class AIBackgroundNotFound extends RuntimeException {
+public class BackgroundNotFound extends RuntimeException {
 
     private final String uuid;
 
-    public AIBackgroundNotFound(String uuid) {
+    public BackgroundNotFound(String uuid) {
         super();
         this.uuid = uuid;
     }

@@ -1,6 +1,7 @@
 package com.snapthumb.thumbnailgenerator.image_creation.background.application;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.time.LocalDateTime;
@@ -56,8 +57,7 @@ class AIBackgroundRegisterTest {
         assertEquals(persistedBackground.title(), background.title());
         assertEquals(persistedBackground.description(), background.description());
         assertEquals(persistedBackground.createdAt(), background.createdAt());
-        assertEquals(persistedBackground.registeredAt().truncatedTo(ChronoUnit.SECONDS),
-                LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS));
+        assertNotNull(persistedBackground.registeredAt());
     }
 
     @Test

@@ -1,5 +1,10 @@
 package com.snapthumb.thumbnailgenerator.user_management.domain.value_objects;
 
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
+
+@EqualsAndHashCode
+@ToString
 public class HashedPassword {
 
     private final String value;
@@ -9,11 +14,6 @@ public class HashedPassword {
     }
 
     public String value() {
-        return value;
-    }
-
-    @Override
-    public String toString() {
         return value;
     }
 

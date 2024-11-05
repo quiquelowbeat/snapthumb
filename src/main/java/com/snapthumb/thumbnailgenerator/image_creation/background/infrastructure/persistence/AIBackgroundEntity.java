@@ -28,7 +28,7 @@ public class AIBackgroundEntity {
     protected AIBackgroundEntity() {
     }
 
-    public AIBackgroundEntity(UUID uuid, String url, String prompt, String title, String description,
+    private AIBackgroundEntity(UUID uuid, String url, String prompt, String title, String description,
             LocalDateTime createdAt, LocalDateTime registeredAt) {
         this.uuid = uuid;
         this.url = url;

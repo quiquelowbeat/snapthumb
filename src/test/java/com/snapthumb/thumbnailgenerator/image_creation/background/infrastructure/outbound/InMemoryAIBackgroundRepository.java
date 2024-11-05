@@ -16,7 +16,7 @@ public class InMemoryAIBackgroundRepository implements AIBackgroundRepository {
 
     @Override
     public void save(AIBackground background) {
-        if (alreadyExistsInDB(background.uuid())) {
+        if (aiBackgrounds.containsKey(background.uuid())) {
             throw new EntityExistsException();
         }
         aiBackgrounds.put(background.uuid(), background);
@@ -25,11 +25,6 @@ public class InMemoryAIBackgroundRepository implements AIBackgroundRepository {
     @Override
     public Optional<AIBackground> search(UUID uuid) {
         return Optional.ofNullable(aiBackgrounds.get(uuid));
-    }
-
-    private boolean alreadyExistsInDB(UUID uuid) {
-        Optional<AIBackground> optionalBackground = search(uuid);
-        return optionalBackground.isPresent();
     }
 
 }

@@ -1,18 +1,19 @@
 package com.snapthumb.thumbnailgenerator.image_creation.background.infrastructure.outbound;
 
+import java.util.Optional;
+import java.util.UUID;
+
 import org.springframework.stereotype.Repository;
 
 import com.snapthumb.thumbnailgenerator.image_creation.background.domain.UploadedBackground;
 import com.snapthumb.thumbnailgenerator.image_creation.background.domain.UploadedBackgroundRepository;
+import com.snapthumb.thumbnailgenerator.image_creation.background.infrastructure.persistence.UploadedBackgroundEntity;
 
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
-import jakarta.persistence.Query;
 
 @Repository
 public class JpaUploadedBackgroundRepository implements UploadedBackgroundRepository {
 
-    @PersistenceContext
     private final EntityManager entityManager;
 
     public JpaUploadedBackgroundRepository(EntityManager entityManager) {
@@ -21,13 +22,13 @@ public class JpaUploadedBackgroundRepository implements UploadedBackgroundReposi
 
     @Override
     public void save(UploadedBackground background) {
-        String sql = "INSERT INTO uploaded_backgrounds (uuid, url, title, description) VALUES (:uuid, :url, :title, :description)";
-        Query query = entityManager.createNativeQuery(sql); 
-        query.setParameter("uuid", background.uuid());
-        query.setParameter("url", background.url());
-        query.setParameter("title", background.title());
-        query.setParameter("description", background.description());
-        query.executeUpdate();
+        entityManager.persist(UploadedBackgroundEntity.fromDomainModel(background));
+    }
+
+    @Override
+    public Optional<UploadedBackground> search(UUID uuid) {
+        UploadedBackgroundEntity uploadedBackgroundEntity = entityManager.find(UploadedBackgroundEntity.class, uuid);
+        return Optional.ofNullable(uploadedBackgroundEntity).map(UploadedBackgroundEntity::toDomainModel);
     }
 
 }
