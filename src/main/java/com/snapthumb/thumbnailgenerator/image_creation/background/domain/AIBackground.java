@@ -45,6 +45,10 @@ public class AIBackground {
         return uuid;
     }
 
+    public String stringUuid() {
+        return uuid.toString();
+    }
+
     public String url() {
         return url.value();
     }

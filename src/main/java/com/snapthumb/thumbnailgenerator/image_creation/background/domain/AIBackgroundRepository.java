@@ -5,6 +5,5 @@ import java.util.UUID;
 
 public interface AIBackgroundRepository {
     void save(AIBackground background);
-
     Optional<AIBackground> search(UUID uuid);
 }
