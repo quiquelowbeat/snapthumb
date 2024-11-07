@@ -9,11 +9,11 @@ public class AIBackgroundMother {
         private static AIBackground createRandomBackground() {
                 return AIBackground.createFromPrimitives(
                                 UUID.randomUUID(),
-                                RandomAIBackgroundData.getRandomUrl(),
-                                RandomAIBackgroundData.getRandomPrompt(),
-                                RandomAIBackgroundData.getRandomTitle(),
-                                RandomAIBackgroundData.getRandomDescription(),
-                                RandomAIBackgroundData.getRandomCreatedAt());
+                                RandomBackgroundData.randomUrl(),
+                                RandomBackgroundData.randomPrompt(),
+                                RandomBackgroundData.randomTitle(),
+                                RandomBackgroundData.randomDescription(),
+                                RandomBackgroundData.randomDates());
         }
 
         public static AIBackground createCustomBackground(UUID uuid, String url, String prompt, String title,

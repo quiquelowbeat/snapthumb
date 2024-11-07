@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
-public class RandomAIBackgroundData {
+public class RandomBackgroundData {
 
     private static final List<String> URLS = Arrays.asList(
             "https://test-bucket.s3.amazonaws.com/backgrounds/image1.jpg",
@@ -35,7 +35,7 @@ public class RandomAIBackgroundData {
             "An abstract geometric composition featuring various shades of blue in a mesmerizing pattern.",
             "A magical forest setting with ethereal glowing elements among ancient trees.");
 
-    private static final List<LocalDateTime> CREATED_AT_DATES = Arrays.asList(
+    private static final List<LocalDateTime> DATES = Arrays.asList(
             LocalDateTime.now().minusDays(5),
             LocalDateTime.now().minusHours(10),
             LocalDateTime.now().minusMonths(1),
@@ -44,24 +44,24 @@ public class RandomAIBackgroundData {
 
     static final Random RANDOM = new Random();
 
-    public static String getRandomUrl() {
+    public static String randomUrl() {
         return URLS.get(RANDOM.nextInt(URLS.size()));
     }
 
-    public static String getRandomPrompt() {
+    public static String randomPrompt() {
         return PROMPTS.get(RANDOM.nextInt(PROMPTS.size()));
     }
 
-    public static String getRandomTitle() {
+    public static String randomTitle() {
         return TITLES.get(RANDOM.nextInt(TITLES.size()));
     }
 
-    public static String getRandomDescription() {
+    public static String randomDescription() {
         return DESCRIPTIONS.get(RANDOM.nextInt(DESCRIPTIONS.size()));
     }
 
-    public static LocalDateTime getRandomCreatedAt() {
-        return CREATED_AT_DATES.get(RANDOM.nextInt(CREATED_AT_DATES.size()));
+    public static LocalDateTime randomDates() {
+        return DATES.get(RANDOM.nextInt(DATES.size()));
     }
 
 }
