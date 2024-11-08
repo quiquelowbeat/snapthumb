@@ -10,6 +10,7 @@ import com.snapthumb.thumbnailgenerator.image_creation.background.domain.Uploade
 import com.snapthumb.thumbnailgenerator.image_creation.background.infrastructure.persistence.UploadedBackgroundEntity;
 
 import jakarta.persistence.EntityManager;
+import jakarta.transaction.Transactional;
 
 @Repository
 public class JpaUploadedBackgroundRepository implements UploadedBackgroundRepository {
@@ -21,6 +22,7 @@ public class JpaUploadedBackgroundRepository implements UploadedBackgroundReposi
     }
 
     @Override
+    @Transactional
     public void save(UploadedBackground background) {
         entityManager.persist(UploadedBackgroundEntity.fromDomainModel(background));
     }

@@ -6,8 +6,12 @@ import java.util.UUID;
 import com.snapthumb.thumbnailgenerator.image_creation.background.domain.UploadedBackground;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
+@Entity
+@Table(name = "uploaded_backgrounds")
 public class UploadedBackgroundEntity {
 
     @Id

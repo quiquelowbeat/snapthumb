@@ -1,7 +1,5 @@
 package com.snapthumb.thumbnailgenerator.image_creation.background.domain.value_objects;
 
-import com.snapthumb.thumbnailgenerator.image_creation.background.domain.value_objects.exceptions.InvalidDescriptionArgument;
-
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -21,10 +19,10 @@ public class Description {
 
     private String validateDescription(String description) {
         if (description == null) {
-            throw new InvalidDescriptionArgument("Description cannot be null.");
+            throw new IllegalArgumentException("Description cannot be null.");
         }
         if (description.length() > 500) {
-            throw new InvalidDescriptionArgument("Description cannot exceed 500 characters.");
+            throw new IllegalArgumentException("Description cannot exceed 500 characters.");
         }
         return description;
     }

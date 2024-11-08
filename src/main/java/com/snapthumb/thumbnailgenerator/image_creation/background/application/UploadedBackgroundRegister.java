@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import com.snapthumb.thumbnailgenerator.image_creation.background.domain.UploadedBackground;
 import com.snapthumb.thumbnailgenerator.image_creation.background.domain.UploadedBackgroundRepository;
 import com.snapthumb.thumbnailgenerator.image_creation.background.domain.exceptions.CantRegisterBackground;
-import com.snapthumb.thumbnailgenerator.image_creation.background.domain.value_objects.exceptions.InvalidBackgroundArgument;
 
 import jakarta.persistence.PersistenceException;
 import lombok.extern.slf4j.Slf4j;
@@ -28,11 +27,8 @@ public class UploadedBackgroundRegister {
             UploadedBackground background = UploadedBackground.createFromPrimitives(UUID.fromString(uuid), url, title,
                     description, uploadedAt);
             repository.save(background);
-        } catch (InvalidBackgroundArgument e) {
-            log.error("Can't save Uploaded Background with UUID: {}.", uuid, e);
-            throw new CantRegisterBackground(e, uuid);
         } catch (IllegalArgumentException | NullPointerException e) {
-            log.error("Can't save Uploaded Background.", e);
+            log.error("Can't save Uploaded Background with UUID: {}.", uuid, e);
             throw new CantRegisterBackground(e, uuid);
         } catch (PersistenceException e) {
             log.error("Can't save Uploaded Background with UUID: {}.", uuid, e);

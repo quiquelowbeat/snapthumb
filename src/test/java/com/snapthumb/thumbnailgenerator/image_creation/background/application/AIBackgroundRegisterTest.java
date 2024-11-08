@@ -31,6 +31,22 @@ class AIBackgroundRegisterTest {
         return AIBackgroundMother.generateRandomAIBackgrounds(200);
     }
 
+    static Stream<Object[]> nullParametersProvider() {
+        return Stream.of(
+                new Object[] { null, "http://www.test.com", "Prompt test", "Title test", "Description test",
+                        LocalDateTime.now() },
+                new Object[] { UUID.randomUUID().toString(), null, "Prompt test", "Title test", "Description test",
+                        LocalDateTime.now() },
+                new Object[] { UUID.randomUUID().toString(), "http://www.test.com", null, "Title test",
+                        "Description test", LocalDateTime.now() },
+                new Object[] { UUID.randomUUID().toString(), "http://www.test.com", "Prompt test", null,
+                        "Description test", LocalDateTime.now() },
+                new Object[] { UUID.randomUUID().toString(), "http://www.test.com", "Prompt test", "Title test", null,
+                        LocalDateTime.now() },
+                new Object[] { UUID.randomUUID().toString(), "http://www.test.com", "Prompt test", "Title test",
+                        "Description test", null });
+    }
+
     @BeforeEach
     void setUp() {
         repository = new InMemoryAIBackgroundRepository();
@@ -73,32 +89,6 @@ class AIBackgroundRegisterTest {
     }
 
     @Test
-    void should_fail_register_due_to_null_uuid() {
-        String invalidUuid = null;
-        String url = "http://www.test.com";
-        String prompt = "Prompt test";
-        String title = "Title test";
-        String description = "Description test";
-        LocalDateTime createdAt = LocalDateTime.now();
-
-        assertThrows(CantRegisterBackground.class,
-                () -> register.register(invalidUuid, url, prompt, title, description, createdAt));
-    }
-
-    @Test
-    void should_fail_register_due_to_null_url() {
-        String invalidUuid = UUID.randomUUID().toString();
-        String url = null;
-        String prompt = "Prompt test";
-        String title = "Title test";
-        String description = "Description test";
-        LocalDateTime createdAt = LocalDateTime.now();
-
-        assertThrows(CantRegisterBackground.class,
-                () -> register.register(invalidUuid, url, prompt, title, description, createdAt));
-    }
-
-    @Test
     void should_fail_register_due_to_invalid_url() {
         String invalidUuid = UUID.randomUUID().toString();
         String url = "www.test.com";
@@ -111,56 +101,12 @@ class AIBackgroundRegisterTest {
                 () -> register.register(invalidUuid, url, prompt, title, description, createdAt));
     }
 
-    @Test
-    void should_fail_register_due_to_null_prompt() {
-        String invalidUuid = UUID.randomUUID().toString();
-        String url = "http://www.test.com";
-        String prompt = null;
-        String title = "Title test";
-        String description = "Description test";
-        LocalDateTime createdAt = LocalDateTime.now();
-
+    @ParameterizedTest
+    @MethodSource("nullParametersProvider")
+    void should_fail_register_when_parameter_is_null(String uuid, String url, String prompt, String title,
+            String description, LocalDateTime uploadedAt) {
         assertThrows(CantRegisterBackground.class,
-                () -> register.register(invalidUuid, url, prompt, title, description, createdAt));
-    }
-
-    @Test
-    void should_fail_register_due_to_null_title() {
-        String invalidUuid = UUID.randomUUID().toString();
-        String url = "http://www.test.com";
-        String prompt = "Prompt test";
-        String title = null;
-        String description = "Description test";
-        LocalDateTime createdAt = LocalDateTime.now();
-
-        assertThrows(CantRegisterBackground.class,
-                () -> register.register(invalidUuid, url, prompt, title, description, createdAt));
-    }
-
-    @Test
-    void should_fail_register_due_to_null_description() {
-        String invalidUuid = UUID.randomUUID().toString();
-        String url = "http://www.test.com";
-        String prompt = "Prompt test";
-        String title = "Title test";
-        String description = null;
-        LocalDateTime createdAt = LocalDateTime.now();
-
-        assertThrows(CantRegisterBackground.class,
-                () -> register.register(invalidUuid, url, prompt, title, description, createdAt));
-    }
-
-    @Test
-    void should_fail_register_due_to_null_created_at() {
-        String invalidUuid = UUID.randomUUID().toString();
-        String url = "http://www.test.com";
-        String prompt = "Prompt test";
-        String title = "Title test";
-        String description = "Description test";
-        LocalDateTime createdAt = null;
-
-        assertThrows(CantRegisterBackground.class,
-                () -> register.register(invalidUuid, url, prompt, title, description, createdAt));
+                () -> register.register(uuid, url, prompt, title, description, uploadedAt));
     }
 
     @Test

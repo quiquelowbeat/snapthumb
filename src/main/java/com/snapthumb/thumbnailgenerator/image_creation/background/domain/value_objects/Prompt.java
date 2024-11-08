@@ -1,6 +1,5 @@
 package com.snapthumb.thumbnailgenerator.image_creation.background.domain.value_objects;
 
-import com.snapthumb.thumbnailgenerator.image_creation.background.domain.value_objects.exceptions.InvalidPromptArgument;
 
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -21,7 +20,7 @@ public class Prompt {
 
     private String validatePrompt(String prompt) {
         if (prompt == null || prompt.trim().isEmpty()) {
-            throw new InvalidPromptArgument("Prompt cannot be null or empty.");
+            throw new IllegalArgumentException("Prompt cannot be null or empty.");
         }
         return prompt;
     }

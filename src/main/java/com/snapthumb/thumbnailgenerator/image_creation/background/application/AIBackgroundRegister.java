@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import com.snapthumb.thumbnailgenerator.image_creation.background.domain.AIBackground;
 import com.snapthumb.thumbnailgenerator.image_creation.background.domain.AIBackgroundRepository;
 import com.snapthumb.thumbnailgenerator.image_creation.background.domain.exceptions.CantRegisterBackground;
-import com.snapthumb.thumbnailgenerator.image_creation.background.domain.value_objects.exceptions.InvalidBackgroundArgument;
 
 import jakarta.persistence.PersistenceException;
 import lombok.extern.slf4j.Slf4j;
@@ -29,11 +28,8 @@ public class AIBackgroundRegister {
             AIBackground background = AIBackground.createFromPrimitives(UUID.fromString(uuid), url, prompt, title,
                     description, createdAt);
             repository.save(background);
-        } catch (InvalidBackgroundArgument e) {
-            log.error("Can't save AI Background with UUID: {}.", uuid, e);
-            throw new CantRegisterBackground(e, uuid);
         } catch (IllegalArgumentException | NullPointerException e) {
-            log.error("Can't save AI Background.", e);
+            log.error("Can't save AI Background with UUID: {}.", uuid, e);
             throw new CantRegisterBackground(e, uuid);
         } catch (PersistenceException e) {
             log.error("Can't save AI Background with UUID: {}.", uuid, e);

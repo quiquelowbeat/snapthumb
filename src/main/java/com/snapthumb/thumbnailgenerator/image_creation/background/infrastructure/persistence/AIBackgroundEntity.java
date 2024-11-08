@@ -11,7 +11,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "ai_backgounds")
+@Table(name = "ai_backgrounds")
 public class AIBackgroundEntity {
 
     @Id

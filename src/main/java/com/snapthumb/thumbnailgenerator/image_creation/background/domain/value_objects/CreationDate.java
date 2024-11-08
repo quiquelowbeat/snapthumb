@@ -2,8 +2,6 @@ package com.snapthumb.thumbnailgenerator.image_creation.background.domain.value_
 
 import java.time.LocalDateTime;
 
-import com.snapthumb.thumbnailgenerator.image_creation.background.domain.value_objects.exceptions.InvalidDateArgument;
-
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -23,13 +21,13 @@ public class CreationDate {
 
     private LocalDateTime validateDate(LocalDateTime createdAt) {
         if (createdAt == null) {
-            throw new InvalidDateArgument("Creation date cannot be null. A valid LocalDateTime must be provided.");
+            throw new IllegalArgumentException("Creation date cannot be null. A valid LocalDateTime must be provided.");
         }
         if (createdAt.equals(LocalDateTime.MIN)) {
-            throw new InvalidDateArgument("Creation date cannot be empty. A valid date must be provided.");
+            throw new IllegalArgumentException("Creation date cannot be empty. A valid date must be provided.");
         }
         if (createdAt.isAfter(LocalDateTime.now())) {
-            throw new InvalidDateArgument("Creation date cannot be in the future.");
+            throw new IllegalArgumentException("Creation date cannot be in the future.");
         }
         return createdAt;
     }

@@ -1,7 +1,5 @@
 package com.snapthumb.thumbnailgenerator.image_creation.background.domain.value_objects;
 
-import com.snapthumb.thumbnailgenerator.image_creation.background.domain.value_objects.exceptions.InvalidTitleArgument;
-
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -21,10 +19,10 @@ public class Title {
 
     private String validateTitle(String title) {
         if (title == null || title.trim().isEmpty()) {
-            throw new InvalidTitleArgument("Title cannot be null or empty.");
+            throw new IllegalArgumentException("Title cannot be null or empty.");
         }
         if (title.length() > 100) {
-            throw new InvalidTitleArgument("Title cannot exceed 100 characters.");
+            throw new IllegalArgumentException("Title cannot exceed 100 characters.");
         }
         return title;
     }
