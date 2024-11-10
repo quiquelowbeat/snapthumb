@@ -22,12 +22,17 @@ public class UserFinder {
     }
 
     public User find(String uuid) {
-        Optional<User> user = repository.search(UUID.fromString(uuid));
-        if (user.isEmpty()) {
-            log.error("User not found with UUID: {}.", uuid);
+        try {
+            Optional<User> user = repository.search(UUID.fromString(uuid));
+            if (user.isEmpty()) {
+                log.error("User not found with UUID: {}.", uuid);
+                throw new UserNotFound(uuid);
+            }
+            return user.get();
+        } catch (IllegalArgumentException | NullPointerException e) {
+            log.error("Invalid UUID format: {}.", uuid);
             throw new UserNotFound(uuid);
         }
-        return user.get();
     }
 
 }

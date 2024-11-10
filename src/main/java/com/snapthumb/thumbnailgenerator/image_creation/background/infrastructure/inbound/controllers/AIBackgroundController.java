@@ -1,4 +1,4 @@
-package com.snapthumb.thumbnailgenerator.image_creation.background.infrastructure.inbound;
+package com.snapthumb.thumbnailgenerator.image_creation.background.infrastructure.inbound.controllers;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

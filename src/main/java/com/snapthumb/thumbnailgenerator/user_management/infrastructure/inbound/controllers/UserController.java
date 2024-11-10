@@ -1,4 +1,4 @@
-package com.snapthumb.thumbnailgenerator.user_management.infrastructure.inbound;
+package com.snapthumb.thumbnailgenerator.user_management.infrastructure.inbound.controllers;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,11 +11,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.snapthumb.thumbnailgenerator.user_management.application.UserFinder;
 import com.snapthumb.thumbnailgenerator.user_management.application.UserRegister;
+import com.snapthumb.thumbnailgenerator.user_management.application.dtos.UserRequest;
 import com.snapthumb.thumbnailgenerator.user_management.domain.User;
 import com.snapthumb.thumbnailgenerator.user_management.domain.exceptions.CantRegisterUser;
 import com.snapthumb.thumbnailgenerator.user_management.domain.exceptions.UserNotFound;
-import com.snapthumb.thumbnailgenerator.user_management.infrastructure.dtos.DTOUserFactory;
-import com.snapthumb.thumbnailgenerator.user_management.infrastructure.dtos.UserRequest;
 import com.snapthumb.thumbnailgenerator.user_management.infrastructure.dtos.UserResponse;
 
 @RestController
@@ -47,8 +46,7 @@ public class UserController {
     public ResponseEntity<UserResponse> findUserBy(@PathVariable String uuid) {
         try {
             User user = finder.find(uuid);
-            UserResponse userResponse = DTOUserFactory.create(user);
-            return ResponseEntity.ok().body(userResponse);
+            return ResponseEntity.ok().body(UserResponse.create(user));
         } catch (UserNotFound e) {
             return ResponseEntity.notFound().build();
         }

@@ -3,6 +3,7 @@ package com.snapthumb.thumbnailgenerator.user_management.domain;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import com.snapthumb.thumbnailgenerator.image_creation.background.domain.value_objects.RegistrationDate;
 import com.snapthumb.thumbnailgenerator.user_management.domain.value_objects.Email;
 import com.snapthumb.thumbnailgenerator.user_management.domain.value_objects.HashedPassword;
 import com.snapthumb.thumbnailgenerator.user_management.domain.value_objects.Name;
@@ -13,10 +14,10 @@ public class User {
     private final Name name;
     private final Email email;
     private final HashedPassword hashedPassword;
-    private LocalDateTime registeredAt;
+    private RegistrationDate registeredAt;
 
     private User(UUID uuid, Name name, Email email, HashedPassword hashedPassword,
-            LocalDateTime registeredAt) {
+            RegistrationDate registeredAt) {
         this.uuid = uuid;
         this.name = name;
         this.email = email;
@@ -27,14 +28,14 @@ public class User {
     public static User createFromPrimitives(String uuid, String firstName, String lastName, String email,
             String hashedPassword) {
         return new User(UUID.fromString(uuid), new Name(firstName, lastName), new Email(email),
-                new HashedPassword(hashedPassword), LocalDateTime.now());
+                new HashedPassword(hashedPassword), new RegistrationDate(LocalDateTime.now()));
     }
 
     public static User createFromPrimitivesWithRegisteredAt(String uuid, String firstName, String lastName,
             String email,
             String passwordFromDatabase, LocalDateTime registeredAt) {
         return new User(UUID.fromString(uuid), new Name(firstName, lastName), new Email(email),
-                new HashedPassword(passwordFromDatabase), registeredAt);
+                new HashedPassword(passwordFromDatabase), new RegistrationDate(registeredAt));
     }
 
     public UUID uuid() {
@@ -62,7 +63,7 @@ public class User {
     }
 
     public LocalDateTime registeredAt() {
-        return registeredAt;
+        return registeredAt.value();
     }
 
     @Override

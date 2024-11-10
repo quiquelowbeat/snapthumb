@@ -1,4 +1,4 @@
-package com.snapthumb.thumbnailgenerator.image_creation.background.infrastructure.outbound;
+package com.snapthumb.thumbnailgenerator.image_creation.background.infrastructure.outbound.persistence;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import com.snapthumb.thumbnailgenerator.image_creation.background.domain.AIBackground;
 import com.snapthumb.thumbnailgenerator.image_creation.background.domain.AIBackgroundRepository;
-import com.snapthumb.thumbnailgenerator.image_creation.background.infrastructure.persistence.AIBackgroundEntity;
+import com.snapthumb.thumbnailgenerator.image_creation.background.infrastructure.dtos.AIBackgroundEntity;
 
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;

@@ -1,4 +1,4 @@
-package com.snapthumb.thumbnailgenerator.user_management.infrastructure.outbound;
+package com.snapthumb.thumbnailgenerator.user_management.infrastructure.outbound.persistence;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.snapthumb.thumbnailgenerator.user_management.domain.User;
 import com.snapthumb.thumbnailgenerator.user_management.domain.UserRepository;
-import com.snapthumb.thumbnailgenerator.user_management.infrastructure.persistence.UserEntity;
+import com.snapthumb.thumbnailgenerator.user_management.infrastructure.dtos.UserEntity;
 
 import jakarta.persistence.EntityManager;
 
