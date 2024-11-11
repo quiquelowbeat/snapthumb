@@ -1,4 +1,4 @@
-package com.snapthumb.thumbnailgenerator.user_management.application.dtos;
+package com.snapthumb.thumbnailgenerator.user_management.infrastructure.dtos;
 
 public class UserRequest {
 

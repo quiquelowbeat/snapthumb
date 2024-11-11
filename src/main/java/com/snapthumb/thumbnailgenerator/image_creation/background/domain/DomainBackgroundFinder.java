@@ -1,9 +1,9 @@
 package com.snapthumb.thumbnailgenerator.image_creation.background.domain;
 
-import java.util.Optional;
 import java.util.UUID;
 
 import com.snapthumb.thumbnailgenerator.image_creation.background.domain.exceptions.BackgroundNotFound;
+import com.snapthumb.thumbnailgenerator.shared.domain.exceptions.InvalidUuidFormat;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -18,15 +18,10 @@ public class DomainBackgroundFinder {
 
     public AIBackground find(String uuid) {
         try {
-            Optional<AIBackground> optionalBackground = repository.search(UUID.fromString(uuid));
-            if (optionalBackground.isEmpty()) {
-                log.error("AI Background not found with UUID: {}.", uuid);
-                throw new BackgroundNotFound(uuid);
-            }
-            return optionalBackground.get();
+            return repository.search(UUID.fromString(uuid))
+                    .orElseThrow(() -> new BackgroundNotFound(uuid));
         } catch (IllegalArgumentException | NullPointerException e) {
-            log.error("Invalid UUID format: {}.", uuid);
-            throw new BackgroundNotFound(uuid);
+            throw new InvalidUuidFormat(uuid);
         }
     }
     

@@ -17,6 +17,7 @@ import com.snapthumb.thumbnailgenerator.image_creation.background.domain.AIBackg
 import com.snapthumb.thumbnailgenerator.image_creation.background.domain.AIBackgroundRepository;
 import com.snapthumb.thumbnailgenerator.image_creation.background.domain.exceptions.BackgroundNotFound;
 import com.snapthumb.thumbnailgenerator.image_creation.background.infrastructure.outbound.InMemoryAIBackgroundRepository;
+import com.snapthumb.thumbnailgenerator.shared.domain.exceptions.InvalidUuidFormat;
 
 class AIBackgroundFinderTest {
 
@@ -62,7 +63,7 @@ class AIBackgroundFinderTest {
     void should_fail_when_uuid_is_invalid() {
         String invalidUuid = "invalid-uuid";
 
-        assertThrows(BackgroundNotFound.class,
+        assertThrows(InvalidUuidFormat.class,
                 () -> finder.find(invalidUuid));
     }
 
@@ -70,7 +71,7 @@ class AIBackgroundFinderTest {
     void should_fail_when_uuid_is_null() {
         String nullUuid = null;
 
-        assertThrows(BackgroundNotFound.class,
+        assertThrows(InvalidUuidFormat.class,
                 () -> finder.find(nullUuid));
     }
 
@@ -78,7 +79,7 @@ class AIBackgroundFinderTest {
     void should_fail_when_uuid_is_empty() {
         String emptyUuid = "";
 
-        assertThrows(BackgroundNotFound.class,
+        assertThrows(InvalidUuidFormat.class,
                 () -> finder.find(emptyUuid));
     }
 
@@ -86,7 +87,7 @@ class AIBackgroundFinderTest {
     void should_fail_when_uuid_has_special_characters() {
         String specialCharsUuid = "!@#$%^&*()";
 
-        assertThrows(BackgroundNotFound.class,
+        assertThrows(InvalidUuidFormat.class,
                 () -> finder.find(specialCharsUuid));
     }
 

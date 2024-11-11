@@ -5,7 +5,7 @@ public class BackgroundNotFound extends RuntimeException {
     private final String uuid;
 
     public BackgroundNotFound(String uuid) {
-        super();
+        super(String.format("Background not found with UUID: %s.", uuid));
         this.uuid = uuid;
     }
 

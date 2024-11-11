@@ -5,7 +5,7 @@ public class UserNotFound extends RuntimeException {
     private final String uuid;
 
     public UserNotFound(String uuid) {
-        super();
+        super(String.format("User not found with UUID: %s.", uuid));
         this.uuid = uuid;
     }
 

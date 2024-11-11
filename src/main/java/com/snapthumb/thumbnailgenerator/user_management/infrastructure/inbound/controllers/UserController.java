@@ -9,12 +9,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.snapthumb.thumbnailgenerator.shared.domain.exceptions.InvalidUuidFormat;
 import com.snapthumb.thumbnailgenerator.user_management.application.UserFinder;
 import com.snapthumb.thumbnailgenerator.user_management.application.UserRegister;
-import com.snapthumb.thumbnailgenerator.user_management.application.dtos.UserRequest;
 import com.snapthumb.thumbnailgenerator.user_management.domain.User;
 import com.snapthumb.thumbnailgenerator.user_management.domain.exceptions.CantRegisterUser;
 import com.snapthumb.thumbnailgenerator.user_management.domain.exceptions.UserNotFound;
+import com.snapthumb.thumbnailgenerator.user_management.infrastructure.dtos.UserRequest;
 import com.snapthumb.thumbnailgenerator.user_management.infrastructure.dtos.UserResponse;
 
 @RestController
@@ -49,6 +50,8 @@ public class UserController {
             return ResponseEntity.ok().body(UserResponse.create(user));
         } catch (UserNotFound e) {
             return ResponseEntity.notFound().build();
+        } catch (InvalidUuidFormat e) {
+            return ResponseEntity.badRequest().build();
         }
     }
 }

@@ -28,7 +28,7 @@ public class UploadedBackgroundController {
         try {
             uploadedBackgroundRegister.register(uuid, request.url(), request.title(), request.description(),
                     request.uploadedAt());
-            return ResponseEntity.ok("Background saved successfully.");
+            return ResponseEntity.ok("Uploaded Background saved successfully.");
         } catch (CantRegisterBackground e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Error saving uploaded background data.");

@@ -4,8 +4,8 @@ public class CantRegisterBackground extends RuntimeException {
 
     private final String uuid;
 
-    public CantRegisterBackground(Throwable cause, String uuid) {
-        super(cause);
+    public CantRegisterBackground(String uuid, Throwable cause) {
+        super(String.format("Can't save background with UUID: %s.", uuid), cause);
         this.uuid = uuid;
     }
 
