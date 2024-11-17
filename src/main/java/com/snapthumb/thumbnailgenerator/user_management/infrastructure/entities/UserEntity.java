@@ -1,4 +1,4 @@
-package com.snapthumb.thumbnailgenerator.user_management.infrastructure.dtos;
+package com.snapthumb.thumbnailgenerator.user_management.infrastructure.entities;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
