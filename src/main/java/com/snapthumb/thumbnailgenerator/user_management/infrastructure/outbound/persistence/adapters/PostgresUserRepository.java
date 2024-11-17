@@ -1,4 +1,4 @@
-package com.snapthumb.thumbnailgenerator.user_management.infrastructure.outbound.persistence;
+package com.snapthumb.thumbnailgenerator.user_management.infrastructure.outbound.persistence.adapters;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.snapthumb.thumbnailgenerator.user_management.domain.User;
 import com.snapthumb.thumbnailgenerator.user_management.domain.UserRepository;
 import com.snapthumb.thumbnailgenerator.user_management.infrastructure.entities.UserEntity;
+import com.snapthumb.thumbnailgenerator.user_management.infrastructure.outbound.persistence.JpaUserRepository;
 
 @Repository
 public class PostgresUserRepository implements UserRepository {
