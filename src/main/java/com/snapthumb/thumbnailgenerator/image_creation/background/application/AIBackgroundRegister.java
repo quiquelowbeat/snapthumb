@@ -29,6 +29,7 @@ public class AIBackgroundRegister {
                     description, createdAt);
             repository.save(background);
         } catch (IllegalArgumentException | NullPointerException | PersistenceException e) {
+            log.error("Can't save AI Background with UUID: {}.", uuid, e);
             throw new CantRegisterBackground(uuid, e);
         }
     }

@@ -21,6 +21,7 @@ public class DomainUploadedBackgroundFinder {
             return repository.search(UUID.fromString(uuid))
                     .orElseThrow(() -> new BackgroundNotFound(uuid));
         } catch (IllegalArgumentException | NullPointerException e) {
+            log.error("Invalid UUID format: {}.", uuid, e);
             throw new InvalidUuidFormat(uuid);
         }
     }

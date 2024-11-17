@@ -13,7 +13,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
-
 import com.snapthumb.thumbnailgenerator.image_creation.background.domain.AIBackground;
 import com.snapthumb.thumbnailgenerator.image_creation.background.domain.AIBackgroundMother;
 import com.snapthumb.thumbnailgenerator.image_creation.background.domain.AIBackgroundRepository;

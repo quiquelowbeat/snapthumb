@@ -11,6 +11,7 @@ import com.snapthumb.thumbnailgenerator.user_management.domain.exceptions.UserNo
 
 import lombok.extern.slf4j.Slf4j;
 
+
 @Slf4j
 @Service
 public class UserFinder {

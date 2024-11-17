@@ -8,6 +8,7 @@ import com.snapthumb.thumbnailgenerator.image_creation.background.domain.Uploade
 
 import lombok.extern.slf4j.Slf4j;
 
+
 @Slf4j
 @Service
 public class UploadedBackgroundFinder {

@@ -7,6 +7,7 @@ import com.snapthumb.thumbnailgenerator.shared.domain.exceptions.InvalidUuidForm
 
 import lombok.extern.slf4j.Slf4j;
 
+
 @Slf4j
 public class DomainBackgroundFinder {
 
@@ -21,8 +22,9 @@ public class DomainBackgroundFinder {
             return repository.search(UUID.fromString(uuid))
                     .orElseThrow(() -> new BackgroundNotFound(uuid));
         } catch (IllegalArgumentException | NullPointerException e) {
+            log.error("Invalid UUID format: {}.", uuid, e);
             throw new InvalidUuidFormat(uuid);
         }
     }
-    
+
 }

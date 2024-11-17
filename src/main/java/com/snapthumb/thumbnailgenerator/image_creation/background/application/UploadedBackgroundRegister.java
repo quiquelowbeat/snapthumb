@@ -28,6 +28,7 @@ public class UploadedBackgroundRegister {
                     description, uploadedAt);
             repository.save(background);
         } catch (IllegalArgumentException | NullPointerException | PersistenceException e) {
+            log.error("Can't save Uploaded Background with UUID: {}.", uuid, e);
             throw new CantRegisterBackground(uuid, e);
         }
     }
