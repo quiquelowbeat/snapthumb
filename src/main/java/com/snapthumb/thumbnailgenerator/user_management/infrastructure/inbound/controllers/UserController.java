@@ -18,6 +18,7 @@ import com.snapthumb.thumbnailgenerator.user_management.domain.exceptions.UserNo
 import com.snapthumb.thumbnailgenerator.user_management.infrastructure.dtos.UserRequest;
 import com.snapthumb.thumbnailgenerator.user_management.infrastructure.dtos.UserResponse;
 
+import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -54,9 +55,9 @@ public class UserController {
 
     @GetMapping("/{uuid}")
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "User found successfully"),
-        @ApiResponse(responseCode = "404", description = "User not found"),
-        @ApiResponse(responseCode = "400", description = "Invalid UUID format")
+        @ApiResponse(responseCode = "200", description = "User found successfully", useReturnTypeSchema = true),
+        @ApiResponse(responseCode = "404", description = "User not found", content = @Content),
+        @ApiResponse(responseCode = "400", description = "Invalid UUID format", content = @Content)
     })
     public ResponseEntity<UserResponse> findUserBy(@PathVariable String uuid) {
         try {
