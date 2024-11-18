@@ -4,7 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -36,10 +36,10 @@ public class UserController {
         this.finder = finder;
     }
 
-    @PutMapping("/{uuid}")
+    @PostMapping("/{uuid}")
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "201", description = "User registered successfully"),
-        @ApiResponse(responseCode = "400", description = "Error registering user")
+            @ApiResponse(responseCode = "201", description = "User registered successfully"),
+            @ApiResponse(responseCode = "400", description = "Error registering user")
     })
     public ResponseEntity<String> registerUser(@PathVariable String uuid,
             @RequestBody UserRequest request) {
@@ -55,9 +55,9 @@ public class UserController {
 
     @GetMapping("/{uuid}")
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "User found successfully", useReturnTypeSchema = true),
-        @ApiResponse(responseCode = "404", description = "User not found", content = @Content),
-        @ApiResponse(responseCode = "400", description = "Invalid UUID format", content = @Content)
+            @ApiResponse(responseCode = "200", description = "User found successfully", useReturnTypeSchema = true),
+            @ApiResponse(responseCode = "404", description = "User not found", content = @Content),
+            @ApiResponse(responseCode = "400", description = "Invalid UUID format", content = @Content)
     })
     public ResponseEntity<UserResponse> findUserBy(@PathVariable String uuid) {
         try {

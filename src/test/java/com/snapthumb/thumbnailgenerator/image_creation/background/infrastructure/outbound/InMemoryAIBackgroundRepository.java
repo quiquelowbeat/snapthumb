@@ -5,8 +5,8 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
-import com.snapthumb.thumbnailgenerator.image_creation.background.domain.AIBackground;
-import com.snapthumb.thumbnailgenerator.image_creation.background.domain.AIBackgroundRepository;
+import com.snapthumb.thumbnailgenerator.image_creation.background.domain.ai_background.AIBackground;
+import com.snapthumb.thumbnailgenerator.image_creation.background.domain.ai_background.AIBackgroundRepository;
 
 import jakarta.persistence.EntityExistsException;
 

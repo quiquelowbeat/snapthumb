@@ -1,4 +1,4 @@
-package com.snapthumb.thumbnailgenerator.image_creation.background.domain;
+package com.snapthumb.thumbnailgenerator.image_creation.background.domain.uploaded_background;
 
 import java.util.Optional;
 import java.util.UUID;

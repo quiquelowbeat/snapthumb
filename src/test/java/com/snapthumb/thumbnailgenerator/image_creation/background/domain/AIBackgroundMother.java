@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 import java.util.stream.Stream;
 
+import com.snapthumb.thumbnailgenerator.image_creation.background.domain.ai_background.AIBackground;
+
 public class AIBackgroundMother {
 
         private static AIBackground createRandomBackground() {

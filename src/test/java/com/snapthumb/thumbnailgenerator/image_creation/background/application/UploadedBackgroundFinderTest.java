@@ -11,10 +11,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
-import com.snapthumb.thumbnailgenerator.image_creation.background.domain.UploadedBackground;
+
 import com.snapthumb.thumbnailgenerator.image_creation.background.domain.UploadedBackgroundMother;
-import com.snapthumb.thumbnailgenerator.image_creation.background.domain.UploadedBackgroundRepository;
 import com.snapthumb.thumbnailgenerator.image_creation.background.domain.exceptions.BackgroundNotFound;
+import com.snapthumb.thumbnailgenerator.image_creation.background.domain.uploaded_background.UploadedBackground;
+import com.snapthumb.thumbnailgenerator.image_creation.background.domain.uploaded_background.UploadedBackgroundRepository;
 import com.snapthumb.thumbnailgenerator.image_creation.background.infrastructure.outbound.InMemoryUploadedBackgroundRepository;
 import com.snapthumb.thumbnailgenerator.shared.domain.exceptions.InvalidUuidFormat;
 

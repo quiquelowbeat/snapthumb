@@ -2,8 +2,8 @@ package com.snapthumb.thumbnailgenerator.image_creation.background.infrastructur
 
 import java.time.LocalDateTime;
 
-import com.snapthumb.thumbnailgenerator.image_creation.background.domain.UploadedBackground;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.snapthumb.thumbnailgenerator.image_creation.background.domain.uploaded_background.UploadedBackground;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;

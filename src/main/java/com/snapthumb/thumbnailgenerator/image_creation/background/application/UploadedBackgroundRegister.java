@@ -5,9 +5,9 @@ import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
-import com.snapthumb.thumbnailgenerator.image_creation.background.domain.UploadedBackground;
-import com.snapthumb.thumbnailgenerator.image_creation.background.domain.UploadedBackgroundRepository;
 import com.snapthumb.thumbnailgenerator.image_creation.background.domain.exceptions.CantRegisterBackground;
+import com.snapthumb.thumbnailgenerator.image_creation.background.domain.uploaded_background.UploadedBackground;
+import com.snapthumb.thumbnailgenerator.image_creation.background.domain.uploaded_background.UploadedBackgroundRepository;
 
 import jakarta.persistence.PersistenceException;
 import lombok.extern.slf4j.Slf4j;

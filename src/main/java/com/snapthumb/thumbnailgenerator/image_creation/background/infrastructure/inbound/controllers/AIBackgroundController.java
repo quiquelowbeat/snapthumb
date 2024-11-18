@@ -3,7 +3,7 @@ package com.snapthumb.thumbnailgenerator.image_creation.background.infrastructur
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,7 +27,7 @@ public class AIBackgroundController {
         this.aiBackgroundRegister = aiBackgroundRegister;
     }
 
-    @PutMapping("/{uuid}")
+    @PostMapping("/{uuid}")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "AI background saved successfully"),
             @ApiResponse(responseCode = "400", description = "Error saving AI background")

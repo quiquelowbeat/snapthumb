@@ -3,7 +3,7 @@ package com.snapthumb.thumbnailgenerator.image_creation.background.infrastructur
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-import com.snapthumb.thumbnailgenerator.image_creation.background.domain.AIBackground;
+import com.snapthumb.thumbnailgenerator.image_creation.background.domain.ai_background.AIBackground;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Column;

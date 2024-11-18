@@ -1,4 +1,4 @@
-package com.snapthumb.thumbnailgenerator.image_creation.background.domain;
+package com.snapthumb.thumbnailgenerator.image_creation.background.domain.ai_background;
 
 import java.util.UUID;
 
@@ -9,11 +9,11 @@ import lombok.extern.slf4j.Slf4j;
 
 
 @Slf4j
-public class DomainBackgroundFinder {
+public class DomainAIBackgroundFinder {
 
     private final AIBackgroundRepository repository;
 
-    public DomainBackgroundFinder(AIBackgroundRepository repository) {
+    public DomainAIBackgroundFinder(AIBackgroundRepository repository) {
         this.repository = repository;
     }
 

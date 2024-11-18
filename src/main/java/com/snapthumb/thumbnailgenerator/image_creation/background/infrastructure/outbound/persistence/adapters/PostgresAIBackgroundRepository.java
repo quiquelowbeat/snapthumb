@@ -5,8 +5,8 @@ import java.util.UUID;
 
 import org.springframework.stereotype.Repository;
 
-import com.snapthumb.thumbnailgenerator.image_creation.background.domain.AIBackground;
-import com.snapthumb.thumbnailgenerator.image_creation.background.domain.AIBackgroundRepository;
+import com.snapthumb.thumbnailgenerator.image_creation.background.domain.ai_background.AIBackground;
+import com.snapthumb.thumbnailgenerator.image_creation.background.domain.ai_background.AIBackgroundRepository;
 import com.snapthumb.thumbnailgenerator.image_creation.background.infrastructure.entities.AIBackgroundEntity;
 import com.snapthumb.thumbnailgenerator.image_creation.background.infrastructure.outbound.persistence.JpaAIBackgroundRepository;
 
