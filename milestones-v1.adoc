@@ -15,8 +15,14 @@
    - Set up environment variables in the **docker-compose.yml** for database connection details.
    - Create REST controllers for background upload.
    - Define and implement initial use cases like `GenerateThumbnail`.
+   - Configure **OpenAPI/Swagger** documentation:
+     * Add OpenAPI dependencies and configuration
+     * Document all REST endpoints with descriptions, request/response schemas, and examples
+     * Group endpoints logically using tags
+     * Add security scheme documentation for protected endpoints
+     * Generate and expose interactive Swagger UI for API testing and documentation
 
-   **Deliverable**: Functional project with clean/hexagonal architecture, and a basic image upload and thumbnail generation flow.
+   **Deliverable**: Functional project with clean/hexagonal architecture, documented API endpoints via Swagger UI, and a basic image upload and thumbnail generation flow.
 
 2. **Phase 2: Image Processing Integration**
    *Must Have*:

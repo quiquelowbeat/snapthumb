@@ -2,15 +2,27 @@ package com.snapthumb.thumbnailgenerator.image_creation.background.infrastructur
 
 import java.time.LocalDateTime;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
+@Schema(description = "Request object for creating an AI-generated background image")
 public class AIBackgroundRequest {
 
+    @Schema(description = "Prompt used to generate the AI image", example = "A serene mountain landscape at sunset")
     private final String prompt;
+
+    @Schema(description = "URL where the background image is stored", example = "https://example.com/image.jpg")
     private final String url;
+
+    @Schema(description = "Title of the background image", example = "Mountain Sunset")
     private final String title;
+
+    @Schema(description = "Description of the background image", example = "A beautiful mountain landscape with warm sunset colors")
     private final String description;
+
+    @Schema(description = "Timestamp when the image was created", example = "2023-01-01T12:00:00")
     private final LocalDateTime createdAt;
 
-    public AIBackgroundRequest(String prompt,  String url, String title, String description, LocalDateTime createdAt) {
+    public AIBackgroundRequest(String prompt, String url, String title, String description, LocalDateTime createdAt) {
         this.prompt = prompt;
         this.url = url;
         this.title = title;

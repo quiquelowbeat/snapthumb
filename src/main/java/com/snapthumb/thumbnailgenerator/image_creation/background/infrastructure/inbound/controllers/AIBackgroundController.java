@@ -12,8 +12,13 @@ import com.snapthumb.thumbnailgenerator.image_creation.background.application.AI
 import com.snapthumb.thumbnailgenerator.image_creation.background.domain.exceptions.CantRegisterBackground;
 import com.snapthumb.thumbnailgenerator.image_creation.background.infrastructure.dtos.AIBackgroundRequest;
 
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RestController
 @RequestMapping("/v1/ai-backgrounds")
+@Tag(name = "AI Backgrounds", description = "AI background management endpoints")
 public class AIBackgroundController {
 
     private final AIBackgroundRegister aiBackgroundRegister;
@@ -23,6 +28,10 @@ public class AIBackgroundController {
     }
 
     @PutMapping("/{uuid}")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "AI background saved successfully"),
+            @ApiResponse(responseCode = "400", description = "Error saving AI background")
+    })
     public ResponseEntity<String> saveAIBackground(@PathVariable String uuid,
             @RequestBody AIBackgroundRequest request) {
         try {
@@ -30,7 +39,7 @@ public class AIBackgroundController {
                     request.createdAt());
             return ResponseEntity.status(HttpStatus.CREATED).body("AI generated background saved successfully.");
         } catch (CantRegisterBackground e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body("Error saving AI generated background data.");
         }
     }

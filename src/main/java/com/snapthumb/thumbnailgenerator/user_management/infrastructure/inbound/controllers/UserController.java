@@ -18,8 +18,13 @@ import com.snapthumb.thumbnailgenerator.user_management.domain.exceptions.UserNo
 import com.snapthumb.thumbnailgenerator.user_management.infrastructure.dtos.UserRequest;
 import com.snapthumb.thumbnailgenerator.user_management.infrastructure.dtos.UserResponse;
 
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RestController
 @RequestMapping("/v1/users")
+@Tag(name = "Users", description = "User management endpoints")
 public class UserController {
 
     private final UserRegister register;
@@ -31,6 +36,10 @@ public class UserController {
     }
 
     @PutMapping("/{uuid}")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "201", description = "User registered successfully"),
+        @ApiResponse(responseCode = "400", description = "Error registering user")
+    })
     public ResponseEntity<String> registerUser(@PathVariable String uuid,
             @RequestBody UserRequest request) {
         try {
@@ -38,12 +47,17 @@ public class UserController {
                     request.email(), request.password());
             return ResponseEntity.status(HttpStatus.CREATED).body("User saved successfully");
         } catch (CantRegisterUser e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body("Error saving user data");
         }
     }
 
     @GetMapping("/{uuid}")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "User found successfully"),
+        @ApiResponse(responseCode = "404", description = "User not found"),
+        @ApiResponse(responseCode = "400", description = "Invalid UUID format")
+    })
     public ResponseEntity<UserResponse> findUserBy(@PathVariable String uuid) {
         try {
             User user = finder.find(uuid);

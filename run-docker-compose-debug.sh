@@ -1,6 +1,6 @@
 #!/bin/bash
 
-mvn clean package
+mvn clean package 
 
 ARTIFACT_ID=$(mvn help:evaluate -Dexpression=project.artifactId -q -DforceStdout)
 VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
