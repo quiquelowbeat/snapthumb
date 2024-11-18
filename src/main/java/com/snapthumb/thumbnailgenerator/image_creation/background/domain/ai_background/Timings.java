@@ -5,16 +5,10 @@ import lombok.ToString;
 @ToString
 public class Timings {
 
-    private double total;
     private double inference;
 
-    public Timings(double total, double inference) {
-        this.total = total;
+    public Timings(double inference) {
         this.inference = inference;
-    }
-
-    public double total() {
-        return total;
     }
 
     public double inference() {

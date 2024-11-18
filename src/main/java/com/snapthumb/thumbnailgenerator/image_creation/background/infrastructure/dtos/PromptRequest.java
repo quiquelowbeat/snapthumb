@@ -8,7 +8,10 @@ public class PromptRequest {
 
     @Schema(description = "Prompt text used to generate the AI image", example = "A serene mountain landscape at sunset")
     @JsonProperty("prompt")
-    private final String prompt;
+    private String prompt;
+
+    public PromptRequest() {
+    }
 
     public PromptRequest(String prompt) {
         this.prompt = prompt;

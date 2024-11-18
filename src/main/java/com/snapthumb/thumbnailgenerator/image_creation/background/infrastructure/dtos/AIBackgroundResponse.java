@@ -16,7 +16,7 @@ import lombok.experimental.Accessors;
 @Schema(description = "Response object containing AI-generated background details")
 public class AIBackgroundResponse {
 
-    @JsonProperty("url")
+    @JsonProperty("urls")
     @Schema(description = "URLs where the background images are stored", example = "https://example.com/image.jpg")
     private List<String> urls;
 

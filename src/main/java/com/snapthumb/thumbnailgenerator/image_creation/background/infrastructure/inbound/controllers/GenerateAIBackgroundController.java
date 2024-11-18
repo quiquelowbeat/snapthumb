@@ -10,12 +10,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.snapthumb.thumbnailgenerator.image_creation.background.application.AIBackgroundGenerator;
 import com.snapthumb.thumbnailgenerator.image_creation.background.domain.ai_background.AIBackgroundGenerated;
+import com.snapthumb.thumbnailgenerator.image_creation.background.domain.exceptions.CantGenerateAIBackground;
 import com.snapthumb.thumbnailgenerator.image_creation.background.infrastructure.dtos.AIBackgroundResponse;
 import com.snapthumb.thumbnailgenerator.image_creation.background.infrastructure.dtos.PromptRequest;
 
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import io.vavr.control.Either;
 
 @RestController
 @RequestMapping("/v1/ai-backgrounds")
@@ -33,10 +35,16 @@ public class GenerateAIBackgroundController {
             @ApiResponse(responseCode = "201", description = "AI background generated successfully"),
             @ApiResponse(responseCode = "400", description = "Error generating AI background")
     })
-    public ResponseEntity<AIBackgroundResponse> generateBackground(@PathVariable String uuid,
+    public ResponseEntity<Either<String, AIBackgroundResponse>> generateBackground(@PathVariable String uuid,
             @RequestBody PromptRequest promptRequest) {
-        AIBackgroundGenerated backgroundGenerated = generator.generateBackground(promptRequest.prompt());
-        return ResponseEntity.status(HttpStatus.CREATED).body(AIBackgroundResponse.create(backgroundGenerated));
+        try {
+            AIBackgroundGenerated backgroundGenerated = generator.generateBackground(promptRequest.prompt());
+            return ResponseEntity.status(HttpStatus.CREATED)
+                    .body(Either.right(AIBackgroundResponse.create(backgroundGenerated)));
+        } catch (CantGenerateAIBackground e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(Either.left("Error generating AI background."));
+        }
     }
 
 }
