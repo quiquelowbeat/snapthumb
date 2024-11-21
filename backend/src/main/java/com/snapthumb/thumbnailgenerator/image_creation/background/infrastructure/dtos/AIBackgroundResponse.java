@@ -35,5 +35,4 @@ public class AIBackgroundResponse {
                 .toList();
         return new AIBackgroundResponse(urls, aiBackgroundGenerated.createdAt());
     }
-
 }

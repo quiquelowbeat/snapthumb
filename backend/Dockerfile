@@ -4,7 +4,7 @@ ARG JAR_FILE
 
 WORKDIR /thumbnailgenerator
 
-COPY target/${JAR_FILE} thumbnailgenerator.jar
+COPY backend/target/${JAR_FILE} thumbnailgenerator.jar
 
 EXPOSE 8080 5005
 

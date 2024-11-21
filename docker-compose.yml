@@ -10,9 +10,10 @@ services:
         - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_DEFAULT_PASSWORD}
         - SPRING_SECURITY_USERNAME=${SPRING_SECURITY_USERNAME}
         - SPRING_SECURITY_PASSWORD=${SPRING_SECURITY_PASSWORD}
+        - SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE}
         - FAL_KEY=${FAL_KEY}
     build: 
-      context: .
+      context: ./backend
       dockerfile: Dockerfile
       args:
         JAR_FILE: ${JAR_FILE}

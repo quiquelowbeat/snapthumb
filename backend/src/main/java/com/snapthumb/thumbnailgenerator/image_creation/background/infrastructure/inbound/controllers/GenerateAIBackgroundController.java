@@ -14,14 +14,15 @@ import com.snapthumb.thumbnailgenerator.image_creation.background.domain.excepti
 import com.snapthumb.thumbnailgenerator.image_creation.background.infrastructure.dtos.AIBackgroundResponse;
 import com.snapthumb.thumbnailgenerator.image_creation.background.infrastructure.dtos.PromptRequest;
 
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import io.vavr.control.Either;
 
 @RestController
 @RequestMapping("/v1/ai-backgrounds")
-@Tag(name = "AI Background Generation", description = "AI background generation endpoints")
+@Tag(name = "AI Backgrounds", description = "AI background management endpoints")
 public class GenerateAIBackgroundController {
 
     private final AIBackgroundGenerator generator;
@@ -32,19 +33,21 @@ public class GenerateAIBackgroundController {
 
     @PostMapping("/{uuid}/generate")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "AI background generated successfully"),
-            @ApiResponse(responseCode = "400", description = "Error generating AI background")
+            @ApiResponse(responseCode = "201", description = "AI background generated successfully", content = @Content(schema = @Schema(implementation = AIBackgroundResponse.class))),
+            @ApiResponse(responseCode = "400", description = "Error generating AI background", content = @Content(schema = @Schema(implementation = String.class)))
     })
-    public ResponseEntity<Either<String, AIBackgroundResponse>> generateBackground(@PathVariable String uuid,
+    public ResponseEntity<AIBackgroundResponse> generateBackground(@PathVariable String uuid,
             @RequestBody PromptRequest promptRequest) {
         try {
             AIBackgroundGenerated backgroundGenerated = generator.generateBackground(promptRequest.prompt());
             return ResponseEntity.status(HttpStatus.CREATED)
-                    .body(Either.right(AIBackgroundResponse.create(backgroundGenerated)));
+                    .body(AIBackgroundResponse.create(backgroundGenerated));
         } catch (CantGenerateAIBackground e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(Either.left("Error generating AI background."));
+                    .build();
         }
     }
+
+    
 
 }
