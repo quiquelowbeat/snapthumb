@@ -9,4 +9,4 @@ JAR_FILE="${ARTIFACT_ID}-${VERSION}.jar"
 
 export JAR_FILE
 
-docker-compose -f docker-compose.debug.yml up --build
+docker-compose -f docker-compose.backend.yml up --build
