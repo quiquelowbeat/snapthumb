@@ -15,7 +15,7 @@ services:
         - FAL_KEY=${FAL_KEY}
     build: 
       context: ./backend
-      dockerfile: Dockerfile.debug
+      dockerfile: Dockerfile
       args:
         JAR_FILE: ${JAR_FILE}
     ports:
