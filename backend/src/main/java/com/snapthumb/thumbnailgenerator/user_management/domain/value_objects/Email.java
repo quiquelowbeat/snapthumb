@@ -9,15 +9,15 @@ public class Email {
 
     private final String value;
 
-    public Email(String email) {
-        this.value = validateEmail(email);
+    private Email(String email) {
+        this.value = email;
     }
 
     public String value() {
         return value;
     }
 
-    private String validateEmail(String email) {
+    public static Email create(String email) {
         if (email == null || email.trim().isEmpty()) {
             throw new IllegalArgumentException("Email cannot be null or empty");
         }
@@ -32,7 +32,7 @@ public class Email {
             throw new IllegalArgumentException("Invalid email format");
         }
 
-        return trimmedEmail;
+        return new Email(trimmedEmail);
     }
 
 }

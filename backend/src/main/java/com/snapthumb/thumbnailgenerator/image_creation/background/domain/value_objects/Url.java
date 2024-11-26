@@ -12,24 +12,24 @@ public class Url {
 
     private final String value;
 
-    public Url(String url) {
-        this.value = validateUrl(url);
+    private Url(String url) {
+        this.value = url;
     }
 
     public String value() {
         return value;
     }
 
-    private String validateUrl(String value) {
+    public static Url create(String url) {
         try {
-            URL validUrl = new URL(value);
+            URL validUrl = new URL(url);
             if (!"http".equalsIgnoreCase(validUrl.getProtocol()) &&
                     !"https".equalsIgnoreCase(validUrl.getProtocol())) {
                 throw new IllegalArgumentException("URL protocol must be HTTP or HTTPS.");
             }
-            return validUrl.toString();
+            return new Url(validUrl.toString());
         } catch (MalformedURLException e) {
-            throw new IllegalArgumentException("Invalid URL format: " + value);
+            throw new IllegalArgumentException("Invalid URL format: " + url);
         }
     }
 

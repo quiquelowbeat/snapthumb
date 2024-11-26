@@ -21,11 +21,11 @@ public class UploadedBackground {
     private UploadedBackground(UUID uuid, String url, String title, String description, LocalDateTime uploadedAt,
             LocalDateTime registeredAt) {
         this.uuid = uuid;
-        this.url = new Url(url);
-        this.title = new Title(title);
-        this.description = new Description(description);
-        this.uploadedAt = new UploadDate(uploadedAt);
-        this.registeredAt = new RegistrationDate(registeredAt);
+        this.url = Url.create(url);
+        this.title = Title.create(title);
+        this.description = Description.create(description);
+        this.uploadedAt = UploadDate.create(uploadedAt);
+        this.registeredAt = RegistrationDate.create(registeredAt);
     }
 
     public static UploadedBackground createFromPrimitives(UUID uuid, String url, String title, String description,

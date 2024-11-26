@@ -17,7 +17,7 @@ public class BCryptPasswordEncoderAdapter implements DomainPasswordEncoder {
 
     @Override
     public HashedPassword encode(String rawPassword) {
-        return new HashedPassword(passwordEncoder.encode(rawPassword));
+        return HashedPassword.create(passwordEncoder.encode(rawPassword));
     }
 
     @Override

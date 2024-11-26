@@ -23,12 +23,12 @@ public class AIBackground {
     private AIBackground(UUID uuid, String url, String prompt, String title, String description,
             LocalDateTime createdAt, LocalDateTime registeredAt) {
         this.uuid = uuid;
-        this.url = new Url(url);
-        this.prompt = new Prompt(prompt);
-        this.title = new Title(title);
-        this.description = new Description(description);
-        this.createdAt = new CreationDate(createdAt);
-        this.registeredAt = new RegistrationDate(registeredAt);
+        this.url = Url.create(url);
+        this.prompt = Prompt.create(prompt);
+        this.title = Title.create(title);
+        this.description = Description.create(description);
+        this.createdAt = CreationDate.create(createdAt);
+        this.registeredAt = RegistrationDate.create(registeredAt);
     }
 
     public static AIBackground createFromPrimitives(UUID uuid, String url, String prompt, String title,

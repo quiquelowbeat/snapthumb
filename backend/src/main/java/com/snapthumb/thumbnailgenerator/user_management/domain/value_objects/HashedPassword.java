@@ -9,15 +9,15 @@ public class HashedPassword {
 
     private final String value;
 
-    public HashedPassword(String hashedPassword) {
-        this.value = validateHashedPassword(hashedPassword);
+    private HashedPassword(String hashedPassword) {
+        this.value = hashedPassword;
     }
 
     public String value() {
         return value;
     }
 
-    private String validateHashedPassword(String hashedPassword) {
+    public static HashedPassword create(String hashedPassword) {
         if (hashedPassword == null || hashedPassword.trim().isEmpty()) {
             throw new IllegalArgumentException("Hashed password cannot be null or empty");
         }
@@ -32,7 +32,7 @@ public class HashedPassword {
             throw new IllegalArgumentException("Invalid hashed password format");
         }
 
-        return trimmedPassword;
+        return new HashedPassword(trimmedPassword);
     }
 
 }

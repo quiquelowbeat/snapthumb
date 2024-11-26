@@ -11,15 +11,15 @@ public class UploadDate {
 
     private final LocalDateTime value;
 
-    public UploadDate(LocalDateTime uploadedAt) {
-        this.value = validateDate(uploadedAt);
+    private UploadDate(LocalDateTime uploadedAt) {
+        this.value = uploadedAt;
     }
 
     public LocalDateTime value() {
         return value;
     }
 
-    private LocalDateTime validateDate(LocalDateTime uploadedAt) {
+    public static UploadDate create(LocalDateTime uploadedAt) {
         if (uploadedAt == null) {
             throw new IllegalArgumentException("Upload date cannot be null. A valid LocalDateTime must be provided.");
         }
@@ -29,7 +29,7 @@ public class UploadDate {
         if (uploadedAt.isAfter(LocalDateTime.now())) {
             throw new IllegalArgumentException("Upload date cannot be in the future.");
         }
-        return uploadedAt;
+        return new UploadDate(uploadedAt);
     }
 
 }

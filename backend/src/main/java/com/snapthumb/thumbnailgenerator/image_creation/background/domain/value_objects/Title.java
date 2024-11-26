@@ -6,25 +6,24 @@ import lombok.ToString;
 @EqualsAndHashCode
 @ToString
 public class Title {
-
     private final String value;
 
-    public Title(String title) {
-        this.value = validateTitle(title);
+    private Title(String title) {
+        this.value = title;
     }
 
     public String value() {
         return value;
     }
 
-    private String validateTitle(String title) {
+    public static Title create(String title) {
         if (title == null || title.trim().isEmpty()) {
             throw new IllegalArgumentException("Title cannot be null or empty.");
         }
         if (title.length() > 100) {
             throw new IllegalArgumentException("Title cannot exceed 100 characters.");
         }
-        return title;
+        return new Title(title);
     }
 
 }

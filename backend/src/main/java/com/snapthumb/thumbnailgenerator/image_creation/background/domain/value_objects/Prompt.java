@@ -10,19 +10,19 @@ public class Prompt {
 
     private final String value;
 
-    public Prompt(String prompt) {
-        this.value = validatePrompt(prompt);
+    private Prompt(String prompt) {
+        this.value = prompt;
     }
 
     public String value() {
         return value;
     }
 
-    private String validatePrompt(String prompt) {
+    public static Prompt create(String prompt) {
         if (prompt == null || prompt.trim().isEmpty()) {
             throw new IllegalArgumentException("Prompt cannot be null or empty.");
         }
-        return prompt;
+        return new Prompt(prompt);
     }
 
 }

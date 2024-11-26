@@ -27,15 +27,15 @@ public class User {
 
     public static User createFromPrimitives(String uuid, String firstName, String lastName, String email,
             String hashedPassword) {
-        return new User(UUID.fromString(uuid), new Name(firstName, lastName), new Email(email),
-                new HashedPassword(hashedPassword), new RegistrationDate(LocalDateTime.now()));
+        return new User(UUID.fromString(uuid), Name.create(firstName, lastName), Email.create(email),
+                HashedPassword.create(hashedPassword), RegistrationDate.create(LocalDateTime.now()));
     }
 
     public static User createFromPrimitivesWithRegisteredAt(String uuid, String firstName, String lastName,
             String email,
             String passwordFromDatabase, LocalDateTime registeredAt) {
-        return new User(UUID.fromString(uuid), new Name(firstName, lastName), new Email(email),
-                new HashedPassword(passwordFromDatabase), new RegistrationDate(registeredAt));
+        return new User(UUID.fromString(uuid), Name.create(firstName, lastName), Email.create(email),
+                HashedPassword.create(passwordFromDatabase), RegistrationDate.create(registeredAt));
     }
 
     public UUID uuid() {

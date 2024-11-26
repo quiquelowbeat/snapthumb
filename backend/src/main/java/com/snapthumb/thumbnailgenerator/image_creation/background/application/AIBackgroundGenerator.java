@@ -21,7 +21,7 @@ public class AIBackgroundGenerator {
 
     public AIBackgroundGenerated generateBackground(String prompt) {
         try {
-            return generator.generate(new Prompt(prompt));
+            return generator.generate(Prompt.create(prompt));
         } catch (Exception e) {
             log.error("Error generating AI background with prompt: {}.", prompt, e);
             throw new CantGenerateAIBackground(e);

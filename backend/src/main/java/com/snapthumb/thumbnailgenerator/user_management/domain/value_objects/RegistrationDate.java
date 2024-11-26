@@ -11,15 +11,15 @@ public class RegistrationDate {
 
     private final LocalDateTime value;
 
-    public RegistrationDate(LocalDateTime registeredAt) {
-        this.value = validateDate(registeredAt);
+    private RegistrationDate(LocalDateTime registeredAt) {
+        this.value = registeredAt;
     }
 
     public LocalDateTime value() {
         return value;
     }
 
-    private LocalDateTime validateDate(LocalDateTime registeredAt) {
+    public static RegistrationDate create(LocalDateTime registeredAt) {
         if (registeredAt == null) {
             throw new IllegalArgumentException(
                     "Registration date cannot be null. A valid LocalDateTime must be provided.");
@@ -30,7 +30,7 @@ public class RegistrationDate {
         if (registeredAt.isAfter(LocalDateTime.now())) {
             throw new IllegalArgumentException("Registration date cannot be in the future.");
         }
-        return registeredAt;
+        return new RegistrationDate(registeredAt);
     }
 
 }

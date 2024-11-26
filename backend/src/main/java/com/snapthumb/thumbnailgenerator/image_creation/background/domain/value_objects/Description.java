@@ -9,22 +9,22 @@ public class Description {
 
     private final String value;
 
-    public Description(String description) {
-        this.value = validateDescription(description);
+    private Description(String description) {
+        this.value = description;
     }
 
     public String value() {
         return value;
     }
 
-    private String validateDescription(String description) {
+    public static Description create(String description) {
         if (description == null) {
             throw new IllegalArgumentException("Description cannot be null.");
         }
         if (description.length() > 500) {
             throw new IllegalArgumentException("Description cannot exceed 500 characters.");
         }
-        return description;
+        return new Description(description);
     }
 
 }

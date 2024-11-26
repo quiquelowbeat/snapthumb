@@ -11,9 +11,9 @@ public class Name {
     private final String firstName;
     private final String lastName;
 
-    public Name(String firstName, String lastName) {
-        this.firstName = validateName(firstName);
-        this.lastName = validateName(lastName);
+    private Name(String firstName, String lastName) {
+        this.firstName = firstName;
+        this.lastName = lastName;
     }
 
     public String firstName() {
@@ -24,7 +24,13 @@ public class Name {
         return lastName;
     }
 
-    private String validateName(String name) {
+    public static Name create(String firstName, String lastName) {
+        String validatedFirstName = validateName(firstName);
+        String validatedLastName = validateName(lastName);
+        return new Name(validatedFirstName, validatedLastName);
+    }
+
+    private static String validateName(String name) {
         if (StringUtils.isEmpty(name)) {
             throw new IllegalArgumentException("Name cannot be null or empty");
         }

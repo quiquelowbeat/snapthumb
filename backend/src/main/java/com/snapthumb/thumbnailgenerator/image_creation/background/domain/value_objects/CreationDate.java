@@ -11,15 +11,15 @@ public class CreationDate {
 
     private final LocalDateTime value;
 
-    public CreationDate(LocalDateTime createdAt) {
-        this.value = validateDate(createdAt);
+    private CreationDate(LocalDateTime createdAt) {
+        this.value = createdAt;
     }
 
     public LocalDateTime value() {
         return value;
     }
 
-    private LocalDateTime validateDate(LocalDateTime createdAt) {
+    public static CreationDate create(LocalDateTime createdAt) {
         if (createdAt == null) {
             throw new IllegalArgumentException("Creation date cannot be null. A valid LocalDateTime must be provided.");
         }
@@ -29,7 +29,7 @@ public class CreationDate {
         if (createdAt.isAfter(LocalDateTime.now())) {
             throw new IllegalArgumentException("Creation date cannot be in the future.");
         }
-        return createdAt;
+        return new CreationDate(createdAt);
     }
 
 }
