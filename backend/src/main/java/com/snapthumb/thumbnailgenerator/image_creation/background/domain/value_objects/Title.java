@@ -5,7 +5,7 @@ import lombok.ToString;
 
 @EqualsAndHashCode
 @ToString
-public class Title {
+public final class Title {
     private final String value;
 
     private Title(String title) {

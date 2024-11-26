@@ -6,7 +6,7 @@ import lombok.ToString;
 
 @EqualsAndHashCode
 @ToString
-public class Prompt {
+public final class Prompt {
 
     private final String value;
 

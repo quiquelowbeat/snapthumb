@@ -7,7 +7,7 @@ import lombok.ToString;
 
 @EqualsAndHashCode
 @ToString
-public class CreationDate {
+public final class CreationDate {
 
     private final LocalDateTime value;
 

@@ -5,7 +5,7 @@ import lombok.ToString;
 
 @EqualsAndHashCode
 @ToString
-public class Description {
+public final class Description {
 
     private final String value;
 

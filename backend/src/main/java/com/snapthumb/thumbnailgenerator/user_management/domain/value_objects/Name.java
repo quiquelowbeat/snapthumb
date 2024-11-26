@@ -6,7 +6,7 @@ import org.apache.commons.lang3.StringUtils;
 
 @EqualsAndHashCode
 @ToString
-public class Name {
+public final class Name {
 
     private final String firstName;
     private final String lastName;

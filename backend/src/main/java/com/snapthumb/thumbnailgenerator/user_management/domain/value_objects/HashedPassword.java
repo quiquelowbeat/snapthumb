@@ -5,7 +5,7 @@ import lombok.ToString;
 
 @EqualsAndHashCode
 @ToString
-public class HashedPassword {
+public final class HashedPassword {
 
     private final String value;
 

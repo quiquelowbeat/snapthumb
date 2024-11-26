@@ -8,7 +8,7 @@ import lombok.ToString;
 
 @EqualsAndHashCode
 @ToString
-public class Url {
+public final class Url {
 
     private final String value;
 
