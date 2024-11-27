@@ -43,7 +43,7 @@ public class GenerateAIBackgroundController {
             return ResponseEntity.status(HttpStatus.CREATED)
                     .body(AIBackgroundResponse.create(backgroundGenerated));
         } catch (CantGenerateAIBackground e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+            return ResponseEntity.status(HttpStatus.BAD_GATEWAY)
                     .build();
         }
     }

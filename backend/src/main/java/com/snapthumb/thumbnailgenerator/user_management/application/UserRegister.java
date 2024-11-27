@@ -2,6 +2,7 @@ package com.snapthumb.thumbnailgenerator.user_management.application;
 
 import org.springframework.stereotype.Service;
 
+import com.snapthumb.thumbnailgenerator.shared.domain.exceptions.InvalidDataSent;
 import com.snapthumb.thumbnailgenerator.user_management.domain.DomainPasswordEncoder;
 import com.snapthumb.thumbnailgenerator.user_management.domain.User;
 import com.snapthumb.thumbnailgenerator.user_management.domain.UserRepository;
@@ -29,8 +30,8 @@ public class UserRegister {
             User user = User.createFromPrimitives(uuid, firstName, lastName, email, hashedPassword.value());
             repository.save(user);
         } catch (IllegalArgumentException | NullPointerException e) {
-            log.error("Can't save user.", e);
-            throw new CantRegisterUser(e, uuid);
+            log.error("Invalid data sent for user {}.", uuid, e);
+            throw new InvalidDataSent(e);
         } catch (PersistenceException e) {
             log.error("Can't save user with UUID: {}.", uuid, e);
             throw new CantRegisterUser(e, uuid);

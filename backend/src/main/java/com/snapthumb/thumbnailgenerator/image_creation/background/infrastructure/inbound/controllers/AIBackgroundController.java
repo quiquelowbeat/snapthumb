@@ -39,7 +39,7 @@ public class AIBackgroundController {
                     request.createdAt());
             return ResponseEntity.status(HttpStatus.CREATED).body("AI generated background saved successfully.");
         } catch (CantRegisterBackground e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Error saving AI generated background data.");
         }
     }

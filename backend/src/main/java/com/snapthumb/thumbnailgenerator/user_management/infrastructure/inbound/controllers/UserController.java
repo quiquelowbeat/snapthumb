@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.snapthumb.thumbnailgenerator.shared.domain.exceptions.InvalidDataSent;
 import com.snapthumb.thumbnailgenerator.shared.domain.exceptions.InvalidUuidFormat;
 import com.snapthumb.thumbnailgenerator.user_management.application.UserFinder;
 import com.snapthumb.thumbnailgenerator.user_management.application.UserRegister;
@@ -46,10 +47,13 @@ public class UserController {
         try {
             register.register(uuid, request.firstName(), request.lastName(),
                     request.email(), request.password());
-            return ResponseEntity.status(HttpStatus.CREATED).body("User saved successfully");
+            return ResponseEntity.status(HttpStatus.CREATED).body("User saved successfully.");
         } catch (CantRegisterUser e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body("Error saving user data");
+                    .body("Error saving user data.");
+        } catch (InvalidDataSent e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("Invalid user data sent.");
         }
     }
 

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.snapthumb.thumbnailgenerator.image_creation.background.application.UploadedBackgroundRegister;
 import com.snapthumb.thumbnailgenerator.image_creation.background.domain.exceptions.CantRegisterBackground;
 import com.snapthumb.thumbnailgenerator.image_creation.background.infrastructure.dtos.UploadedBackgroundRequest;
+import com.snapthumb.thumbnailgenerator.shared.domain.exceptions.InvalidDataSent;
 
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -39,8 +40,11 @@ public class UploadedBackgroundController {
                     request.uploadedAt());
             return ResponseEntity.ok("Uploaded Background saved successfully.");
         } catch (CantRegisterBackground e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Error saving uploaded background data.");
+        } catch (InvalidDataSent e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("Invalid background data sent.");
         }
     }
 }
