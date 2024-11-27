@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 @Schema(description = "Request object for uploading a background image")
-public class UploadedBackgroundRequest {
+public final class UploadedBackgroundRequest {
 
     @JsonProperty("url")
     @Schema(description = "URL where the background image is stored", example = "https://example.com/image.jpg")

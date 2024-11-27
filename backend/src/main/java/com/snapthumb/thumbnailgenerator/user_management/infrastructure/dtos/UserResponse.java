@@ -12,7 +12,7 @@ import lombok.experimental.Accessors;
 @Accessors(fluent = true)
 @Getter
 @Schema(description = "Response object containing user information")
-public class UserResponse {
+public final class UserResponse {
 
     @JsonProperty("uuid")
     @Schema(description = "Unique identifier for the user", example = "123e4567-e89b-12d3-a456-426614174000")

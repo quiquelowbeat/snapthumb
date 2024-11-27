@@ -12,7 +12,7 @@ import lombok.experimental.Accessors;
 @Getter
 @Accessors(fluent = true)
 @Schema(description = "Response object containing uploaded background details")
-public class UploadedBackgroundResponse {
+public final class UploadedBackgroundResponse {
     @JsonProperty("url")
     @Schema(description = "URL where the background image is stored", example = "https://example.com/image.jpg")
     private final String url;

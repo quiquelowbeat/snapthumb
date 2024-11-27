@@ -12,7 +12,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "users")
-public class UserEntity {
+public final class UserEntity {
     @Id
     private UUID uuid;
     private String firstName;

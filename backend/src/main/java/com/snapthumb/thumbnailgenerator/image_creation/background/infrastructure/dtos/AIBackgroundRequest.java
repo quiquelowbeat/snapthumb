@@ -6,7 +6,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Schema(description = "Request object for creating an AI-generated background image")
-public class AIBackgroundRequest {
+public final class AIBackgroundRequest {
 
     @Schema(description = "Prompt used to generate the AI image", example = "A serene mountain landscape at sunset")
     @JsonProperty("prompt")

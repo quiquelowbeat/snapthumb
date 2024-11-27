@@ -4,7 +4,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Schema(description = "Request object for creating or updating a user")
-public class UserRequest {
+public final class UserRequest {
 
     @JsonProperty("firstName")
     @Schema(description = "User's first name", example = "John")
