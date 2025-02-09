@@ -29,8 +29,7 @@ public class PostgresUploadedBackgroundRepository implements UploadedBackgroundR
 
     @Override
     public Optional<UploadedBackground> search(UUID uuid) {
-        Optional<UploadedBackgroundEntity> optionalUploadedBackground = repository.findById(uuid);
-        return optionalUploadedBackground.map(UploadedBackgroundEntity::toDomainModel);
+        return repository.findById(uuid).map(UploadedBackgroundEntity::toDomainModel);
     }
 
 }

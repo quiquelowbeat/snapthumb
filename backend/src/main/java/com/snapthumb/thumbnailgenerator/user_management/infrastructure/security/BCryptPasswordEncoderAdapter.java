@@ -4,7 +4,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.snapthumb.thumbnailgenerator.user_management.domain.DomainPasswordEncoder;
-import com.snapthumb.thumbnailgenerator.user_management.domain.value_objects.HashedPassword;
 
 @Service
 public class BCryptPasswordEncoderAdapter implements DomainPasswordEncoder {
@@ -16,8 +15,8 @@ public class BCryptPasswordEncoderAdapter implements DomainPasswordEncoder {
     }
 
     @Override
-    public HashedPassword encode(String rawPassword) {
-        return HashedPassword.create(passwordEncoder.encode(rawPassword));
+    public String encode(String rawPassword) {
+        return passwordEncoder.encode(rawPassword);
     }
 
     @Override

@@ -28,8 +28,7 @@ public class PostgresUserRepository implements UserRepository {
 
     @Override
     public Optional<User> search(UUID uuid) {
-        Optional<UserEntity> optionalEntity = repository.findById(uuid);
-        return optionalEntity.map(UserEntity::toDomainModel);
+        return repository.findById(uuid).map(UserEntity::toDomainModel);
     }
 
 }
