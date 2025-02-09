@@ -1,16 +1,12 @@
 package com.snapthumb.thumbnailgenerator.image_creation.background.application;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
 import com.snapthumb.thumbnailgenerator.image_creation.background.domain.ai_background.AIBackground;
 import com.snapthumb.thumbnailgenerator.image_creation.background.domain.ai_background.AIBackgroundRepository;
-import com.snapthumb.thumbnailgenerator.image_creation.background.domain.exceptions.CantRegisterBackground;
-import com.snapthumb.thumbnailgenerator.shared.domain.exceptions.InvalidDataSent;
 
-import jakarta.persistence.PersistenceException;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -25,17 +21,9 @@ public class AIBackgroundRegister {
 
     public void register(String uuid, String url, String prompt, String title, String description,
             LocalDateTime createdAt) {
-        try {
-            AIBackground background = AIBackground.createFromPrimitives(UUID.fromString(uuid), url, prompt, title,
-                    description, createdAt);
-            repository.save(background);
-        } catch (IllegalArgumentException | NullPointerException e) {
-            log.error("Invalid data sent for AI Background with UUID: {}.", uuid, e);
-            throw new InvalidDataSent(e);
-        } catch (PersistenceException e) {
-            log.error("Database error saving AI Background with UUID: {}.", uuid, e);
-            throw new CantRegisterBackground(uuid, e);
-        }
+        AIBackground background = AIBackground.createFromPrimitives(uuid, url, prompt, title,
+                description, createdAt);
+        repository.save(background);
     }
 
 }

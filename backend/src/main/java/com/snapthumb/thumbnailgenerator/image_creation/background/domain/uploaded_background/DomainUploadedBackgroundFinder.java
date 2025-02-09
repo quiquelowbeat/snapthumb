@@ -2,9 +2,9 @@ package com.snapthumb.thumbnailgenerator.image_creation.background.domain.upload
 
 import java.util.UUID;
 
-import com.snapthumb.thumbnailgenerator.image_creation.background.domain.exceptions.BackgroundNotFound;
-import com.snapthumb.thumbnailgenerator.shared.domain.exceptions.InvalidUuidFormat;
+import com.snapthumb.thumbnailgenerator.image_creation.background.domain.BackgroundNotFound;
 
+import io.vavr.control.Either;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -16,14 +16,11 @@ public class DomainUploadedBackgroundFinder {
         this.repository = repository;
     }
 
-    public UploadedBackground find(String uuid) {
-        try {
-            return repository.search(UUID.fromString(uuid))
-                    .orElseThrow(() -> new BackgroundNotFound(uuid));
-        } catch (IllegalArgumentException | NullPointerException e) {
-            log.error("Invalid UUID format: {}.", uuid, e);
-            throw new InvalidUuidFormat(uuid);
-        }
+    public Either<BackgroundNotFound, UploadedBackground> find(String uuid) {
+        return repository.search(UUID.fromString(uuid))
+                .map(Either::<BackgroundNotFound, UploadedBackground>right)
+                .orElseGet(() -> Either
+                        .left(new BackgroundNotFound("Uploaded background with id " + uuid + " not found")));
     }
 
 }

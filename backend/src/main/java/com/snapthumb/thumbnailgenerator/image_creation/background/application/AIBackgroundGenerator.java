@@ -4,9 +4,10 @@ import org.springframework.stereotype.Service;
 
 import com.snapthumb.thumbnailgenerator.image_creation.background.domain.ai_background.AIBackgroundGenerated;
 import com.snapthumb.thumbnailgenerator.image_creation.background.domain.ai_background.AIBackgroundGeneration;
-import com.snapthumb.thumbnailgenerator.image_creation.background.domain.exceptions.CantGenerateAIBackground;
+import com.snapthumb.thumbnailgenerator.image_creation.background.domain.ai_background.CantGenerateAIBackground;
 import com.snapthumb.thumbnailgenerator.image_creation.background.domain.value_objects.Prompt;
 
+import io.vavr.control.Either;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -19,12 +20,7 @@ public class AIBackgroundGenerator {
         this.generator = generator;
     }
 
-    public AIBackgroundGenerated generateBackground(String prompt) {
-        try {
-            return generator.generate(Prompt.create(prompt));
-        } catch (Exception e) {
-            log.error("Error generating AI background with prompt: {}.", prompt, e);
-            throw new CantGenerateAIBackground(e);
-        }
+    public Either<CantGenerateAIBackground, AIBackgroundGenerated> generateBackground(String prompt) {
+        return generator.generate(Prompt.create(prompt));
     }
 }
