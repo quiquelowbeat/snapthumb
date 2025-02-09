@@ -5,37 +5,61 @@ import java.util.UUID;
 
 import com.snapthumb.thumbnailgenerator.image_creation.background.domain.value_objects.RegistrationDate;
 import com.snapthumb.thumbnailgenerator.user_management.domain.value_objects.Email;
+import com.snapthumb.thumbnailgenerator.user_management.domain.value_objects.FirstName;
 import com.snapthumb.thumbnailgenerator.user_management.domain.value_objects.HashedPassword;
-import com.snapthumb.thumbnailgenerator.user_management.domain.value_objects.Name;
+import com.snapthumb.thumbnailgenerator.user_management.domain.value_objects.LastName;
+import com.snapthumb.thumbnailgenerator.user_management.infrastructure.entities.UserEntity;
 
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
+
+@ToString
+@EqualsAndHashCode
 public class User {
 
     private final UUID uuid;
-    private final Name name;
+    private final FirstName firstName;
+    private final LastName lastName;
     private final Email email;
     private final HashedPassword hashedPassword;
     private RegistrationDate registeredAt;
 
-    private User(UUID uuid, Name name, Email email, HashedPassword hashedPassword,
+    private User(UUID uuid, FirstName firstName, LastName lastName, Email email, HashedPassword hashedPassword,
             RegistrationDate registeredAt) {
         this.uuid = uuid;
-        this.name = name;
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.email = email;
         this.hashedPassword = hashedPassword;
         this.registeredAt = registeredAt;
     }
 
-    public static User createFromPrimitives(String uuid, String firstName, String lastName, String email,
-            String hashedPassword) {
-        return new User(UUID.fromString(uuid), Name.create(firstName, lastName), Email.create(email),
-                HashedPassword.create(hashedPassword), RegistrationDate.create(LocalDateTime.now()));
+    public static User createFromPrimitives(String uuid, String firstName,
+            String lastName, String email, String hashedPassword) {
+        return createUser(uuid, firstName, lastName, email, hashedPassword, LocalDateTime.now());
     }
 
-    public static User createFromPrimitivesWithRegisteredAt(String uuid, String firstName, String lastName,
-            String email,
-            String passwordFromDatabase, LocalDateTime registeredAt) {
-        return new User(UUID.fromString(uuid), Name.create(firstName, lastName), Email.create(email),
-                HashedPassword.create(passwordFromDatabase), RegistrationDate.create(registeredAt));
+    public static User createFromPrimitivesWithRegisteredAt(String uuid,
+            String firstName,
+            String lastName, String email, String hashedPassword, LocalDateTime registeredAt) {
+        return createUser(uuid, firstName, lastName, email, hashedPassword, registeredAt);
+    }
+
+    public static User createFromRepository(UserEntity entity) {
+        return createFromPrimitivesWithRegisteredAt(entity.uuid().toString(), entity.firstName(), entity.lastName(),
+                entity.email(), entity.hashedPassword(), entity.registeredAt());
+    }
+
+    private static User createUser(String uuid, String firstName,
+            String lastName, String email, String hashedPassword, LocalDateTime registeredAt) {
+
+        return new User(
+                UUID.fromString(uuid),
+                FirstName.create(firstName),
+                LastName.create(lastName),
+                Email.create(email),
+                HashedPassword.create(hashedPassword),
+                RegistrationDate.create(registeredAt));
     }
 
     public UUID uuid() {
@@ -47,11 +71,11 @@ public class User {
     }
 
     public String firstName() {
-        return name.firstName();
+        return firstName.value();
     }
 
     public String lastName() {
-        return name.lastName();
+        return lastName.value();
     }
 
     public String email() {
@@ -64,12 +88,6 @@ public class User {
 
     public LocalDateTime registeredAt() {
         return registeredAt.value();
-    }
-
-    @Override
-    public String toString() {
-        return "User [uuid=" + uuid + ", name=" + name + ", email=" + email + ", hashedPassword=" + hashedPassword
-                + ", registeredAt=" + registeredAt + "]";
     }
 
 }

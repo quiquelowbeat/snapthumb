@@ -10,10 +10,14 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.Getter;
+import lombok.experimental.Accessors;
 
 @Entity
 @Table(name = "uploaded_backgrounds")
 @Schema(description = "Entity representing an uploaded background image")
+@Getter
+@Accessors(fluent = true)
 public class UploadedBackgroundEntity {
 
     @Id
@@ -52,12 +56,12 @@ public class UploadedBackgroundEntity {
 
     public UploadedBackground toDomainModel() {
         return UploadedBackground.createFromPrimitivesWithRegisteredAt(
-                this.uuid,
-                this.url,
-                this.title,
-                this.description,
-                this.uploadedAt,
-                this.registeredAt);
+                uuid.toString(),
+                url,
+                title,
+                description,
+                uploadedAt,
+                registeredAt);
     }
 
     public static UploadedBackgroundEntity fromDomainModel(UploadedBackground uploadedBackground) {

@@ -20,25 +20,39 @@ public class AIBackground {
     private final CreationDate createdAt;
     private final RegistrationDate registeredAt;
 
-    private AIBackground(UUID uuid, String url, String prompt, String title, String description,
-            LocalDateTime createdAt, LocalDateTime registeredAt) {
+    private AIBackground(UUID uuid, Url url, Prompt prompt, Title title, Description description,
+            CreationDate createdAt, RegistrationDate registeredAt) {
         this.uuid = uuid;
-        this.url = Url.create(url);
-        this.prompt = Prompt.create(prompt);
-        this.title = Title.create(title);
-        this.description = Description.create(description);
-        this.createdAt = CreationDate.create(createdAt);
-        this.registeredAt = RegistrationDate.create(registeredAt);
+        this.url = url;
+        this.prompt = prompt;
+        this.title = title;
+        this.description = description;
+        this.createdAt = createdAt;
+        this.registeredAt = registeredAt;
     }
 
-    public static AIBackground createFromPrimitives(UUID uuid, String url, String prompt, String title,
+    public static AIBackground createFromPrimitives(String uuid, String url, String prompt, String title,
             String description, LocalDateTime createdAt) {
-        return new AIBackground(uuid, url, prompt, title, description, createdAt, LocalDateTime.now());
+        return createUploadedBackground(uuid, url, prompt, title, description, createdAt, LocalDateTime.now());
     }
 
-    public static AIBackground createFromPrimitivesWithRegisteredAt(UUID uuid, String url, String prompt, String title,
+    public static AIBackground createFromPrimitivesWithRegisteredAt(String uuid, String url, String prompt,
+            String title,
             String description, LocalDateTime createdAt, LocalDateTime registeredAt) {
-        return new AIBackground(uuid, url, prompt, title, description, createdAt, registeredAt);
+        return createUploadedBackground(uuid, url, prompt, title, description, createdAt, registeredAt);
+    }
+
+    private static AIBackground createUploadedBackground(String uuid, String url, String prompt, String title,
+            String description,
+            LocalDateTime createdAt, LocalDateTime registeredAt) {
+        return new AIBackground(
+                UUID.fromString(uuid),
+                Url.create(url),
+                Prompt.create(prompt),
+                Title.create(title),
+                Description.create(description),
+                CreationDate.create(createdAt),
+                RegistrationDate.create(registeredAt));
     }
 
     public UUID uuid() {

@@ -3,6 +3,7 @@ package com.snapthumb.thumbnailgenerator.image_creation.background.domain.value_
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import io.micrometer.common.util.StringUtils;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -22,6 +23,9 @@ public final class Url {
 
     public static Url create(String url) {
         try {
+            if (StringUtils.isBlank(url)) {
+                throw new IllegalArgumentException("URL cannot be null or empty.");
+            }
             URL validUrl = new URL(url);
             if (!"http".equalsIgnoreCase(validUrl.getProtocol()) &&
                     !"https".equalsIgnoreCase(validUrl.getProtocol())) {

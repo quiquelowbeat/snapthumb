@@ -23,10 +23,10 @@ public final class UploadDate {
         if (uploadedAt == null) {
             throw new IllegalArgumentException("Upload date cannot be null. A valid LocalDateTime must be provided.");
         }
-        if (uploadedAt.equals(LocalDateTime.MIN)) {
+        if (uploadedAt != null && uploadedAt.equals(LocalDateTime.MIN)) {
             throw new IllegalArgumentException("Upload date cannot be empty. A valid date must be provided.");
         }
-        if (uploadedAt.isAfter(LocalDateTime.now())) {
+        if (uploadedAt != null && uploadedAt.isAfter(LocalDateTime.now())) {
             throw new IllegalArgumentException("Upload date cannot be in the future.");
         }
         return new UploadDate(uploadedAt);

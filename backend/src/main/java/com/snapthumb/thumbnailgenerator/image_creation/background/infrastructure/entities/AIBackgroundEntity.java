@@ -10,10 +10,14 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.Getter;
+import lombok.experimental.Accessors;
 
 @Entity
 @Table(name = "ai_backgrounds")
 @Schema(description = "Entity representing an AI-generated background image")
+@Getter
+@Accessors(fluent = true)
 public class AIBackgroundEntity {
 
     @Id
@@ -56,13 +60,13 @@ public class AIBackgroundEntity {
 
     public AIBackground toDomainModel() {
         return AIBackground.createFromPrimitivesWithRegisteredAt(
-                this.uuid,
-                this.url,
-                this.prompt,
-                this.title,
-                this.description,
-                this.createdAt,
-                this.registeredAt);
+                uuid.toString(),
+                url,
+                prompt,
+                title,
+                description,
+                createdAt,
+                registeredAt);
     }
 
     public static AIBackgroundEntity fromDomainModel(AIBackground aiBackground) {
