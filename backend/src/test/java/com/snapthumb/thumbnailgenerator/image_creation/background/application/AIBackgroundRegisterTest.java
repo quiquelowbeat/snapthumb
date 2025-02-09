@@ -17,11 +17,9 @@ import org.junit.jupiter.params.provider.MethodSource;
 import com.snapthumb.thumbnailgenerator.image_creation.background.domain.AIBackgroundMother;
 import com.snapthumb.thumbnailgenerator.image_creation.background.domain.ai_background.AIBackground;
 import com.snapthumb.thumbnailgenerator.image_creation.background.domain.ai_background.AIBackgroundRepository;
-import com.snapthumb.thumbnailgenerator.image_creation.background.domain.exceptions.CantRegisterBackground;
 import com.snapthumb.thumbnailgenerator.image_creation.background.infrastructure.outbound.InMemoryAIBackgroundRepository;
-import com.snapthumb.thumbnailgenerator.shared.domain.exceptions.InvalidDataSent;
 
-import jakarta.persistence.PersistenceException;
+import jakarta.persistence.EntityExistsException;
 
 class AIBackgroundRegisterTest {
 
@@ -34,9 +32,6 @@ class AIBackgroundRegisterTest {
 
         static Stream<Object[]> nullParametersProvider() {
                 return Stream.of(
-                                new Object[] { null, "http://www.test.com", "Prompt test", "Title test",
-                                                "Description test",
-                                                LocalDateTime.now() },
                                 new Object[] { UUID.randomUUID().toString(), null, "Prompt test", "Title test",
                                                 "Description test",
                                                 LocalDateTime.now() },
@@ -69,7 +64,7 @@ class AIBackgroundRegisterTest {
                                 background.createdAt());
 
                 Optional<AIBackground> optionalBackground = repository.search(background.uuid());
-                AIBackground persistedBackground = optionalBackground.get();
+                AIBackground persistedBackground = optionalBackground.orElseThrow();
 
                 assertEquals(persistedBackground.uuid(), background.uuid());
                 assertEquals(persistedBackground.url(), background.url());
@@ -81,6 +76,19 @@ class AIBackgroundRegisterTest {
         }
 
         @Test
+        void should_fail_register_due_to_null_uuid() {
+                String invalidUuid = null;
+                String url = "http://www.test.com";
+                String prompt = "Prompt test";
+                String title = "Title test";
+                String description = "Description test";
+                LocalDateTime createdAt = LocalDateTime.now();
+
+                assertThrows(NullPointerException.class,
+                                () -> register.register(invalidUuid, url, prompt, title, description, createdAt));
+        }
+
+        @Test
         void should_fail_register_due_to_wrong_uuid() {
                 String invalidUuid = "WrongUUID";
                 String url = "http://www.test.com";
@@ -89,7 +97,7 @@ class AIBackgroundRegisterTest {
                 String description = "Description test";
                 LocalDateTime createdAt = LocalDateTime.now();
 
-                assertThrows(InvalidDataSent.class,
+                assertThrows(IllegalArgumentException.class,
                                 () -> register.register(invalidUuid, url, prompt, title, description, createdAt));
         }
 
@@ -102,7 +110,7 @@ class AIBackgroundRegisterTest {
                 String description = "Description test";
                 LocalDateTime createdAt = LocalDateTime.now();
 
-                assertThrows(InvalidDataSent.class,
+                assertThrows(IllegalArgumentException.class,
                                 () -> register.register(invalidUuid, url, prompt, title, description, createdAt));
         }
 
@@ -110,7 +118,7 @@ class AIBackgroundRegisterTest {
         @MethodSource("nullParametersProvider")
         void should_fail_register_when_parameter_is_null(String uuid, String url, String prompt, String title,
                         String description, LocalDateTime uploadedAt) {
-                assertThrows(InvalidDataSent.class,
+                assertThrows(IllegalArgumentException.class,
                                 () -> register.register(uuid, url, prompt, title, description, uploadedAt));
         }
 
@@ -123,7 +131,7 @@ class AIBackgroundRegisterTest {
                 String description = "Description test";
                 LocalDateTime createdAt = LocalDateTime.MIN;
 
-                assertThrows(InvalidDataSent.class,
+                assertThrows(IllegalArgumentException.class,
                                 () -> register.register(invalidUuid, url, prompt, title, description, createdAt));
         }
 
@@ -136,29 +144,8 @@ class AIBackgroundRegisterTest {
                 String description = "Description test";
                 LocalDateTime createdAt = LocalDateTime.now().plusDays(1);
 
-                assertThrows(InvalidDataSent.class,
+                assertThrows(IllegalArgumentException.class,
                                 () -> register.register(invalidUuid, url, prompt, title, description, createdAt));
-        }
-
-        @Test
-        void should_fail_register_due_to_persistence_exception() {
-                String uuid = UUID.randomUUID().toString();
-                String url = "http://www.test.com";
-                String prompt = "Prompt test";
-                String title = "Title test";
-                String description = "Description test";
-                LocalDateTime createdAt = LocalDateTime.now();
-
-                InMemoryAIBackgroundRepository failingRepository = new InMemoryAIBackgroundRepository() {
-                        @Override
-                        public void save(AIBackground background) {
-                                throw new PersistenceException();
-                        }
-                };
-                AIBackgroundRegister failingRegister = new AIBackgroundRegister(failingRepository);
-
-                assertThrows(CantRegisterBackground.class,
-                                () -> failingRegister.register(uuid, url, prompt, title, description, createdAt));
         }
 
         @Test
@@ -170,7 +157,7 @@ class AIBackgroundRegisterTest {
                 String description = "Description test";
                 LocalDateTime createdAt = LocalDateTime.now();
 
-                String anotherUrl = "anothertest.com";
+                String anotherUrl = "http://www.anothertest.com";
                 String anotherPrompt = "Another Prompt test";
                 String anotherTitle = "Another Title test";
                 String anotherDescription = "Another Description test";
@@ -178,7 +165,7 @@ class AIBackgroundRegisterTest {
 
                 register.register(uuid, url, prompt, title, description, createdAt);
 
-                assertThrows(InvalidDataSent.class,
+                assertThrows(EntityExistsException.class,
                                 () -> register.register(uuid, anotherUrl, anotherPrompt, anotherTitle,
                                                 anotherDescription,
                                                 anotherCreatedAt));

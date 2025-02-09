@@ -3,6 +3,8 @@ package com.snapthumb.thumbnailgenerator.image_creation.background.application;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.util.UUID;
 import java.util.stream.Stream;
@@ -13,11 +15,12 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import com.snapthumb.thumbnailgenerator.image_creation.background.domain.AIBackgroundMother;
+import com.snapthumb.thumbnailgenerator.image_creation.background.domain.BackgroundNotFound;
 import com.snapthumb.thumbnailgenerator.image_creation.background.domain.ai_background.AIBackground;
 import com.snapthumb.thumbnailgenerator.image_creation.background.domain.ai_background.AIBackgroundRepository;
-import com.snapthumb.thumbnailgenerator.image_creation.background.domain.exceptions.BackgroundNotFound;
 import com.snapthumb.thumbnailgenerator.image_creation.background.infrastructure.outbound.InMemoryAIBackgroundRepository;
-import com.snapthumb.thumbnailgenerator.shared.domain.exceptions.InvalidUuidFormat;
+
+import io.vavr.control.Either;
 
 class AIBackgroundFinderTest {
 
@@ -40,46 +43,52 @@ class AIBackgroundFinderTest {
         repository.save(background);
         String uuid = background.stringUuid();
 
-        AIBackground foundBackground = finder.find(uuid);
+        Either<BackgroundNotFound, AIBackground> result = finder.find(uuid);
 
-        assertEquals(background.uuid(), foundBackground.uuid());
-        assertEquals(background.url(), foundBackground.url());
-        assertEquals(background.title(), foundBackground.title());
-        assertEquals(background.description(), foundBackground.description());
-        assertEquals(background.prompt(), foundBackground.prompt());
-        assertEquals(background.createdAt(), foundBackground.createdAt());
-        assertNotNull(foundBackground.registeredAt());
+        result.fold(error -> fail("should not be called"), found -> {
+            assertTrue(result.isRight());
+            assertEquals(background.uuid(), found.uuid());
+            assertEquals(background.url(), found.url());
+            assertEquals(background.title(), found.title());
+            assertEquals(background.description(), found.description());
+            assertEquals(background.prompt(), found.prompt());
+            assertEquals(background.createdAt(), found.createdAt());
+            assertNotNull(found.registeredAt());
+            return Void.TYPE;
+        });
+
     }
 
     @Test
     void should_fail_when_background_does_not_exist() {
         String nonExistentUuid = UUID.randomUUID().toString();
 
-        assertThrows(BackgroundNotFound.class,
-                () -> finder.find(nonExistentUuid));
+        Either<BackgroundNotFound, AIBackground> result = finder.find(nonExistentUuid);
+
+        assertTrue(result.isLeft());
     }
 
     @Test
-    void should_fail_when_uuid_is_invalid() {
-        String invalidUuid = "invalid-uuid";
+    void should_fail_find_due_to_null_uuid() {
+        String invalidUuid = null;
 
-        assertThrows(InvalidUuidFormat.class,
+        assertThrows(NullPointerException.class,
                 () -> finder.find(invalidUuid));
     }
 
     @Test
-    void should_fail_when_uuid_is_null() {
-        String nullUuid = null;
+    void should_fail_find_due_to_wrong_uuid() {
+        String invalidUuid = "WrongUUID";
 
-        assertThrows(InvalidUuidFormat.class,
-                () -> finder.find(nullUuid));
+        assertThrows(IllegalArgumentException.class,
+                () -> finder.find(invalidUuid));
     }
 
     @Test
     void should_fail_when_uuid_is_empty() {
         String emptyUuid = "";
 
-        assertThrows(InvalidUuidFormat.class,
+        assertThrows(IllegalArgumentException.class,
                 () -> finder.find(emptyUuid));
     }
 
@@ -87,7 +96,7 @@ class AIBackgroundFinderTest {
     void should_fail_when_uuid_has_special_characters() {
         String specialCharsUuid = "!@#$%^&*()";
 
-        assertThrows(InvalidUuidFormat.class,
+        assertThrows(IllegalArgumentException.class,
                 () -> finder.find(specialCharsUuid));
     }
 

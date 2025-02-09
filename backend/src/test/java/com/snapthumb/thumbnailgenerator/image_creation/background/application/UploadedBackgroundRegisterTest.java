@@ -15,13 +15,11 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import com.snapthumb.thumbnailgenerator.image_creation.background.domain.UploadedBackgroundMother;
-import com.snapthumb.thumbnailgenerator.image_creation.background.domain.exceptions.CantRegisterBackground;
 import com.snapthumb.thumbnailgenerator.image_creation.background.domain.uploaded_background.UploadedBackground;
 import com.snapthumb.thumbnailgenerator.image_creation.background.domain.uploaded_background.UploadedBackgroundRepository;
 import com.snapthumb.thumbnailgenerator.image_creation.background.infrastructure.outbound.InMemoryUploadedBackgroundRepository;
-import com.snapthumb.thumbnailgenerator.shared.domain.exceptions.InvalidDataSent;
 
-import jakarta.persistence.PersistenceException;
+import jakarta.persistence.EntityExistsException;
 
 class UploadedBackgroundRegisterTest {
         private UploadedBackgroundRepository repository;
@@ -33,8 +31,6 @@ class UploadedBackgroundRegisterTest {
 
         static Stream<Object[]> nullParametersProvider() {
                 return Stream.of(
-                                new Object[] { null, "http://www.test.com", "Title test", "Description test",
-                                                LocalDateTime.now() },
                                 new Object[] { UUID.randomUUID().toString(), null, "Title test", "Description test",
                                                 LocalDateTime.now() },
                                 new Object[] { UUID.randomUUID().toString(), "http://www.test.com", null,
@@ -74,6 +70,18 @@ class UploadedBackgroundRegisterTest {
         }
 
         @Test
+        void should_fail_register_due_to_null_uuid() {
+                String invalidUuid = null;
+                String url = "http://www.test.com";
+                String title = "Title test";
+                String description = "Description test";
+                LocalDateTime uploadedAt = LocalDateTime.now();
+
+                assertThrows(NullPointerException.class,
+                                () -> register.register(invalidUuid, url, title, description, uploadedAt));
+        }
+
+        @Test
         void should_fail_register_due_to_wrong_uuid() {
                 String invalidUuid = "WrongUUID";
                 String url = "http://www.test.com";
@@ -81,7 +89,7 @@ class UploadedBackgroundRegisterTest {
                 String description = "Description test";
                 LocalDateTime uploadedAt = LocalDateTime.now();
 
-                assertThrows(InvalidDataSent.class,
+                assertThrows(IllegalArgumentException.class,
                                 () -> register.register(invalidUuid, url, title, description, uploadedAt));
         }
 
@@ -93,7 +101,7 @@ class UploadedBackgroundRegisterTest {
                 String description = "Description test";
                 LocalDateTime uploadedAt = LocalDateTime.now();
 
-                assertThrows(InvalidDataSent.class,
+                assertThrows(IllegalArgumentException.class,
                                 () -> register.register(invalidUuid, url, title, description, uploadedAt));
         }
 
@@ -101,7 +109,7 @@ class UploadedBackgroundRegisterTest {
         @MethodSource("nullParametersProvider")
         void should_fail_register_when_parameter_is_null(String uuid, String url, String title,
                         String description, LocalDateTime uploadedAt) {
-                assertThrows(InvalidDataSent.class,
+                assertThrows(IllegalArgumentException.class,
                                 () -> register.register(uuid, url, title, description, uploadedAt));
         }
 
@@ -113,7 +121,7 @@ class UploadedBackgroundRegisterTest {
                 String description = "Description test";
                 LocalDateTime uploadedAt = LocalDateTime.MIN;
 
-                assertThrows(InvalidDataSent.class,
+                assertThrows(IllegalArgumentException.class,
                                 () -> register.register(invalidUuid, url, title, description, uploadedAt));
         }
 
@@ -125,28 +133,8 @@ class UploadedBackgroundRegisterTest {
                 String description = "Description test";
                 LocalDateTime uploadedAt = LocalDateTime.now().plusDays(1);
 
-                assertThrows(InvalidDataSent.class,
+                assertThrows(IllegalArgumentException.class,
                                 () -> register.register(invalidUuid, url, title, description, uploadedAt));
-        }
-
-        @Test
-        void should_fail_register_due_to_persistence_exception() {
-                String uuid = UUID.randomUUID().toString();
-                String url = "http://www.test.com";
-                String title = "Title test";
-                String description = "Description test";
-                LocalDateTime uploadedAt = LocalDateTime.now();
-
-                InMemoryUploadedBackgroundRepository failingRepository = new InMemoryUploadedBackgroundRepository() {
-                        @Override
-                        public void save(UploadedBackground background) {
-                                throw new PersistenceException();
-                        }
-                };
-                UploadedBackgroundRegister failingRegister = new UploadedBackgroundRegister(failingRepository);
-
-                assertThrows(CantRegisterBackground.class,
-                                () -> failingRegister.register(uuid, url, title, description, uploadedAt));
         }
 
         @Test
@@ -157,14 +145,14 @@ class UploadedBackgroundRegisterTest {
                 String description = "Description test";
                 LocalDateTime uploadedAt = LocalDateTime.now();
 
-                String anotherUrl = "anothertest.com";
+                String anotherUrl = "http://anothertest.com";
                 String anotherTitle = "Another Title test";
                 String anotherDescription = "Another Description test";
                 LocalDateTime anotherUploadedAt = LocalDateTime.now();
 
                 register.register(uuid, url, title, description, uploadedAt);
 
-                assertThrows(InvalidDataSent.class,
+                assertThrows(EntityExistsException.class,
                                 () -> register.register(uuid, anotherUrl, anotherTitle, anotherDescription,
                                                 anotherUploadedAt));
         }

@@ -10,7 +10,7 @@ public class AIBackgroundMother {
 
         private static AIBackground createRandomBackground() {
                 return AIBackground.createFromPrimitives(
-                                UUID.randomUUID(),
+                                UUID.randomUUID().toString(),
                                 RandomBackgroundData.randomUrl(),
                                 RandomBackgroundData.randomPrompt(),
                                 RandomBackgroundData.randomTitle(),
@@ -18,7 +18,7 @@ public class AIBackgroundMother {
                                 RandomBackgroundData.randomDates());
         }
 
-        public static AIBackground createCustomBackground(UUID uuid, String url, String prompt, String title,
+        public static AIBackground createCustomBackground(String uuid, String url, String prompt, String title,
                         String description, LocalDateTime createdAt) {
                 return AIBackground.createFromPrimitives(
                                 uuid,

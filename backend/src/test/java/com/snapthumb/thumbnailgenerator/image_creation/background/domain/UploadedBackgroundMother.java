@@ -10,14 +10,14 @@ public class UploadedBackgroundMother {
 
     private static UploadedBackground createRandomBackground() {
         return UploadedBackground.createFromPrimitives(
-                UUID.randomUUID(),
+                UUID.randomUUID().toString(),
                 RandomBackgroundData.randomUrl(),
                 RandomBackgroundData.randomTitle(),
                 RandomBackgroundData.randomDescription(),
                 RandomBackgroundData.randomDates());
     }
 
-    public static UploadedBackground createCustomBackground(UUID uuid, String url, String title,
+    public static UploadedBackground createCustomBackground(String uuid, String url, String title,
             String description, LocalDateTime createdAt) {
         return UploadedBackground.createFromPrimitives(
                 uuid,
