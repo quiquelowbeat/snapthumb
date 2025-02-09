@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.snapthumb.thumbnailgenerator.image_creation.background.application.UploadedBackgroundRegister;
 import com.snapthumb.thumbnailgenerator.image_creation.background.infrastructure.dtos.UploadedBackgroundRequest;
+import com.snapthumb.thumbnailgenerator.shared.infrastructure.dtos.MessageResponse;
 
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -30,10 +31,10 @@ public class UploadedBackgroundController {
             @ApiResponse(responseCode = "200", description = "Background uploaded successfully"),
             @ApiResponse(responseCode = "400", description = "Error validating sent data")
     })
-    public ResponseEntity<String> saveUploadedBackground(@PathVariable String uuid,
+    public ResponseEntity<MessageResponse> saveUploadedBackground(@PathVariable String uuid,
             @RequestBody UploadedBackgroundRequest request) {
         uploadedBackgroundRegister.register(uuid, request.url(), request.title(), request.description(),
                 request.uploadedAt());
-        return ResponseEntity.ok("Uploaded Background saved successfully.");
+        return ResponseEntity.ok(new MessageResponse("Uploaded Background saved successfully."));
     }
 }

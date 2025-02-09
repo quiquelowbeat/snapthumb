@@ -1,5 +1,6 @@
 package com.snapthumb.thumbnailgenerator.user_management.infrastructure.inbound.controllers;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -39,11 +40,11 @@ public class UserController {
                         @ApiResponse(responseCode = "201", description = "User registered successfully"),
                         @ApiResponse(responseCode = "400", description = "Error validating sent data")
         })
-        public ResponseEntity<String> registerUser(@PathVariable String uuid,
+        public ResponseEntity<Void> registerUser(@PathVariable String uuid,
                         @RequestBody UserRequest request) {
                 register.register(uuid, request.firstName(), request.lastName(),
                                 request.email(), request.password());
-                return ResponseEntity.ok().build();
+                return ResponseEntity.status(HttpStatus.CREATED).build();
 
         }
 

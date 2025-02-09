@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.snapthumb.thumbnailgenerator.image_creation.background.application.AIBackgroundRegister;
 import com.snapthumb.thumbnailgenerator.image_creation.background.infrastructure.dtos.AIBackgroundRequest;
-import com.snapthumb.thumbnailgenerator.image_creation.background.infrastructure.dtos.MessageResponse;
+import com.snapthumb.thumbnailgenerator.shared.infrastructure.dtos.MessageResponse;
 
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -37,6 +37,6 @@ public class AIBackgroundController {
         aiBackgroundRegister.register(uuid, request.url(), request.prompt(), request.title(), request.description(),
                 request.createdAt());
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(MessageResponse.create("AI generated background saved successfully."));
+                .body(new MessageResponse("AI generated background saved successfully."));
     }
 }
