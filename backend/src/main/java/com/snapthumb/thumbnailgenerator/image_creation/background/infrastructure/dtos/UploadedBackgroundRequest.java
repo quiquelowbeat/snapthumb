@@ -3,8 +3,13 @@ package com.snapthumb.thumbnailgenerator.image_creation.background.infrastructur
 import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import io.swagger.v3.oas.annotations.media.Schema;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Getter;
+import lombok.experimental.Accessors;
+
+@Getter
+@Accessors(fluent = true)
 @Schema(description = "Request object for uploading a background image")
 public final class UploadedBackgroundRequest {
 
@@ -12,7 +17,7 @@ public final class UploadedBackgroundRequest {
     @Schema(description = "URL where the background image is stored", example = "https://example.com/image.jpg")
     private final String url;
 
-    @JsonProperty("title") 
+    @JsonProperty("title")
     @Schema(description = "Title of the background image", example = "Mountain Sunset")
     private final String title;
 
@@ -29,22 +34,6 @@ public final class UploadedBackgroundRequest {
         this.title = title;
         this.description = description;
         this.uploadedAt = uploadedAt;
-    }
-
-    public String url() {
-        return url;
-    }
-
-    public String title() {
-        return title;
-    }
-
-    public String description() {
-        return description;
-    }
-
-    public LocalDateTime uploadedAt() {
-        return uploadedAt;
     }
 
 }

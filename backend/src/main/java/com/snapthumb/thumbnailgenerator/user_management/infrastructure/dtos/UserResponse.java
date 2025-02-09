@@ -7,11 +7,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
+import lombok.ToString;
 import lombok.experimental.Accessors;
 
 @Accessors(fluent = true)
 @Getter
 @Schema(description = "Response object containing user information")
+@ToString
 public final class UserResponse {
 
     @JsonProperty("uuid")
@@ -42,7 +44,7 @@ public final class UserResponse {
         this.registeredAt = registeredAt;
     }
 
-    public static UserResponse create(User user) {
+    public static UserResponse createFrom(User user) {
         return new UserResponse(user.stringUuid(), user.firstName(), user.lastName(), user.email(),
                 user.registeredAt());
     }

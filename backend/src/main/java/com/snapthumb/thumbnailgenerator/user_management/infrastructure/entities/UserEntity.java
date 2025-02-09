@@ -9,7 +9,11 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.Getter;
+import lombok.experimental.Accessors;
 
+@Accessors(fluent = true)
+@Getter
 @Entity
 @Table(name = "users")
 public final class UserEntity {
@@ -18,31 +22,31 @@ public final class UserEntity {
     private String firstName;
     private String lastName;
     private String email;
-    private String password;
+    private String hashedPassword;
     @Column(name = "registered_at", updatable = false)
     private LocalDateTime registeredAt;
 
     protected UserEntity() {
     }
 
-    public UserEntity(UUID uuid, String firstName, String lastName, String email, String password,
+    public UserEntity(UUID uuid, String firstName, String lastName, String email, String hashedPassword,
             LocalDateTime registeredAt) {
         this.uuid = uuid;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
-        this.password = password;
+        this.hashedPassword = hashedPassword;
         this.registeredAt = registeredAt;
     }
 
     public User toDomainModel() {
         return User.createFromPrimitivesWithRegisteredAt(
-                this.uuid.toString(),
-                this.firstName,
-                this.lastName,
-                this.email,
-                this.password,
-                this.registeredAt);
+                uuid.toString(),
+                firstName,
+                lastName,
+                email,
+                hashedPassword,
+                registeredAt);
     }
 
     public static UserEntity fromDomainModel(User user) {

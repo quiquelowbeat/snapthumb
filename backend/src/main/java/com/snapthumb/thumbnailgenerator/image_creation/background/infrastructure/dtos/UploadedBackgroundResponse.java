@@ -26,7 +26,7 @@ public final class UploadedBackgroundResponse {
         this.registeredAt = registeredAt;
     }
 
-    public static UploadedBackgroundResponse create(UploadedBackground uploadedBackground) {
+    public static UploadedBackgroundResponse createFrom(UploadedBackground uploadedBackground) {
         return new UploadedBackgroundResponse(uploadedBackground.url(), uploadedBackground.registeredAt());
     }
 }
