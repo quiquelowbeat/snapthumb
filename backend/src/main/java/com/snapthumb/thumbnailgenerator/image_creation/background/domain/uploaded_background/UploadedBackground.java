@@ -18,24 +18,36 @@ public class UploadedBackground {
     private final UploadDate uploadedAt;
     private final RegistrationDate registeredAt;
 
-    private UploadedBackground(UUID uuid, String url, String title, String description, LocalDateTime uploadedAt,
-            LocalDateTime registeredAt) {
+    private UploadedBackground(UUID uuid, Url url, Title title, Description description, UploadDate uploadedAt,
+            RegistrationDate registeredAt) {
         this.uuid = uuid;
-        this.url = Url.create(url);
-        this.title = Title.create(title);
-        this.description = Description.create(description);
-        this.uploadedAt = UploadDate.create(uploadedAt);
-        this.registeredAt = RegistrationDate.create(registeredAt);
+        this.url = url;
+        this.title = title;
+        this.description = description;
+        this.uploadedAt = uploadedAt;
+        this.registeredAt = registeredAt;
     }
 
-    public static UploadedBackground createFromPrimitives(UUID uuid, String url, String title, String description,
+    public static UploadedBackground createFromPrimitives(String uuid, String url, String title, String description,
             LocalDateTime uploadedAt) {
-        return new UploadedBackground(uuid, url, title, description, uploadedAt, LocalDateTime.now());
+        return createUploadedBackground(uuid, url, title, description, uploadedAt, LocalDateTime.now());
     }
 
-    public static UploadedBackground createFromPrimitivesWithRegisteredAt(UUID uuid, String url, String title,
+    public static UploadedBackground createFromPrimitivesWithRegisteredAt(String uuid, String url, String title,
             String description, LocalDateTime uploadedAt, LocalDateTime registeredAt) {
-        return new UploadedBackground(uuid, url, title, description, uploadedAt, registeredAt);
+        return createUploadedBackground(uuid, url, title, description, uploadedAt, registeredAt);
+    }
+
+    private static UploadedBackground createUploadedBackground(String uuid, String url, String title,
+            String description,
+            LocalDateTime uploadedAt, LocalDateTime registeredAt) {
+        return new UploadedBackground(
+                UUID.fromString(uuid),
+                Url.create(url),
+                Title.create(title),
+                Description.create(description),
+                UploadDate.create(uploadedAt),
+                RegistrationDate.create(registeredAt));
     }
 
     public UUID uuid() {

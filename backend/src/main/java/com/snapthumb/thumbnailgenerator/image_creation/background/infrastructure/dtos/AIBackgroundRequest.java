@@ -2,10 +2,15 @@ package com.snapthumb.thumbnailgenerator.image_creation.background.infrastructur
 
 import java.time.LocalDateTime;
 
-import io.swagger.v3.oas.annotations.media.Schema;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Getter;
+import lombok.experimental.Accessors;
+
 @Schema(description = "Request object for creating an AI-generated background image")
+@Getter
+@Accessors(fluent = true)
 public final class AIBackgroundRequest {
 
     @Schema(description = "Prompt used to generate the AI image", example = "A serene mountain landscape at sunset")
@@ -13,7 +18,7 @@ public final class AIBackgroundRequest {
     private final String prompt;
 
     @Schema(description = "URL where the background image is stored", example = "https://example.com/image.jpg")
-    @JsonProperty("url") 
+    @JsonProperty("url")
     private final String url;
 
     @Schema(description = "Title of the background image", example = "Mountain Sunset")
@@ -34,26 +39,6 @@ public final class AIBackgroundRequest {
         this.title = title;
         this.description = description;
         this.createdAt = createdAt;
-    }
-
-    public String prompt() {
-        return prompt;
-    }
-
-    public String title() {
-        return title;
-    }
-
-    public String description() {
-        return description;
-    }
-
-    public LocalDateTime createdAt() {
-        return createdAt;
-    }
-
-    public String url() {
-        return url;
     }
 
 }

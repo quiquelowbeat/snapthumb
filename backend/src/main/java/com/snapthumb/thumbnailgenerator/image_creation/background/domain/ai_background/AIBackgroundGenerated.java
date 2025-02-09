@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.snapthumb.thumbnailgenerator.image_creation.background.domain.exceptions.AIBackgroundFailedResponse;
 
 import ai.fal.client.Output;
 import lombok.ToString;

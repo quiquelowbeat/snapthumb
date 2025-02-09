@@ -29,7 +29,7 @@ public final class AIBackgroundResponse {
         this.createdAt = createdAt;
     }
 
-    public static AIBackgroundResponse create(AIBackgroundGenerated aiBackgroundGenerated) {
+    public static AIBackgroundResponse createFrom(AIBackgroundGenerated aiBackgroundGenerated) {
         List<String> urls = aiBackgroundGenerated.images().stream()
                 .map(Image::url)
                 .toList();
