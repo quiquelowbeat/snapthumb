@@ -64,11 +64,28 @@ jobs:
                 --instance-ids "${{ env.EC2_INSTANCE_ID_DEV }}" \
                 --document-name "AWS-RunShellScript" \
                 --parameters 'commands=[
-                "cd ~/thumbnailgenerator",
+                "echo \"=== Starting deployment ====\"",
+                
+                "echo \"=== ECR Login ====\"",
                 "aws ecr get-login-password --region '${{ env.AWS_REGION }}' | docker login --username AWS --password-stdin '${{ steps.login-ecr.outputs.registry }}'",
-                "docker pull ${ECR_REGISTRY}/${ECR_REPOSITORY_DEV}:${TIMESTAMP}",
-                "docker-compose -f docker-compose.backend.yml down",
-                "docker-compose -f docker-compose.backend.yml up -d"
+                
+                "echo \"=== Pulling Image ====\"",
+                "docker pull ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY_DEV }}:${TIMESTAMP}",
+                
+                "echo \"=== Stopping old container ====\"",
+                "docker stop thumbnailgenerator-backend || true",
+                "docker rm thumbnailgenerator-backend || true",
+                
+                "echo \"=== Starting new container ====\"",
+                "docker run -d --name thumbnailgenerator-backend \
+                    -p 8080:8080 \
+                    -e SPRING_PROFILES_ACTIVE=dev \
+                    --restart unless-stopped \
+                    ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY_DEV }}:${TIMESTAMP}",
+                
+                "echo \"=== Container Status ====\"",
+                "docker ps",
+                "docker logs thumbnailgenerator-backend"
                 ]' \
                 --output text
     
