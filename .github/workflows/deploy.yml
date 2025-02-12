@@ -59,35 +59,46 @@ jobs:
           docker push $ECR_REGISTRY/$ECR_REPOSITORY_DEV:$TIMESTAMP
 
       - name: Deploy to EC2
+        id: deploy
         run: |
-              COMMAND_ID=$(aws ssm send-command \
-                --instance-ids "${{ env.EC2_INSTANCE_ID_DEV }}" \
-                --document-name "AWS-RunShellScript" \
-                --parameters 'commands=[
-                  "echo \"=== Starting deployment ====\"",
-                  "echo \"=== ECR Login ====\"",
-                  "aws ecr get-login-password --region '${{ env.AWS_REGION }}' | docker login --username AWS --password-stdin '${{ steps.login-ecr.outputs.registry }}'",
-                  "echo \"=== Pulling Image ====\"",
-                  "docker pull ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY_DEV }}:${TIMESTAMP}",
-                  "echo \"=== Stopping old container ====\"",
-                  "docker stop thumbnailgenerator-backend || true",
-                  "docker rm thumbnailgenerator-backend || true",
-                  "echo \"=== Starting new container ====\"",
-                  "docker run -d --name thumbnailgenerator-backend \
-                    -p 8080:8080 \
-                    -e SPRING_PROFILES_ACTIVE=dev \
-                    --restart unless-stopped \
-                    ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY_DEV }}:${TIMESTAMP}",
-                  "echo \"=== Container Status ====\"",
-                  "docker ps",
-                  "docker logs thumbnailgenerator-backend"
-                ]' \
-                --output text --query "Command.CommandId")
-              echo "command_id=${COMMAND_ID}" >> $GITHUB_OUTPUT
-            
-
-    
-
+          TIMESTAMP=$(date +%Y%m%d-%H%M%S)  
+          COMMAND_ID=$(aws ssm send-command \
+            --instance-ids "${{ env.EC2_INSTANCE_ID_DEV }}" \
+            --document-name "AWS-RunShellScript" \
+            --parameters 'commands=[
+              "echo \"=== Starting deployment ====\"",
+              
+              "echo \"=== ECR Login ====\"",
+              "aws ecr get-login-password --region '${{ env.AWS_REGION }}' | docker login --username AWS --password-stdin '${{ steps.login-ecr.outputs.registry }}'",
+              
+              "echo \"=== Pulling Image ====\"",
+              "docker pull '${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY_DEV }}:'\"'${TIMESTAMP}'\"",
+              
+              "echo \"=== Stopping old container ====\"",
+              "docker stop thumbnailgenerator-backend || true",
+              "docker rm thumbnailgenerator-backend || true",
+              
+              "echo \"=== Starting new container ====\"",
+              "docker run -d --name thumbnailgenerator-backend \
+                -p 8080:8080 \
+                -e SPRING_PROFILES_ACTIVE=dev \
+                --restart unless-stopped \
+                '${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY_DEV }}:'\"'${TIMESTAMP}'\"",
+              
+              "echo \"=== Container Status ====\"",
+              "docker ps",
+              "docker logs thumbnailgenerator-backend || true"
+            ]' \
+            --output text --query "Command.CommandId")
+          echo "command_id=${COMMAND_ID}" >> $GITHUB_OUTPUT
+      - name: Wait and Get Command Output
+        run: |
+            sleep 10  
+            aws ssm get-command-invocation \
+                --command-id ${{ steps.deploy.outputs.command_id }} \
+                --instance-id "${{ env.EC2_INSTANCE_ID_DEV }}" \
+                --query "StandardOutputContent" \
+                --output text
   deploy-prod:
     needs: build-and-test
     if: github.ref == 'refs/heads/main'
