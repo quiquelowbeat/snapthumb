@@ -8,7 +8,8 @@ on:
 
 env:
   AWS_REGION: ${{ secrets.AWS_REGION }}
-  ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY }}
+  ECR_REPOSITORY_DEV: ${{ secrets.ECR_REPOSITORY_DEV }}
+  ECR_REPOSITORY_PROD: ${{ secrets.ECR_REPOSITORY_PROD }}
   EC2_HOST_DEV: ${{ secrets.EC2_HOST_DEV }}
   EC2_HOST_PROD: ${{ secrets.EC2_HOST_PROD }}
 
@@ -51,9 +52,9 @@ jobs:
         run: |
           docker build \
             --build-arg SPRING_PROFILES_ACTIVE=dev \
-            -t $ECR_REGISTRY/$ECR_REPOSITORY:dev-latest \
+            -t $ECR_REGISTRY/$ECR_REPOSITORY_DEV:dev-latest \
             ./backend
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:dev-latest
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY_DEV:dev-latest
 
       - name: Deploy to EC2
         uses: appleboy/ssh-action@master
@@ -90,9 +91,9 @@ jobs:
         run: |
           docker build \
             --build-arg SPRING_PROFILES_ACTIVE=prod \
-            -t $ECR_REGISTRY/$ECR_REPOSITORY:prod-latest \
+            -t $ECR_REGISTRY/$ECR_REPOSITORY_PROD:prod-latest \
             ./backend
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:prod-latest
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY_PROD:prod-latest
 
       - name: Deploy to EC2
         uses: appleboy/ssh-action@master
