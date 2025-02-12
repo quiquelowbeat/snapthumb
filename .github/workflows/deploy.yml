@@ -73,20 +73,32 @@ jobs:
       - name: Deploy to EC2
         id: deploy
         run: |
+          NETWORK_NAME="thumbnail-network"
           aws ssm send-command \
             --instance-ids "${{ env.EC2_INSTANCE_ID_DEV }}" \
             --document-name "AWS-RunShellScript" \
             --parameters 'commands=[
               "aws ecr get-login-password --region '${{ env.AWS_REGION }}' | docker login --username AWS --password-stdin '${{ steps.login-ecr.outputs.registry }}'",
               "docker pull '${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY_DEV }}:${{ steps.build_push.outputs.tag }}'",
+              "docker network create ${NETWORK_NAME} || true",
+              "docker stop thumbnailgenerator-postgres || true && docker rm thumbnailgenerator-postgres || true",
+              "mkdir -p /data/postgres && mkdir -p /data/pgadmin",
+              "docker run -d --name thumbnailgenerator-postgres --network ${NETWORK_NAME} -p 5432:5432 -v /data/postgres:/var/lib/postgresql/data -e POSTGRES_USER=${{ env.DB_USERNAME }} -e POSTGRES_PASSWORD=${{ env.DB_PASSWORD }} -e POSTGRES_DB=${{ env.DB_NAME }} postgres:14.13",
+              "docker run -d --name pgadmin \
+                -p 80:80 \
+                -e "PGADMIN_DEFAULT_EMAIL=${{ env.PGADMIN_DEFAULT_EMAIL }}" \
+                -e "PGADMIN_DEFAULT_PASSWORD=${{ env.PGADMIN_DEFAULT_PASSWORD }}" \
+                -v /data/pgadmin:/var/lib/pgadmin \
+                --network ${NETWORK_NAME} \
+                dpage/pgadmin4",
               "docker stop thumbnailgenerator-backend || true && docker rm thumbnailgenerator-backend || true",
-              "docker run -d --name thumbnailgenerator-backend \
+              "docker run -d --name thumbnailgenerator-backend --network ${NETWORK_NAME} \
                 -p 8080:8080 \
                 -e SPRING_PROFILES_ACTIVE=dev \
                 -e DB_USERNAME=${{ env.DB_USERNAME }} \
                 -e DB_PASSWORD=${{ env.DB_PASSWORD }} \
                 -e DB_NAME=${{ env.DB_NAME }} \
-                -e DB_HOST=${{ env.DB_HOST }} \
+                -e DB_HOST=thumbnailgenerator-postgres \
                 -e DB_PORT=${{ env.DB_PORT }} \
                 -e FAL_KEY=${{ env.FAL_KEY }} \
                 -e PGADMIN_DEFAULT_EMAIL=${{ env.PGADMIN_DEFAULT_EMAIL }} \
@@ -94,7 +106,7 @@ jobs:
                 -e SPRING_SECURITY_USERNAME=${{ env.SPRING_SECURITY_USERNAME }} \
                 -e SPRING_SECURITY_PASSWORD=${{ env.SPRING_SECURITY_PASSWORD }} \
                 --restart unless-stopped \
-                '${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY_DEV }}:${{ steps.build_push.outputs.tag }}'"
+                '${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY_DEV }}:${{ steps.build_push.outputs.tag }}'",
             ]' \
             --output text
   deploy-prod:
@@ -129,20 +141,31 @@ jobs:
 
       - name: Deploy to EC2
         run: |
+            NETWORK_NAME="thumbnail-network"
             aws ssm send-command \
                 --instance-ids "${{ env.EC2_INSTANCE_ID_PROD }}" \
                 --document-name "AWS-RunShellScript" \
                 --parameters 'commands=[
                 "aws ecr get-login-password --region '${{ env.AWS_REGION }}' | docker login --username AWS --password-stdin '${{ steps.login-ecr.outputs.registry }}'",
-                "docker pull '${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY_PROD }}:${{ steps.build_push.outputs.tag }}'",
+                "docker network create ${NETWORK_NAME} || true",
+                "docker stop thumbnailgenerator-postgres || true && docker rm thumbnailgenerator-postgres || true",
+                "mkdir -p /data/postgres && mkdir -p /data/pgadmin",
+                "docker run -d --name thumbnailgenerator-postgres --network ${NETWORK_NAME} -p 5432:5432 -v /data/postgres:/var/lib/postgresql/data -e POSTGRES_USER=${{ env.DB_USERNAME }} -e POSTGRES_PASSWORD=${{ env.DB_PASSWORD }} -e POSTGRES_DB=${{ env.DB_NAME }} postgres:14.13",
+                "docker run -d --name pgadmin \
+                    -p 80:80 \
+                    -e "PGADMIN_DEFAULT_EMAIL=${{ env.PGADMIN_DEFAULT_EMAIL }}" \
+                    -e "PGADMIN_DEFAULT_PASSWORD=${{ env.PGADMIN_DEFAULT_PASSWORD }}" \
+                    -v /data/pgadmin:/var/lib/pgadmin \
+                    --network ${NETWORK_NAME} \
+                    dpage/pgadmin4",
                 "docker stop thumbnailgenerator-backend || true && docker rm thumbnailgenerator-backend || true",
-                "docker run -d --name thumbnailgenerator-backend \
+                "docker run -d --name thumbnailgenerator-backend --network ${NETWORK_NAME} \
                     -p 8080:8080 \
                     -e SPRING_PROFILES_ACTIVE=prod \
                     -e DB_USERNAME=${{ env.DB_USERNAME }} \
                     -e DB_PASSWORD=${{ env.DB_PASSWORD }} \
                     -e DB_NAME=${{ env.DB_NAME }} \
-                    -e DB_HOST=${{ env.DB_HOST }} \
+                    -e DB_HOST=thumbnailgenerator-postgres \
                     -e DB_PORT=${{ env.DB_PORT }} \
                     -e FAL_KEY=${{ env.FAL_KEY }} \
                     -e PGADMIN_DEFAULT_EMAIL=${{ env.PGADMIN_DEFAULT_EMAIL }} \
@@ -150,7 +173,6 @@ jobs:
                     -e SPRING_SECURITY_USERNAME=${{ env.SPRING_SECURITY_USERNAME }} \
                     -e SPRING_SECURITY_PASSWORD=${{ env.SPRING_SECURITY_PASSWORD }} \
                     --restart unless-stopped \
-                    '${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY_PROD }}:${{ steps.build_push.outputs.tag }}'"
+                    '${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY_PROD }}:${{ steps.build_push.outputs.tag }}'",
                 ]' \
                 --output text
-  
