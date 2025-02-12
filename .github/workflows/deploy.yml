@@ -61,10 +61,15 @@ jobs:
       - name: Deploy to EC2
         run: |
               aws ssm send-command \
-                  --instance-ids "${{ env.EC2_INSTANCE_ID_DEV }}" \
-                  --document-name "AWS-RunShellScript" \
-                  --parameters 'commands=["cd ~/thumbnailgenerator && docker-compose -f docker-compose.backend.yml down && docker-compose -f docker-compose.backend.yml up -d"]' \
-                  --output text
+                --instance-ids "${{ env.EC2_INSTANCE_ID_DEV }}" \
+                --document-name "AWS-RunShellScript" \
+                --parameters 'commands=[
+                "cd ~/thumbnailgenerator",
+                "aws ecr get-login-password --region '${{ env.AWS_REGION }}' | docker login --username AWS --password-stdin '${{ steps.login-ecr.outputs.registry }}'",
+                "docker-compose -f docker-compose.backend.yml down",
+                "docker-compose -f docker-compose.backend.yml up -d"
+                ]' \
+                --output text
     
 
   deploy-prod:
