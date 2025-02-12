@@ -74,7 +74,7 @@ jobs:
                 -p 8080:8080 \
                 -e SPRING_PROFILES_ACTIVE=dev \
                 --restart unless-stopped \
-                '${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY_DEV }}:${TIMESTAMP}'"
+                '${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY_DEV }}:${{ steps.build_push.outputs.tag }}'"
             ]' \
             --output text
   deploy-prod:
