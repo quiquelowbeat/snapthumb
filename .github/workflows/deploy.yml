@@ -66,6 +66,7 @@ jobs:
                 --parameters 'commands=[
                 "cd ~/thumbnailgenerator",
                 "aws ecr get-login-password --region '${{ env.AWS_REGION }}' | docker login --username AWS --password-stdin '${{ steps.login-ecr.outputs.registry }}'",
+                "docker pull ${ECR_REGISTRY}/${ECR_REPOSITORY_DEV}:${TIMESTAMP}",
                 "docker-compose -f docker-compose.backend.yml down",
                 "docker-compose -f docker-compose.backend.yml up -d"
                 ]' \
@@ -105,6 +106,12 @@ jobs:
             aws ssm send-command \
                 --instance-ids "${{ env.EC2_INSTANCE_ID_PROD }}" \
                 --document-name "AWS-RunShellScript" \
-                --parameters 'commands=["cd ~/thumbnailgenerator && docker-compose -f docker-compose.backend.yml down && docker-compose -f docker-compose.backend.yml up -d"]' \
+                --parameters 'commands=[
+                "cd ~/thumbnailgenerator",
+                "aws ecr get-login-password --region '${{ env.AWS_REGION }}' | docker login --username AWS --password-stdin '${{ steps.login-ecr.outputs.registry }}'",
+                "docker pull ${ECR_REGISTRY}/${ECR_REPOSITORY_PROD}:${TIMESTAMP}",
+                "docker-compose -f docker-compose.backend.yml down",
+                "docker-compose -f docker-compose.backend.yml up -d"
+                ]' \
                 --output text
   
