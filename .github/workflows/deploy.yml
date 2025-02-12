@@ -13,6 +13,16 @@ env:
   EC2_INSTANCE_ID_DEV: ${{ secrets.EC2_INSTANCE_ID_DEV }}
   EC2_INSTANCE_ID_PROD: ${{ secrets.EC2_INSTANCE_ID_PROD }}
   AWS_ROLE_ARN: ${{ secrets.AWS_ROLE_ARN }}
+  SPRING_SECURITY_USERNAME: ${{ secrets.SPRING_SECURITY_USERNAME }}
+  SPRING_SECURITY_PASSWORD: ${{ secrets.SPRING_SECURITY_PASSWORD }}
+  DB_USERNAME: ${{ secrets.DB_USERNAME }}
+  DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+  DB_NAME: ${{ secrets.DB_NAME }}
+  DB_HOST: ${{ secrets.DB_HOST }}
+  DB_PORT: ${{ secrets.DB_PORT }}
+  FAL_KEY: ${{ secrets.FAL_KEY }}
+  PGADMIN_DEFAULT_EMAIL: ${{ secrets.PGADMIN_DEFAULT_EMAIL }}
+  PGADMIN_DEFAULT_PASSWORD: ${{ secrets.PGADMIN_DEFAULT_PASSWORD }}
 
 permissions:
   id-token: write
@@ -73,6 +83,16 @@ jobs:
               "docker run -d --name thumbnailgenerator-backend \
                 -p 8080:8080 \
                 -e SPRING_PROFILES_ACTIVE=dev \
+                -e DB_USERNAME=${{ env.DB_USERNAME }} \
+                -e DB_PASSWORD=${{ env.DB_PASSWORD }} \
+                -e DB_NAME=${{ env.DB_NAME }} \
+                -e DB_HOST=${{ env.DB_HOST }} \
+                -e DB_PORT=${{ env.DB_PORT }} \
+                -e FAL_KEY=${{ env.FAL_KEY }} \
+                -e PGADMIN_DEFAULT_EMAIL=${{ env.PGADMIN_DEFAULT_EMAIL }} \
+                -e PGADMIN_DEFAULT_PASSWORD=${{ env.PGADMIN_DEFAULT_PASSWORD }} \
+                -e SPRING_SECURITY_USERNAME=${{ env.SPRING_SECURITY_USERNAME }} \
+                -e SPRING_SECURITY_PASSWORD=${{ env.SPRING_SECURITY_PASSWORD }} \
                 --restart unless-stopped \
                 '${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY_DEV }}:${{ steps.build_push.outputs.tag }}'"
             ]' \
@@ -119,6 +139,16 @@ jobs:
                 "docker run -d --name thumbnailgenerator-backend \
                     -p 8080:8080 \
                     -e SPRING_PROFILES_ACTIVE=prod \
+                    -e DB_USERNAME=${{ env.DB_USERNAME }} \
+                    -e DB_PASSWORD=${{ env.DB_PASSWORD }} \
+                    -e DB_NAME=${{ env.DB_NAME }} \
+                    -e DB_HOST=${{ env.DB_HOST }} \
+                    -e DB_PORT=${{ env.DB_PORT }} \
+                    -e FAL_KEY=${{ env.FAL_KEY }} \
+                    -e PGADMIN_DEFAULT_EMAIL=${{ env.PGADMIN_DEFAULT_EMAIL }} \
+                    -e PGADMIN_DEFAULT_PASSWORD=${{ env.PGADMIN_DEFAULT_PASSWORD }} \
+                    -e SPRING_SECURITY_USERNAME=${{ env.SPRING_SECURITY_USERNAME }} \
+                    -e SPRING_SECURITY_PASSWORD=${{ env.SPRING_SECURITY_PASSWORD }} \
                     --restart unless-stopped \
                     '${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY_PROD }}:${{ steps.build_push.outputs.tag }}'"
                 ]' \
