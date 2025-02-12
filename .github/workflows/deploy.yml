@@ -86,8 +86,8 @@ jobs:
               "docker run -d --name thumbnailgenerator-postgres --network ${NETWORK_NAME} -p 5432:5432 -v /data/postgres:/var/lib/postgresql/data -e POSTGRES_USER=${{ env.DB_USERNAME }} -e POSTGRES_PASSWORD=${{ env.DB_PASSWORD }} -e POSTGRES_DB=${{ env.DB_NAME }} postgres:14.13",
               "docker run -d --name pgadmin \
                 -p 80:80 \
-                -e "PGADMIN_DEFAULT_EMAIL=${{ env.PGADMIN_DEFAULT_EMAIL }}" \
-                -e "PGADMIN_DEFAULT_PASSWORD=${{ env.PGADMIN_DEFAULT_PASSWORD }}" \
+                -e PGADMIN_DEFAULT_EMAIL=${{ env.PGADMIN_DEFAULT_EMAIL }} \
+                -e PGADMIN_DEFAULT_PASSWORD=${{ env.PGADMIN_DEFAULT_PASSWORD }} \
                 -v /data/pgadmin:/var/lib/pgadmin \
                 --network ${NETWORK_NAME} \
                 dpage/pgadmin4",
@@ -153,8 +153,8 @@ jobs:
                 "docker run -d --name thumbnailgenerator-postgres --network ${NETWORK_NAME} -p 5432:5432 -v /data/postgres:/var/lib/postgresql/data -e POSTGRES_USER=${{ env.DB_USERNAME }} -e POSTGRES_PASSWORD=${{ env.DB_PASSWORD }} -e POSTGRES_DB=${{ env.DB_NAME }} postgres:14.13",
                 "docker run -d --name pgadmin \
                     -p 80:80 \
-                    -e "PGADMIN_DEFAULT_EMAIL=${{ env.PGADMIN_DEFAULT_EMAIL }}" \
-                    -e "PGADMIN_DEFAULT_PASSWORD=${{ env.PGADMIN_DEFAULT_PASSWORD }}" \
+                    -e PGADMIN_DEFAULT_EMAIL=${{ env.PGADMIN_DEFAULT_EMAIL }} \
+                    -e PGADMIN_DEFAULT_PASSWORD=${{ env.PGADMIN_DEFAULT_PASSWORD }} \
                     -v /data/pgadmin:/var/lib/pgadmin \
                     --network ${NETWORK_NAME} \
                     dpage/pgadmin4",
