@@ -50,12 +50,13 @@ jobs:
       - name: Build and push image
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          IMAGE_TAG: $(date +%Y%m%d-%H%M%S)
         run: |
           docker build \
             --build-arg SPRING_PROFILES_ACTIVE=dev \
-            -t $ECR_REGISTRY/$ECR_REPOSITORY_DEV:$(date +%Y%m%d-%H%M%S) \
+            -t $ECR_REGISTRY/$ECR_REPOSITORY_DEV:$IMAGE_TAG \
             ./backend
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY_DEV:$(date +%Y%m%d-%H%M%S)
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY_DEV:$IMAGE_TAG
 
       - name: Deploy to EC2
         run: |
@@ -87,12 +88,13 @@ jobs:
       - name: Build and push image
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          IMAGE_TAG: $(date +%Y%m%d-%H%M%S)
         run: |
           docker build \
             --build-arg SPRING_PROFILES_ACTIVE=prod \
-            -t $ECR_REGISTRY/$ECR_REPOSITORY_PROD:$(date +%Y%m%d-%H%M%S) \
+            -t $ECR_REGISTRY/$ECR_REPOSITORY_PROD:$IMAGE_TAG \
             ./backend
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY_PROD:$(date +%Y%m%d-%H%M%S)
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY_PROD:$IMAGE_TAG
       - name: Deploy to EC2
         run: |
             aws ssm send-command \
