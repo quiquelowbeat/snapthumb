@@ -10,8 +10,9 @@ env:
   AWS_REGION: ${{ secrets.AWS_REGION }}
   ECR_REPOSITORY_DEV: ${{ secrets.ECR_REPOSITORY_DEV }}
   ECR_REPOSITORY_PROD: ${{ secrets.ECR_REPOSITORY_PROD }}
-  EC2_HOST_DEV: ${{ secrets.EC2_HOST_DEV }}
-  EC2_HOST_PROD: ${{ secrets.EC2_HOST_PROD }}
+  EC2_INSTANCE_ID_DEV: ${{ secrets.EC2_INSTANCE_ID_DEV }}
+  EC2_INSTANCE_ID_PROD: ${{ secrets.EC2_INSTANCE_ID_PROD }}
+  AWS_ROLE_ARN: ${{ secrets.AWS_ROLE_ARN }}
 
 permissions:
   id-token: write
@@ -25,8 +26,8 @@ jobs:
       
       - name: Run tests and quality checks
         run: |
-          docker build --target test -t app-test ./backend
-          docker build --target quality -t app-quality ./backend
+          docker build --target test -t thumbnailgenerator-test ./backend
+          docker build --target quality -t thumbnailgenerator-quality ./backend
 
   deploy-dev:
     needs: build-and-test
@@ -39,7 +40,7 @@ jobs:
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          role-to-assume: ${{ env.AWS_ROLE_ARN }}
           aws-region: ${{ env.AWS_REGION }}
 
       - name: Login to Amazon ECR
@@ -52,20 +53,18 @@ jobs:
         run: |
           docker build \
             --build-arg SPRING_PROFILES_ACTIVE=dev \
-            -t $ECR_REGISTRY/$ECR_REPOSITORY_DEV:dev-latest \
+            -t $ECR_REGISTRY/$ECR_REPOSITORY_DEV:$(date +%Y%m%d-%H%M%S) \
             ./backend
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY_DEV:dev-latest
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY_DEV:$(date +%Y%m%d-%H%M%S)
 
       - name: Deploy to EC2
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ env.EC2_HOST_DEV }}
-          username: ${{ secrets.EC2_USERNAME }}
-          key: ${{ secrets.EC2_SSH_KEY }}
-          script: |
-            cd ~/thumbnailgenerator
-            docker-compose -f docker-compose.backend.yml down
-            docker-compose -f docker-compose.backend.yml up -d
+        run: |
+              aws ssm send-command \
+                  --instance-ids "${{ env.EC2_INSTANCE_ID_DEV }}" \
+                  --document-name "AWS-RunShellScript" \
+                  --parameters 'commands=["cd ~/thumbnailgenerator && docker-compose -f docker-compose.backend.yml down && docker-compose -f docker-compose.backend.yml up -d"]' \
+                  --output text
+    
 
   deploy-prod:
     needs: build-and-test
@@ -78,7 +77,7 @@ jobs:
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          role-to-assume: ${{ env.AWS_ROLE_ARN }}
           aws-region: ${{ env.AWS_REGION }}
 
       - name: Login to Amazon ECR
@@ -91,17 +90,14 @@ jobs:
         run: |
           docker build \
             --build-arg SPRING_PROFILES_ACTIVE=prod \
-            -t $ECR_REGISTRY/$ECR_REPOSITORY_PROD:prod-latest \
+            -t $ECR_REGISTRY/$ECR_REPOSITORY_PROD:$(date +%Y%m%d-%H%M%S) \
             ./backend
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY_PROD:prod-latest
-
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY_PROD:$(date +%Y%m%d-%H%M%S)
       - name: Deploy to EC2
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ env.EC2_HOST_PROD }}
-          username: ${{ secrets.EC2_USERNAME }}
-          key: ${{ secrets.EC2_SSH_KEY }}
-          script: |
-            cd ~/thumbnailgenerator
-            docker-compose -f docker-compose.backend.yml down
-            docker-compose -f docker-compose.backend.yml up -d 
+        run: |
+            aws ssm send-command \
+                --instance-ids "${{ env.EC2_INSTANCE_ID_PROD }}" \
+                --document-name "AWS-RunShellScript" \
+                --parameters 'commands=["cd ~/thumbnailgenerator && docker-compose -f docker-compose.backend.yml down && docker-compose -f docker-compose.backend.yml up -d"]' \
+                --output text
+  

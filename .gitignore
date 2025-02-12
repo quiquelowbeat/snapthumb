@@ -42,3 +42,4 @@ src/main/resources/application-*.properties
 
 # Application properties
 src/main/resources/application-*.properties
+thumbnail-dev.pem
