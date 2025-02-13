@@ -22,6 +22,7 @@ public final class UserEntity {
     private String firstName;
     private String lastName;
     private String email;
+    @Column(name = "password")
     private String hashedPassword;
     @Column(name = "registered_at", updatable = false)
     private LocalDateTime registeredAt;
