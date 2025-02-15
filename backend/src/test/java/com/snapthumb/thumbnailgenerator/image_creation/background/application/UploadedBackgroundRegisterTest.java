@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Stream;
@@ -32,12 +32,12 @@ class UploadedBackgroundRegisterTest {
         static Stream<Object[]> nullParametersProvider() {
                 return Stream.of(
                                 new Object[] { UUID.randomUUID().toString(), null, "Title test", "Description test",
-                                                LocalDateTime.now() },
+                                                Instant.now() },
                                 new Object[] { UUID.randomUUID().toString(), "http://www.test.com", null,
                                                 "Description test",
-                                                LocalDateTime.now() },
+                                                Instant.now() },
                                 new Object[] { UUID.randomUUID().toString(), "http://www.test.com", "Title test", null,
-                                                LocalDateTime.now() },
+                                                Instant.now() },
                                 new Object[] { UUID.randomUUID().toString(), "http://www.test.com", "Title test",
                                                 "Description test",
                                                 null });
@@ -75,7 +75,7 @@ class UploadedBackgroundRegisterTest {
                 String url = "http://www.test.com";
                 String title = "Title test";
                 String description = "Description test";
-                LocalDateTime uploadedAt = LocalDateTime.now();
+                Instant uploadedAt = Instant.now();
 
                 assertThrows(NullPointerException.class,
                                 () -> register.register(invalidUuid, url, title, description, uploadedAt));
@@ -87,7 +87,7 @@ class UploadedBackgroundRegisterTest {
                 String url = "http://www.test.com";
                 String title = "Title test";
                 String description = "Description test";
-                LocalDateTime uploadedAt = LocalDateTime.now();
+                Instant uploadedAt = Instant.now();
 
                 assertThrows(IllegalArgumentException.class,
                                 () -> register.register(invalidUuid, url, title, description, uploadedAt));
@@ -99,7 +99,7 @@ class UploadedBackgroundRegisterTest {
                 String url = "www.test.com";
                 String title = "Title test";
                 String description = "Description test";
-                LocalDateTime uploadedAt = LocalDateTime.now();
+                Instant uploadedAt = Instant.now();
 
                 assertThrows(IllegalArgumentException.class,
                                 () -> register.register(invalidUuid, url, title, description, uploadedAt));
@@ -108,7 +108,7 @@ class UploadedBackgroundRegisterTest {
         @ParameterizedTest
         @MethodSource("nullParametersProvider")
         void should_fail_register_when_parameter_is_null(String uuid, String url, String title,
-                        String description, LocalDateTime uploadedAt) {
+                        String description, Instant uploadedAt) {
                 assertThrows(IllegalArgumentException.class,
                                 () -> register.register(uuid, url, title, description, uploadedAt));
         }
@@ -119,7 +119,7 @@ class UploadedBackgroundRegisterTest {
                 String url = "http://www.test.com";
                 String title = "Title test";
                 String description = "Description test";
-                LocalDateTime uploadedAt = LocalDateTime.MIN;
+                Instant uploadedAt = Instant.MIN;
 
                 assertThrows(IllegalArgumentException.class,
                                 () -> register.register(invalidUuid, url, title, description, uploadedAt));
@@ -131,7 +131,7 @@ class UploadedBackgroundRegisterTest {
                 String url = "http://www.test.com";
                 String title = "Title test";
                 String description = "Description test";
-                LocalDateTime uploadedAt = LocalDateTime.now().plusDays(1);
+                Instant uploadedAt = Instant.now().plusDays(1);
 
                 assertThrows(IllegalArgumentException.class,
                                 () -> register.register(invalidUuid, url, title, description, uploadedAt));
@@ -143,12 +143,12 @@ class UploadedBackgroundRegisterTest {
                 String url = "http://www.test.com";
                 String title = "Title test";
                 String description = "Description test";
-                LocalDateTime uploadedAt = LocalDateTime.now();
+                Instant uploadedAt = Instant.now();
 
                 String anotherUrl = "http://anothertest.com";
                 String anotherTitle = "Another Title test";
                 String anotherDescription = "Another Description test";
-                LocalDateTime anotherUploadedAt = LocalDateTime.now();
+                Instant anotherUploadedAt = Instant.now();
 
                 register.register(uuid, url, title, description, uploadedAt);
 

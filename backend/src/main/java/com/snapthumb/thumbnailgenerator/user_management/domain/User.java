@@ -1,6 +1,6 @@
 package com.snapthumb.thumbnailgenerator.user_management.domain;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.UUID;
 
 import com.snapthumb.thumbnailgenerator.image_creation.background.domain.value_objects.RegistrationDate;
@@ -36,12 +36,12 @@ public class User {
 
     public static User createFromPrimitives(String uuid, String firstName,
             String lastName, String email, String hashedPassword) {
-        return createUser(uuid, firstName, lastName, email, hashedPassword, LocalDateTime.now());
+        return createUser(uuid, firstName, lastName, email, hashedPassword, Instant.now());
     }
 
     public static User createFromPrimitivesWithRegisteredAt(String uuid,
             String firstName,
-            String lastName, String email, String hashedPassword, LocalDateTime registeredAt) {
+            String lastName, String email, String hashedPassword, Instant registeredAt) {
         return createUser(uuid, firstName, lastName, email, hashedPassword, registeredAt);
     }
 
@@ -51,7 +51,7 @@ public class User {
     }
 
     private static User createUser(String uuid, String firstName,
-            String lastName, String email, String hashedPassword, LocalDateTime registeredAt) {
+            String lastName, String email, String hashedPassword, Instant registeredAt) {
 
         return new User(
                 UUID.fromString(uuid),
@@ -86,7 +86,7 @@ public class User {
         return hashedPassword.value();
     }
 
-    public LocalDateTime registeredAt() {
+    public Instant registeredAt() {
         return registeredAt.value();
     }
 

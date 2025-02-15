@@ -1,6 +1,6 @@
 package com.snapthumb.thumbnailgenerator.image_creation.background.application;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 import org.springframework.stereotype.Service;
 
@@ -19,7 +19,7 @@ public class UploadedBackgroundRegister {
         this.repository = repository;
     }
 
-    public void register(String uuid, String url, String title, String description, LocalDateTime uploadedAt) {
+    public void register(String uuid, String url, String title, String description, Instant uploadedAt) {
         UploadedBackground background = UploadedBackground.createFromPrimitives(uuid, url,
                 title,
                 description, uploadedAt);

@@ -1,6 +1,7 @@
 package com.snapthumb.thumbnailgenerator.image_creation.background.infrastructure.entities;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
+import java.time.Instant;
 import java.util.UUID;
 
 import com.snapthumb.thumbnailgenerator.image_creation.background.domain.ai_background.AIBackground;
@@ -38,17 +39,17 @@ public class AIBackgroundEntity {
 
     @Column(name = "created_at", updatable = false)
     @Schema(description = "Timestamp when the image was created", example = "2023-01-01T12:00:00")
-    private LocalDateTime createdAt;
+    private Instant createdAt;
 
     @Column(name = "registered_at", updatable = false)
-    @Schema(description = "Timestamp when the image was registered in the system", example = "2023-01-01T12:00:00")
-    private LocalDateTime registeredAt;
+    @Schema(description = "Timestamp when the image was registered in the system in ISO 8601 format", example = "2023-01-01T12:00:00.000000Z")
+    private Instant registeredAt;
 
     protected AIBackgroundEntity() {
     }
 
     private AIBackgroundEntity(UUID uuid, String url, String prompt, String title, String description,
-            LocalDateTime createdAt, LocalDateTime registeredAt) {
+            Instant createdAt, Instant registeredAt) {
         this.uuid = uuid;
         this.url = url;
         this.prompt = prompt;

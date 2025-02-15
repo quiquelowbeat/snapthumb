@@ -1,9 +1,9 @@
 package com.snapthumb.thumbnailgenerator.user_management.infrastructure.dtos;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
-import com.snapthumb.thumbnailgenerator.user_management.domain.User;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.snapthumb.thumbnailgenerator.user_management.domain.User;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
@@ -33,10 +33,10 @@ public final class UserResponse {
     private final String email;
 
     @JsonProperty("registeredAt")
-    @Schema(description = "Timestamp when the user registered", example = "2023-01-01T12:00:00")
-    private final LocalDateTime registeredAt;
+    @Schema(description = "Timestamp when the user registered in ISO 8601 format", example = "2023-01-01T12:00:00Z")
+    private final Instant registeredAt;
 
-    private UserResponse(String uuid, String firstName, String lastName, String email, LocalDateTime registeredAt) {
+    private UserResponse(String uuid, String firstName, String lastName, String email, Instant registeredAt) {
         this.uuid = uuid;
         this.firstName = firstName;
         this.lastName = lastName;

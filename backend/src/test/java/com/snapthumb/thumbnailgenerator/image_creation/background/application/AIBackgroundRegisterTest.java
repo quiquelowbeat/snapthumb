@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Stream;
@@ -34,14 +34,14 @@ class AIBackgroundRegisterTest {
                 return Stream.of(
                                 new Object[] { UUID.randomUUID().toString(), null, "Prompt test", "Title test",
                                                 "Description test",
-                                                LocalDateTime.now() },
+                                                Instant.now() },
                                 new Object[] { UUID.randomUUID().toString(), "http://www.test.com", null, "Title test",
-                                                "Description test", LocalDateTime.now() },
+                                                "Description test", Instant.now() },
                                 new Object[] { UUID.randomUUID().toString(), "http://www.test.com", "Prompt test", null,
-                                                "Description test", LocalDateTime.now() },
+                                                "Description test", Instant.now() },
                                 new Object[] { UUID.randomUUID().toString(), "http://www.test.com", "Prompt test",
                                                 "Title test", null,
-                                                LocalDateTime.now() },
+                                                Instant.now() },
                                 new Object[] { UUID.randomUUID().toString(), "http://www.test.com", "Prompt test",
                                                 "Title test",
                                                 "Description test", null });
@@ -82,7 +82,7 @@ class AIBackgroundRegisterTest {
                 String prompt = "Prompt test";
                 String title = "Title test";
                 String description = "Description test";
-                LocalDateTime createdAt = LocalDateTime.now();
+                Instant createdAt = Instant.now();
 
                 assertThrows(NullPointerException.class,
                                 () -> register.register(invalidUuid, url, prompt, title, description, createdAt));
@@ -95,7 +95,7 @@ class AIBackgroundRegisterTest {
                 String prompt = "Prompt test";
                 String title = "Title test";
                 String description = "Description test";
-                LocalDateTime createdAt = LocalDateTime.now();
+                Instant createdAt = Instant.now();
 
                 assertThrows(IllegalArgumentException.class,
                                 () -> register.register(invalidUuid, url, prompt, title, description, createdAt));
@@ -108,7 +108,7 @@ class AIBackgroundRegisterTest {
                 String prompt = "Prompt test";
                 String title = "Title test";
                 String description = "Description test";
-                LocalDateTime createdAt = LocalDateTime.now();
+                Instant createdAt = Instant.now();
 
                 assertThrows(IllegalArgumentException.class,
                                 () -> register.register(invalidUuid, url, prompt, title, description, createdAt));
@@ -117,7 +117,7 @@ class AIBackgroundRegisterTest {
         @ParameterizedTest
         @MethodSource("nullParametersProvider")
         void should_fail_register_when_parameter_is_null(String uuid, String url, String prompt, String title,
-                        String description, LocalDateTime uploadedAt) {
+                        String description, Instant uploadedAt) {
                 assertThrows(IllegalArgumentException.class,
                                 () -> register.register(uuid, url, prompt, title, description, uploadedAt));
         }
@@ -129,7 +129,7 @@ class AIBackgroundRegisterTest {
                 String prompt = "Prompt test";
                 String title = "Title test";
                 String description = "Description test";
-                LocalDateTime createdAt = LocalDateTime.MIN;
+                Instant createdAt = Instant.MIN;
 
                 assertThrows(IllegalArgumentException.class,
                                 () -> register.register(invalidUuid, url, prompt, title, description, createdAt));
@@ -142,7 +142,7 @@ class AIBackgroundRegisterTest {
                 String prompt = "Prompt test";
                 String title = "Title test";
                 String description = "Description test";
-                LocalDateTime createdAt = LocalDateTime.now().plusDays(1);
+                Instant createdAt = Instant.now().plusDays(1);
 
                 assertThrows(IllegalArgumentException.class,
                                 () -> register.register(invalidUuid, url, prompt, title, description, createdAt));
@@ -155,13 +155,13 @@ class AIBackgroundRegisterTest {
                 String prompt = "Prompt test";
                 String title = "Title test";
                 String description = "Description test";
-                LocalDateTime createdAt = LocalDateTime.now();
+                Instant createdAt = Instant.now();
 
                 String anotherUrl = "http://www.anothertest.com";
                 String anotherPrompt = "Another Prompt test";
                 String anotherTitle = "Another Title test";
                 String anotherDescription = "Another Description test";
-                LocalDateTime anotherCreatedAt = LocalDateTime.now();
+                Instant anotherCreatedAt = Instant.now();
 
                 register.register(uuid, url, prompt, title, description, createdAt);
 

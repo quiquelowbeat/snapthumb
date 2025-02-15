@@ -1,6 +1,6 @@
 package com.snapthumb.thumbnailgenerator.image_creation.background.domain;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
@@ -35,12 +35,12 @@ public class RandomBackgroundData {
             "An abstract geometric composition featuring various shades of blue in a mesmerizing pattern.",
             "A magical forest setting with ethereal glowing elements among ancient trees.");
 
-    private static final List<LocalDateTime> DATES = Arrays.asList(
-            LocalDateTime.now().minusDays(5),
-            LocalDateTime.now().minusHours(10),
-            LocalDateTime.now().minusMonths(1),
-            LocalDateTime.now().minusWeeks(2),
-            LocalDateTime.now().minusDays(1));
+    private static final List<Instant> DATES = Arrays.asList(
+            Instant.now().minusDays(5),
+            Instant.now().minusHours(10),
+            Instant.now().minusMonths(1),
+            Instant.now().minusWeeks(2),
+            Instant.now().minusDays(1));
 
     static final Random RANDOM = new Random();
 
@@ -60,7 +60,7 @@ public class RandomBackgroundData {
         return DESCRIPTIONS.get(RANDOM.nextInt(DESCRIPTIONS.size()));
     }
 
-    public static LocalDateTime randomDates() {
+    public static Instant randomDates() {
         return DATES.get(RANDOM.nextInt(DATES.size()));
     }
 

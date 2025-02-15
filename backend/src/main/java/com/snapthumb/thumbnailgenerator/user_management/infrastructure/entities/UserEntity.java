@@ -1,6 +1,6 @@
 package com.snapthumb.thumbnailgenerator.user_management.infrastructure.entities;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.UUID;
 
 import com.snapthumb.thumbnailgenerator.user_management.domain.User;
@@ -25,13 +25,13 @@ public final class UserEntity {
     @Column(name = "password")
     private String hashedPassword;
     @Column(name = "registered_at", updatable = false)
-    private LocalDateTime registeredAt;
+    private Instant registeredAt;
 
     protected UserEntity() {
     }
 
     public UserEntity(UUID uuid, String firstName, String lastName, String email, String hashedPassword,
-            LocalDateTime registeredAt) {
+            Instant registeredAt) {
         this.uuid = uuid;
         this.firstName = firstName;
         this.lastName = lastName;

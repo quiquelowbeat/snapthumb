@@ -1,6 +1,6 @@
 package com.snapthumb.thumbnailgenerator.image_creation.background.infrastructure.dtos;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.snapthumb.thumbnailgenerator.image_creation.background.domain.uploaded_background.UploadedBackground;
@@ -18,10 +18,10 @@ public final class UploadedBackgroundResponse {
     private final String url;
 
     @JsonProperty("registeredAt")
-    @Schema(description = "Timestamp when the image was registered in the system", example = "2023-01-01T12:00:00")
-    private final LocalDateTime registeredAt;
+    @Schema(description = "Timestamp when the image was registered in the system in ISO 8601 format", example = "2023-01-01T12:00:00.000000Z")
+    private final Instant registeredAt;
 
-    private UploadedBackgroundResponse(String url, LocalDateTime registeredAt) {
+    private UploadedBackgroundResponse(String url, Instant registeredAt) {
         this.url = url;
         this.registeredAt = registeredAt;
     }

@@ -1,6 +1,7 @@
 package com.snapthumb.thumbnailgenerator.image_creation.background.domain.ai_background;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
+import java.time.Instant;
 import java.util.UUID;
 
 import com.snapthumb.thumbnailgenerator.image_creation.background.domain.value_objects.CreationDate;
@@ -32,19 +33,19 @@ public class AIBackground {
     }
 
     public static AIBackground createFromPrimitives(String uuid, String url, String prompt, String title,
-            String description, LocalDateTime createdAt) {
-        return createUploadedBackground(uuid, url, prompt, title, description, createdAt, LocalDateTime.now());
+            String description, Instant createdAt) {
+        return createUploadedBackground(uuid, url, prompt, title, description, createdAt, Instant.now());
     }
 
     public static AIBackground createFromPrimitivesWithRegisteredAt(String uuid, String url, String prompt,
             String title,
-            String description, LocalDateTime createdAt, LocalDateTime registeredAt) {
+            String description, Instant createdAt, Instant registeredAt) {
         return createUploadedBackground(uuid, url, prompt, title, description, createdAt, registeredAt);
     }
 
     private static AIBackground createUploadedBackground(String uuid, String url, String prompt, String title,
             String description,
-            LocalDateTime createdAt, LocalDateTime registeredAt) {
+            Instant createdAt, Instant registeredAt) {
         return new AIBackground(
                 UUID.fromString(uuid),
                 Url.create(url),
@@ -79,11 +80,11 @@ public class AIBackground {
         return description.value();
     }
 
-    public LocalDateTime createdAt() {
+    public Instant createdAt() {
         return createdAt.value();
     }
 
-    public LocalDateTime registeredAt() {
+    public Instant registeredAt() {
         return registeredAt.value();
     }
 

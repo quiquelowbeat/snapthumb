@@ -1,6 +1,6 @@
 package com.snapthumb.thumbnailgenerator.image_creation.background.domain;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.UUID;
 import java.util.stream.Stream;
 
@@ -19,7 +19,7 @@ public class AIBackgroundMother {
         }
 
         public static AIBackground createCustomBackground(String uuid, String url, String prompt, String title,
-                        String description, LocalDateTime createdAt) {
+                        String description, Instant createdAt) {
                 return AIBackground.createFromPrimitives(
                                 uuid,
                                 url,

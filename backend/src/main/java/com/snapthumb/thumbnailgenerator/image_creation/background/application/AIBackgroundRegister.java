@@ -1,6 +1,6 @@
 package com.snapthumb.thumbnailgenerator.image_creation.background.application;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 import org.springframework.stereotype.Service;
 
@@ -20,7 +20,7 @@ public class AIBackgroundRegister {
     }
 
     public void register(String uuid, String url, String prompt, String title, String description,
-            LocalDateTime createdAt) {
+            Instant createdAt) {
         AIBackground background = AIBackground.createFromPrimitives(uuid, url, prompt, title,
                 description, createdAt);
         repository.save(background);

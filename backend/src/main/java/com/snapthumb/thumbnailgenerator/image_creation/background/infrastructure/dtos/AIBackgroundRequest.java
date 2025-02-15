@@ -1,6 +1,6 @@
 package com.snapthumb.thumbnailgenerator.image_creation.background.infrastructure.dtos;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -29,11 +29,11 @@ public final class AIBackgroundRequest {
     @JsonProperty("description")
     private final String description;
 
-    @Schema(description = "Timestamp when the image was created", example = "2023-01-01T12:00:00")
+    @Schema(description = "Timestamp when the image was created in ISO 8601 format", example = "2023-01-01T12:00:00.000000Z")
     @JsonProperty("created_at")
-    private final LocalDateTime createdAt;
+    private final Instant createdAt;
 
-    public AIBackgroundRequest(String prompt, String url, String title, String description, LocalDateTime createdAt) {
+    public AIBackgroundRequest(String prompt, String url, String title, String description, Instant createdAt) {
         this.prompt = prompt;
         this.url = url;
         this.title = title;
