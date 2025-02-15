@@ -1,7 +1,6 @@
 package com.snapthumb.thumbnailgenerator.image_creation.background.domain.ai_background;
 
 import java.time.Instant;
-import java.time.Instant;
 import java.util.UUID;
 
 import com.snapthumb.thumbnailgenerator.image_creation.background.domain.value_objects.CreationDate;
