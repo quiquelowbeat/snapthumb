@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Stream;
@@ -141,8 +142,8 @@ class AIBackgroundRegisterTest {
                 String url = "http://www.test.com";
                 String prompt = "Prompt test";
                 String title = "Title test";
-                String description = "Description test";
-                Instant createdAt = Instant.now().plusDays(1);
+                String description = "Description test"; 
+                Instant createdAt = Instant.now().plus(1, ChronoUnit.DAYS);
 
                 assertThrows(IllegalArgumentException.class,
                                 () -> register.register(invalidUuid, url, prompt, title, description, createdAt));
