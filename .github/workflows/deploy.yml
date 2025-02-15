@@ -77,6 +77,7 @@ jobs:
             --instance-ids "${{ env.EC2_INSTANCE_ID_DEV }}" \
             --document-name "AWS-RunShellScript" \
             --parameters 'commands=[
+              "set -e",
               "aws ecr get-login-password --region '${{ env.AWS_REGION }}' | docker login --username AWS --password-stdin '${{ steps.login-ecr.outputs.registry }}'",
               "docker pull '${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY_DEV }}:${{ steps.build_push.outputs.tag }}'",
               "docker stop thumbnailgenerator-backend || true && docker rm thumbnailgenerator-backend || true",
@@ -133,6 +134,8 @@ jobs:
                 --instance-ids "${{ env.EC2_INSTANCE_ID_PROD }}" \
                 --document-name "AWS-RunShellScript" \
                 --parameters 'commands=[
+                "set -e",
+                "aws ecr get-login-password --region '${{ env.AWS_REGION }}' | docker login --username AWS --password-stdin '${{ steps.login-ecr.outputs.registry }}'",
                 "docker pull '${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY_PROD }}:${{ steps.build_push.outputs.tag }}'",
                 "docker stop thumbnailgenerator-backend || true && docker rm thumbnailgenerator-backend || true",
                 "docker run -d --name thumbnailgenerator-backend \
