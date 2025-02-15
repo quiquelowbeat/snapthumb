@@ -87,7 +87,7 @@ jobs:
                 -e DB_USERNAME=${{ env.DB_USERNAME }} \
                 -e DB_PASSWORD=${{ env.DB_PASSWORD }} \
                 -e DB_NAME=${{ env.DB_NAME }} \
-                -e DB_HOST=thumbnailgenerator-postgres \
+                -e DB_HOST=${{ env.DB_HOST }} \
                 -e DB_PORT=${{ env.DB_PORT }} \
                 -e FAL_KEY=${{ env.FAL_KEY }} \
                 -e PGADMIN_DEFAULT_EMAIL=${{ env.PGADMIN_DEFAULT_EMAIL }} \
@@ -144,7 +144,7 @@ jobs:
                     -e DB_USERNAME=${{ env.DB_USERNAME }} \
                     -e DB_PASSWORD=${{ env.DB_PASSWORD }} \
                     -e DB_NAME=${{ env.DB_NAME }} \
-                    -e DB_HOST=thumbnailgenerator-postgres \
+                    -e DB_HOST=${{ env.DB_HOST }} \
                     -e DB_PORT=${{ env.DB_PORT }} \
                     -e FAL_KEY=${{ env.FAL_KEY }} \
                     -e PGADMIN_DEFAULT_EMAIL=${{ env.PGADMIN_DEFAULT_EMAIL }} \
