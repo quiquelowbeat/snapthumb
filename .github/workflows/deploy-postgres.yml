@@ -51,6 +51,7 @@ jobs:
               "docker volume inspect postgres_data >/dev/null 2>&1 || docker volume create --name=postgres_data",
               
               "echo \"🚀 Starting PostgreSQL...\"",
+              "VOLUME_PATH=$(docker volume inspect --format '{{`{{ .Mountpoint }}`}}' postgres_data)",
               "docker run -d \
                 --name postgres_db \
                 --network internal \
@@ -59,7 +60,7 @@ jobs:
                 -e POSTGRES_USER=${{ secrets.DB_USERNAME }} \
                 -e POSTGRES_PASSWORD=${{ secrets.DB_PASSWORD }} \
                 -p 5432:5432 \
-                -v $(docker volume inspect --format '{{ .Mountpoint }}' postgres_data):/var/lib/postgresql/data \
+                -v $VOLUME_PATH:/var/lib/postgresql/data \
                 postgres:14.13",
               
               "echo \"🚀 Starting pgAdmin...\"",
