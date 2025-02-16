@@ -51,7 +51,7 @@ jobs:
               "docker volume inspect postgres_data >/dev/null 2>&1 || docker volume create --name=postgres_data",
               
               "echo \"🚀 Starting PostgreSQL...\"",
-              "VOLUME_PATH=$(docker volume inspect --format '{{ .Mountpoint }}' postgres_data)",
+              "VOLUME_PATH=$(docker volume inspect --format '{{.Mountpoint}}' postgres_data)",
               "docker run -d \
                 --name postgres_db \
                 --network internal \
