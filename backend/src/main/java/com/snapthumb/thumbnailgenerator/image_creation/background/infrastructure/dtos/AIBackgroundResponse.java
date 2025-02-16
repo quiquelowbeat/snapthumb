@@ -1,6 +1,6 @@
 package com.snapthumb.thumbnailgenerator.image_creation.background.infrastructure.dtos;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -21,10 +21,10 @@ public final class AIBackgroundResponse {
     private List<String> urls;
 
     @JsonProperty("createdAt")
-    @Schema(description = "Timestamp when the image was created in the ai system", example = "2023-01-01T12:00:00")
-    private LocalDateTime createdAt;
+    @Schema(description = "Timestamp when the image was created in the AI system in ISO 8601 format", example = "2023-01-01T12:00:00.000000Z")
+    private Instant createdAt;
 
-    private AIBackgroundResponse(List<String> urls, LocalDateTime createdAt) {
+    private AIBackgroundResponse(List<String> urls, Instant createdAt) {
         this.urls = urls;
         this.createdAt = createdAt;
     }

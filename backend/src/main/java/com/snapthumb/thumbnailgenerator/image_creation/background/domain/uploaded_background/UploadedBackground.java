@@ -1,6 +1,6 @@
 package com.snapthumb.thumbnailgenerator.image_creation.background.domain.uploaded_background;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.UUID;
 
 import com.snapthumb.thumbnailgenerator.image_creation.background.domain.value_objects.Description;
@@ -29,18 +29,18 @@ public class UploadedBackground {
     }
 
     public static UploadedBackground createFromPrimitives(String uuid, String url, String title, String description,
-            LocalDateTime uploadedAt) {
-        return createUploadedBackground(uuid, url, title, description, uploadedAt, LocalDateTime.now());
+            Instant uploadedAt) {
+        return createUploadedBackground(uuid, url, title, description, uploadedAt, Instant.now());
     }
 
     public static UploadedBackground createFromPrimitivesWithRegisteredAt(String uuid, String url, String title,
-            String description, LocalDateTime uploadedAt, LocalDateTime registeredAt) {
+            String description, Instant uploadedAt, Instant registeredAt) {
         return createUploadedBackground(uuid, url, title, description, uploadedAt, registeredAt);
     }
 
     private static UploadedBackground createUploadedBackground(String uuid, String url, String title,
             String description,
-            LocalDateTime uploadedAt, LocalDateTime registeredAt) {
+            Instant uploadedAt, Instant registeredAt) {
         return new UploadedBackground(
                 UUID.fromString(uuid),
                 Url.create(url),
@@ -70,11 +70,11 @@ public class UploadedBackground {
         return description.value();
     }
 
-    public LocalDateTime uploadedAt() {
+    public Instant uploadedAt() {
         return uploadedAt.value();
     }
 
-    public LocalDateTime registeredAt() {
+    public Instant registeredAt() {
         return registeredAt.value();
     }
 

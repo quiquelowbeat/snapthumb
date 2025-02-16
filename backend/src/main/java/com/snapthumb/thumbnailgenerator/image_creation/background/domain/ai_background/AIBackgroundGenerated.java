@@ -1,6 +1,6 @@
 package com.snapthumb.thumbnailgenerator.image_creation.background.domain.ai_background;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.List;
 
 import com.google.gson.JsonElement;
@@ -17,10 +17,10 @@ public class AIBackgroundGenerated {
     private int seed;
     private List<Boolean> hasNsfwConcepts;
     private String prompt;
-    private LocalDateTime createdAt;
+    private Instant createdAt;
 
     public AIBackgroundGenerated(List<Image> images, Timings timings, int seed, List<Boolean> hasNsfwConcepts,
-            String prompt, LocalDateTime createdAt) {
+            String prompt, Instant createdAt) {
         this.images = images;
         this.timings = timings;
         this.seed = seed;
@@ -38,7 +38,7 @@ public class AIBackgroundGenerated {
                     extractSeed(json),
                     extractNsfwConcepts(json),
                     extractPrompt(json),
-                    LocalDateTime.now());
+                    Instant.now());
         } catch (ClassCastException e) {
             throw new AIBackgroundFailedResponse(
                     "Invalid JSON structure: Unable to parse AI background response fields", e);
@@ -77,7 +77,7 @@ public class AIBackgroundGenerated {
         return images;
     }
 
-    public LocalDateTime createdAt() {
+    public Instant createdAt() {
         return createdAt;
     }
 

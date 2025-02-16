@@ -7,5 +7,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.snapthumb.thumbnailgenerator.user_management.infrastructure.entities.UserEntity;
 
 public interface JpaUserRepository extends JpaRepository<UserEntity, UUID> {
-
+    boolean existsByEmail(String email);
 }

@@ -19,17 +19,17 @@ public final class HashedPassword {
 
     public static HashedPassword create(String hashedPassword) {
         if (hashedPassword == null || hashedPassword.trim().isEmpty()) {
-            throw new IllegalArgumentException("Hashed password cannot be null or empty");
+            throw new IllegalArgumentException("Hashed password cannot be null or empty.");
         }
 
         String trimmedPassword = hashedPassword.trim();
 
         if (trimmedPassword.length() < 60 || trimmedPassword.length() > 60) {
-            throw new IllegalArgumentException("Invalid hashed password length");
+            throw new IllegalArgumentException("Invalid hashed password length.");
         }
 
         if (!trimmedPassword.matches("^\\$2[ayb]\\$.{56}$")) {
-            throw new IllegalArgumentException("Invalid hashed password format");
+            throw new IllegalArgumentException("Invalid hashed password format.");
         }
 
         return new HashedPassword(trimmedPassword);

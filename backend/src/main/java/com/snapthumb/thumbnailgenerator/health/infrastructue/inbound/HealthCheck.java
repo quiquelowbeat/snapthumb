@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.snapthumb.thumbnailgenerator.shared.infrastructure.dtos.MessageResponse;
+
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
@@ -24,11 +26,12 @@ public class HealthCheck {
     }
 
     @GetMapping
-    public ResponseEntity<String> checkHealth() {
+    public ResponseEntity<MessageResponse> checkHealth() {
         if (isDatabaseHealthy()) {
-            return ResponseEntity.ok("SnapThumb is up and running. All services are healthy.");
+            return ResponseEntity.ok(new MessageResponse("SnapThumb is up and running. All services are healthy."));
         } else {
-            return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body("SnapThumb is experiencing issues.");
+            return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE)
+                    .body(new MessageResponse("SnapThumb is experiencing issues."));
         }
     }
 
