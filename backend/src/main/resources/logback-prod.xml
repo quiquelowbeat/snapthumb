@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+	<property name="DEV_HOME" value="/var/log/thumbnailgenerator" />
+	<property name="APP_NAME" value="thumbnailgenerator" />
+	<property name="GRAYLOG_HOST" value="${GRAYLOG_HOST:-graylog}" />
+
+	<appender name="GRAYLOG" class="de.siegmar.logbackgelf.GelfUdpAppender">
+		<graylogHost>${GRAYLOG_HOST}</graylogHost>
+		<graylogPort>12201</graylogPort>
+		<facility>spring-boot-app</facility>
+		<includeMdcData>true</includeMdcData>
+		<staticField>app_name=${APP_NAME}</staticField>
+		<staticField>env=development</staticField>
+	</appender>
+
+	<logger name="com.snapthumb" level="WARN" additivity="false">
+		<appender-ref ref="GRAYLOG" />
+	</logger>
+
+	<logger name="org.springframework" level="INFO" additivity="false">
+		<appender-ref ref="GRAYLOG" />
+	</logger>
+
+	<root level="WARN">
+		<appender-ref ref="GRAYLOG" />
+	</root>
+
+</configuration>
