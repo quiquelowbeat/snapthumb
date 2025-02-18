@@ -3,7 +3,7 @@
 
 	<property name="DEV_HOME" value="/var/log/thumbnailgenerator" />
 	<property name="APP_NAME" value="thumbnailgenerator" />
-	<property name="GRAYLOG_HOST" value="${GRAYLOG_HOST:-graylog}" />
+	<property name="GRAYLOG_HOST" value="graylog" />
 
 	<appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
 		<encoder>

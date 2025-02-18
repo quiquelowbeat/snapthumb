@@ -8,10 +8,6 @@
 	<appender name="GRAYLOG" class="de.siegmar.logbackgelf.GelfUdpAppender">
 		<graylogHost>${GRAYLOG_HOST}</graylogHost>
 		<graylogPort>12201</graylogPort>
-		<facility>spring-boot-app</facility>
-		<includeMdcData>true</includeMdcData>
-		<staticField>app_name=${APP_NAME}</staticField>
-		<staticField>env=development</staticField>
 	</appender>
 
 	<logger name="com.snapthumb" level="WARN" additivity="false">

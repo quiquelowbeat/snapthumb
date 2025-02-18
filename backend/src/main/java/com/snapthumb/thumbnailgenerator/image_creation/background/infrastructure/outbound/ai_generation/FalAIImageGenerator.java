@@ -37,9 +37,9 @@ abstract class FalAIImageGenerator implements AIBackgroundGeneration {
             Map<String, Object> input = createInput(prompt);
             Output<JsonObject> outputFromFal = generateFalAIOutput(input);
             return Either.right(AIBackgroundGenerated.createFromJson(outputFromFal));
-        } catch (Exception e) {
-            log.error("Unexpected error generating AI image: {}", e.getMessage());
-            return Either.left(new CantGenerateAIBackground(e));
+        } catch (Exception ex) {
+            log.error("Unexpected error generating AI image: {}", ex.getMessage(), ex);
+            return Either.left(new CantGenerateAIBackground(ex));
         }
     }
 
