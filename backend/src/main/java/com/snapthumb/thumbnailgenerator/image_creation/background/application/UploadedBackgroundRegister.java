@@ -24,6 +24,7 @@ public class UploadedBackgroundRegister {
                 title,
                 description, uploadedAt);
         repository.save(background);
+        log.info("Successfully registered uploaded background with uuid: {}", uuid);
     }
 
 }

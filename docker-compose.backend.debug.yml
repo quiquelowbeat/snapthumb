@@ -1,26 +1,46 @@
 services:
   backend:
-    environment:
-        - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005
-        - DB_HOST=${DB_HOST}
-        - DB_PORT=${DB_PORT}
-        - DB_NAME=${DB_NAME}
-        - DB_USERNAME=${DB_USERNAME}
-        - DB_PASSWORD=${DB_PASSWORD}
-        - PGADMIN_DEFAULT_EMAIL=${PGADMIN_DEFAULT_EMAIL}
-        - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_DEFAULT_PASSWORD}
-        - SPRING_SECURITY_USERNAME=${SPRING_SECURITY_USERNAME}
-        - SPRING_SECURITY_PASSWORD=${SPRING_SECURITY_PASSWORD}
-        - SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE}
-        - FAL_KEY=${FAL_KEY}
     build: 
       context: ./backend
       dockerfile: Dockerfile
+    env_file:
+      - .env
     ports:
       - "8080:8080"
       - "5005:5005"
     networks:
       - snapthumb-network
+  mongodb:
+    image: mongo:6.0
+    container_name: mongodb
+    networks:
+      - snapthumb-network
+    restart: always
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.10.2
+    container_name: elasticsearch
+    environment:
+      - "discovery.type=single-node"
+      - "xpack.security.enabled=false"
+    networks:
+      - snapthumb-network
+    restart: always
+
+  graylog:
+    env_file:
+      - .env
+    image: graylog/graylog:5.0
+    container_name: graylog
+    ports:
+      - "9000:9000"  
+      - "12201:12201/udp"  
+    networks:
+      - snapthumb-network
+    restart: always
+    depends_on:
+      - mongodb
+      - elasticsearch
 
 networks:
   snapthumb-network:

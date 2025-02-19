@@ -31,15 +31,13 @@ abstract class FalAIImageGenerator implements AIBackgroundGeneration {
 
     @Override
     public Either<CantGenerateAIBackground, AIBackgroundGenerated> generate(Prompt prompt) {
-        log.info("Generating image with Falschnell AI in environment: {}",
-                System.getenv("SPRING_PROFILES_ACTIVE"));
         try {
             Map<String, Object> input = createInput(prompt);
             Output<JsonObject> outputFromFal = generateFalAIOutput(input);
             return Either.right(AIBackgroundGenerated.createFromJson(outputFromFal));
-        } catch (Exception e) {
-            log.error("Unexpected error generating AI image: {}", e.getMessage());
-            return Either.left(new CantGenerateAIBackground(e));
+        } catch (Exception ex) {
+            log.error("Unexpected error generating AI image: {}", ex.getMessage(), ex);
+            return Either.left(new CantGenerateAIBackground(ex));
         }
     }
 

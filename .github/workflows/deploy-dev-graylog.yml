@@ -1,0 +1,96 @@
+name: Deploy Graylog Stack on EC2
+
+on:
+  workflow_dispatch:
+
+env:
+  AWS_REGION: ${{ secrets.AWS_REGION }}
+  EC2_INSTANCE_ID: ${{ secrets.EC2_INSTANCE_ID_DEV_GRAYLOG }}
+  AWS_ROLE_ARN: ${{ secrets.AWS_ROLE_ARN }}
+  GRAYLOG_PASSWORD_SECRET: ${{ secrets.GRAYLOG_PASSWORD_SECRET }}
+  GRAYLOG_ROOT_PASSWORD_SHA2: ${{ secrets.GRAYLOG_ROOT_PASSWORD_SHA2 }}
+  GRAYLOG_HTTP_EXTERNAL_URI: ${{ secrets.GRAYLOG_HTTP_EXTERNAL_URI }}
+  GRAYLOG_MONGODB_URI: ${{ secrets.GRAYLOG_MONGODB_URI }}
+  GRAYLOG_HOST: ${{ secrets.GRAYLOG_HOST }}
+  GRAYLOG_ROTATION_STRATEGY: size
+  GRAYLOG_ELASTICSEARCH_MAX_SIZE_PER_INDEX: 536870912
+  GRAYLOG_ELASTICSEARCH_MAX_NUMBER_OF_INDICES: 2
+  GRAYLOG_ELASTICSEARCH_INDEX_PREFIX: graylog-dev
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ env.AWS_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Deploy Graylog Stack via AWS SSM
+        run: |
+          aws ssm send-command \
+            --instance-ids "${{ env.EC2_INSTANCE_ID }}" \
+            --document-name "AWS-RunShellScript" \
+            --parameters 'commands=[
+              "set -e",
+              "echo \"🔄 Stopping and removing existing containers...\"",
+              "docker stop mongodb elasticsearch graylog || true",
+              "docker rm mongodb elasticsearch graylog || true",
+              
+              "echo \"🛑 Removing old images...\"",
+              "docker rmi mongo:6.0 docker.elastic.co/elasticsearch/elasticsearch:7.10.2 graylog/graylog:5.0 || true",
+              
+              "echo \"📥 Pulling latest images...\"",
+              "docker pull mongo:6.0",
+              "docker pull docker.elastic.co/elasticsearch/elasticsearch:7.10.2",
+              "docker pull graylog/graylog:5.0",
+              
+              "echo \"🔗 Creating network graylog (if not exists)...\"",
+              "docker network create graylog || true",
+              
+              "echo \"🚀 Starting MongoDB...\"",
+              "docker run -d \
+                --name mongodb \
+                --network graylog \
+                --restart always \
+                -v mongodb_data:/data/db \
+                mongo:6.0",
+              
+              "echo \"🚀 Starting Elasticsearch...\"",
+              "docker run -d \
+                --name elasticsearch \
+                --network graylog \
+                --restart always \
+                -e discovery.type=single-node \
+                -e xpack.security.enabled=false \
+                -v es_data:/usr/share/elasticsearch/data \
+                docker.elastic.co/elasticsearch/elasticsearch:7.10.2",
+              
+              "echo \"🚀 Starting Graylog...\"",
+              "docker run -d \
+                --name graylog \
+                --network graylog \
+                --restart always \
+                -e GRAYLOG_PASSWORD_SECRET=${{ env.GRAYLOG_PASSWORD_SECRET }} \
+                -e GRAYLOG_ROOT_PASSWORD_SHA2=${{ env.GRAYLOG_ROOT_PASSWORD_SHA2 }} \
+                -e GRAYLOG_HTTP_EXTERNAL_URI=${{ env.GRAYLOG_HTTP_EXTERNAL_URI }} \
+                -e GRAYLOG_MONGODB_URI=${{ env.GRAYLOG_MONGODB_URI }} \
+                -e GRAYLOG_HOST=${{ env.GRAYLOG_HOST }} \
+                -e GRAYLOG_ROTATION_STRATEGY=${{ env.GRAYLOG_ROTATION_STRATEGY }} \
+                -e GRAYLOG_ELASTICSEARCH_MAX_SIZE_PER_INDEX=${{ env.GRAYLOG_ELASTICSEARCH_MAX_SIZE_PER_INDEX }} \
+                -e GRAYLOG_ELASTICSEARCH_MAX_NUMBER_OF_INDICES=${{ env.GRAYLOG_ELASTICSEARCH_MAX_NUMBER_OF_INDICES }} \
+                -e GRAYLOG_ELASTICSEARCH_INDEX_PREFIX=${{ env.GRAYLOG_ELASTICSEARCH_INDEX_PREFIX }} \
+                -p 9000:9000 \
+                -p 12201:12201/udp \
+                -v graylog_journal:/usr/share/graylog/data/journal \
+                graylog/graylog:5.0",
+              
+              "echo \"✅ Graylog stack successfully deployed!\""
+            ]' \
+            --output text 

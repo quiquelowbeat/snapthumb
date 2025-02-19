@@ -25,6 +25,7 @@ public class UserRegister {
         User user = User.createFromPrimitives(uuid, firstName, lastName, email,
                 encoder.encode(password));
         repository.save(user);
+        log.info("Successfully registered user with uuid: {}", uuid);
     }
 
 }

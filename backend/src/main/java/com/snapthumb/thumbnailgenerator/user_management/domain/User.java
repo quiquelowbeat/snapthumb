@@ -35,7 +35,7 @@ public class User {
     }
 
     public static User createFromPrimitives(String uuid, String firstName,
-            String lastName, String email, String hashedPassword) {
+            String lastName, String email, String hashedPassword) { 
         return createUser(uuid, firstName, lastName, email, hashedPassword, Instant.now());
     }
 
