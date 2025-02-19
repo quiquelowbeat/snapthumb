@@ -3,7 +3,6 @@
 
 	<property name="DEV_HOME" value="/var/log/thumbnailgenerator" />
 	<property name="APP_NAME" value="thumbnailgenerator" />
-	<property name="GRAYLOG_HOST" value="${GRAYLOG_HOST:-graylog}" />
 
 	<appender name="GRAYLOG" class="de.siegmar.logbackgelf.GelfUdpAppender">
 		<graylogHost>${GRAYLOG_HOST}</graylogHost>
