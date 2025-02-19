@@ -24,6 +24,7 @@ public class AIBackgroundRegister {
         AIBackground background = AIBackground.createFromPrimitives(uuid, url, prompt, title,
                 description, createdAt);
         repository.save(background);
+        log.info("Successfully registered AI background with UUID: {}", uuid);
     }
 
 }

@@ -59,6 +59,7 @@ jobs:
                 --name mongodb \
                 --network graylog \
                 --restart always \
+                -v mongodb_data:/data/db \
                 mongo:6.0",
               
               "echo \"🚀 Starting Elasticsearch...\"",
@@ -68,6 +69,7 @@ jobs:
                 --restart always \
                 -e discovery.type=single-node \
                 -e xpack.security.enabled=false \
+                -v es_data:/usr/share/elasticsearch/data \
                 docker.elastic.co/elasticsearch/elasticsearch:7.10.2",
               
               "echo \"🚀 Starting Graylog...\"",
@@ -86,6 +88,7 @@ jobs:
                 -e GRAYLOG_ELASTICSEARCH_INDEX_PREFIX=${{ env.GRAYLOG_ELASTICSEARCH_INDEX_PREFIX }} \
                 -p 9000:9000 \
                 -p 12201:12201/udp \
+                -v graylog_journal:/usr/share/graylog/data/journal \
                 graylog/graylog:5.0",
               
               "echo \"✅ Graylog stack successfully deployed!\""
