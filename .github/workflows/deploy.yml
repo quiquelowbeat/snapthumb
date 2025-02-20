@@ -94,6 +94,7 @@ jobs:
                 -e PGADMIN_DEFAULT_PASSWORD=${{ env.PGADMIN_DEFAULT_PASSWORD }} \
                 -e SPRING_SECURITY_USERNAME=${{ env.SPRING_SECURITY_USERNAME }} \
                 -e SPRING_SECURITY_PASSWORD=${{ env.SPRING_SECURITY_PASSWORD }} \
+                -e GRAYLOG_HOST=${{ env.GRAYLOG_HOST }} \
                 --restart unless-stopped \
                 '${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY_DEV }}:${{ steps.build_push.outputs.tag }}'",
             ]' \
