@@ -100,61 +100,61 @@ jobs:
                 '${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY_DEV }}:${{ steps.build_push.outputs.tag }}'",
             ]' \
             --output text
-  deploy-prod:
-    needs: build-and-test
-    if: github.ref == 'refs/heads/main'
-    runs-on: ubuntu-latest
+  # deploy-prod:
+  #   needs: build-and-test
+  #   if: github.ref == 'refs/heads/main'
+  #   runs-on: ubuntu-latest
 
-    steps:
-      - uses: actions/checkout@v4
+  #   steps:
+  #     - uses: actions/checkout@v4
 
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          role-to-assume: ${{ env.AWS_ROLE_ARN }}
-          aws-region: ${{ env.AWS_REGION }}
+  #     - name: Configure AWS Credentials
+  #       uses: aws-actions/configure-aws-credentials@v4
+  #       with:
+  #         role-to-assume: ${{ env.AWS_ROLE_ARN }}
+  #         aws-region: ${{ env.AWS_REGION }}
 
-      - name: Login to Amazon ECR
-        id: login-ecr
-        uses: aws-actions/amazon-ecr-login@v2
+  #     - name: Login to Amazon ECR
+  #       id: login-ecr
+  #       uses: aws-actions/amazon-ecr-login@v2
 
-      - name: Build and push image
-        env:
-          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-        run: |
-          TAG=prod-$(date +%Y%m%d-%H%M%S)
-          docker build \
-            --build-arg SPRING_PROFILES_ACTIVE=prod \
-            -t $ECR_REGISTRY/$ECR_REPOSITORY_PROD:$TAG \
-            ./backend
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY_PROD:$TAG
-          echo "tag=${TAG}" >> $GITHUB_OUTPUT
+  #     - name: Build and push image
+  #       env:
+  #         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+  #       run: |
+  #         TAG=prod-$(date +%Y%m%d-%H%M%S)
+  #         docker build \
+  #           --build-arg SPRING_PROFILES_ACTIVE=prod \
+  #           -t $ECR_REGISTRY/$ECR_REPOSITORY_PROD:$TAG \
+  #           ./backend
+  #         docker push $ECR_REGISTRY/$ECR_REPOSITORY_PROD:$TAG
+  #         echo "tag=${TAG}" >> $GITHUB_OUTPUT
 
-      - name: Deploy to EC2
-        run: |
-          aws ssm send-command \
-              --instance-ids "${{ env.EC2_INSTANCE_ID_PROD }}" \
-              --document-name "AWS-RunShellScript" \
-              --parameters 'commands=[
-              "set -e",
-              "aws ecr get-login-password --region '${{ env.AWS_REGION }}' | docker login --username AWS --password-stdin '${{ steps.login-ecr.outputs.registry }}'",
-              "docker pull '${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY_PROD }}:${{ steps.build_push.outputs.tag }}'",
-              "docker stop thumbnailgenerator-backend || true && docker rm thumbnailgenerator-backend || true",
-              "docker run -d --name thumbnailgenerator-backend \
-                  -p 8080:8080 \
-                  -e SPRING_PROFILES_ACTIVE=prod \
-                  -e DB_USERNAME=${{ env.DB_USERNAME }} \
-                  -e DB_PASSWORD=${{ env.DB_PASSWORD }} \
-                  -e DB_NAME=${{ env.DB_NAME }} \
-                  -e DB_HOST=${{ env.DB_HOST }} \
-                  -e DB_PORT=${{ env.DB_PORT }} \
-                  -e FAL_KEY=${{ env.FAL_KEY }} \
-                  -e PGADMIN_DEFAULT_EMAIL=${{ env.PGADMIN_DEFAULT_EMAIL }} \
-                  -e PGADMIN_DEFAULT_PASSWORD=${{ env.PGADMIN_DEFAULT_PASSWORD }} \
-                  -e SPRING_SECURITY_USERNAME=${{ env.SPRING_SECURITY_USERNAME }} \
-                  -e SPRING_SECURITY_PASSWORD=${{ env.SPRING_SECURITY_PASSWORD }} \
-                  -e GRAYLOG_HOST=${{ env.GRAYLOG_HOST }} \
-                  --restart unless-stopped \
-                  '${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY_PROD }}:${{ steps.build_push.outputs.tag }}'",
-              ]' \
-              --output text
+  #     - name: Deploy to EC2
+  #       run: |
+  #         aws ssm send-command \
+  #             --instance-ids "${{ env.EC2_INSTANCE_ID_PROD }}" \
+  #             --document-name "AWS-RunShellScript" \
+  #             --parameters 'commands=[
+  #             "set -e",
+  #             "aws ecr get-login-password --region '${{ env.AWS_REGION }}' | docker login --username AWS --password-stdin '${{ steps.login-ecr.outputs.registry }}'",
+  #             "docker pull '${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY_PROD }}:${{ steps.build_push.outputs.tag }}'",
+  #             "docker stop thumbnailgenerator-backend || true && docker rm thumbnailgenerator-backend || true",
+  #             "docker run -d --name thumbnailgenerator-backend \
+  #                 -p 8080:8080 \
+  #                 -e SPRING_PROFILES_ACTIVE=prod \
+  #                 -e DB_USERNAME=${{ env.DB_USERNAME }} \
+  #                 -e DB_PASSWORD=${{ env.DB_PASSWORD }} \
+  #                 -e DB_NAME=${{ env.DB_NAME }} \
+  #                 -e DB_HOST=${{ env.DB_HOST }} \
+  #                 -e DB_PORT=${{ env.DB_PORT }} \
+  #                 -e FAL_KEY=${{ env.FAL_KEY }} \
+  #                 -e PGADMIN_DEFAULT_EMAIL=${{ env.PGADMIN_DEFAULT_EMAIL }} \
+  #                 -e PGADMIN_DEFAULT_PASSWORD=${{ env.PGADMIN_DEFAULT_PASSWORD }} \
+  #                 -e SPRING_SECURITY_USERNAME=${{ env.SPRING_SECURITY_USERNAME }} \
+  #                 -e SPRING_SECURITY_PASSWORD=${{ env.SPRING_SECURITY_PASSWORD }} \
+  #                 -e GRAYLOG_HOST=${{ env.GRAYLOG_HOST }} \
+  #                 --restart unless-stopped \
+  #                 '${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY_PROD }}:${{ steps.build_push.outputs.tag }}'",
+  #             ]' \
+  #             --output text
