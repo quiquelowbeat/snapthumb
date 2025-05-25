@@ -33,16 +33,16 @@ public class AIBackground {
 
     public static AIBackground createFromPrimitives(String uuid, String url, String prompt, String title,
             String description, Instant createdAt) {
-        return createUploadedBackground(uuid, url, prompt, title, description, createdAt, Instant.now());
+        return createAIBackground(uuid, url, prompt, title, description, createdAt, Instant.now());
     }
 
     public static AIBackground createFromPrimitivesWithRegisteredAt(String uuid, String url, String prompt,
             String title,
             String description, Instant createdAt, Instant registeredAt) {
-        return createUploadedBackground(uuid, url, prompt, title, description, createdAt, registeredAt);
+        return createAIBackground(uuid, url, prompt, title, description, createdAt, registeredAt);
     }
 
-    private static AIBackground createUploadedBackground(String uuid, String url, String prompt, String title,
+    private static AIBackground createAIBackground(String uuid, String url, String prompt, String title,
             String description,
             Instant createdAt, Instant registeredAt) {
         return new AIBackground(

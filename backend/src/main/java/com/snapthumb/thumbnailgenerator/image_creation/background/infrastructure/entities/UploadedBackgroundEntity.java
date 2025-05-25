@@ -44,7 +44,7 @@ public class UploadedBackgroundEntity {
     protected UploadedBackgroundEntity() {
     }
 
-    private UploadedBackgroundEntity(UUID uuid, String url, String title, String description,
+    public UploadedBackgroundEntity(UUID uuid, String url, String title, String description,
             Instant uploadedAt, Instant registeredAt) {
         this.uuid = uuid;
         this.url = url;
@@ -54,19 +54,4 @@ public class UploadedBackgroundEntity {
         this.registeredAt = registeredAt;
     }
 
-    public UploadedBackground toDomainModel() {
-        return UploadedBackground.createFromPrimitivesWithRegisteredAt(
-                uuid.toString(),
-                url,
-                title,
-                description,
-                uploadedAt,
-                registeredAt);
-    }
-
-    public static UploadedBackgroundEntity fromDomainModel(UploadedBackground uploadedBackground) {
-        return new UploadedBackgroundEntity(uploadedBackground.uuid(), uploadedBackground.url(),
-                uploadedBackground.title(), uploadedBackground.description(), uploadedBackground.uploadedAt(),
-                uploadedBackground.registeredAt());
-    }
 }

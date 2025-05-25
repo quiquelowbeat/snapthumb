@@ -9,16 +9,18 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.snapthumb.thumbnailgenerator.user_management.domain.User;
 import com.snapthumb.thumbnailgenerator.user_management.domain.UserRepository;
-import com.snapthumb.thumbnailgenerator.user_management.infrastructure.entities.UserEntity;
+import com.snapthumb.thumbnailgenerator.user_management.infrastructure.mappers.UserMapper;
 import com.snapthumb.thumbnailgenerator.user_management.infrastructure.outbound.persistence.JpaUserRepository;
 
 @Repository
 public class PostgresUserRepository implements UserRepository {
 
     private final JpaUserRepository repository;
+    private final UserMapper userMapper;
 
-    public PostgresUserRepository(JpaUserRepository repository) {
+    public PostgresUserRepository(JpaUserRepository repository, UserMapper userMapper) {
         this.repository = repository;
+        this.userMapper = userMapper;
     }
 
     @Override
@@ -27,18 +29,18 @@ public class PostgresUserRepository implements UserRepository {
         if (repository.existsByEmail(user.email())) {
             throw new IllegalArgumentException("Email already exists.");
         }
-        repository.save(UserEntity.fromDomainModel(user));
+        repository.save(userMapper.toEntity(user));
     }
 
     @Override
     public Optional<User> search(UUID uuid) {
-        return repository.findById(uuid).map(UserEntity::toDomainModel);
+        return repository.findById(uuid).map(userMapper::toDomainModel);
     }
 
     @Override
     public List<User> findAll() {
         return repository.findAll().stream()
-                .map(UserEntity::toDomainModel)
+                .map(userMapper::toDomainModel)
                 .toList();
     }
 

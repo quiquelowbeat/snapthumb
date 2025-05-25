@@ -47,7 +47,7 @@ public class AIBackgroundEntity {
     protected AIBackgroundEntity() {
     }
 
-    private AIBackgroundEntity(UUID uuid, String url, String prompt, String title, String description,
+    public AIBackgroundEntity(UUID uuid, String url, String prompt, String title, String description,
             Instant createdAt, Instant registeredAt) {
         this.uuid = uuid;
         this.url = url;
@@ -56,23 +56,6 @@ public class AIBackgroundEntity {
         this.description = description;
         this.createdAt = createdAt;
         this.registeredAt = registeredAt;
-    }
-
-    public AIBackground toDomainModel() {
-        return AIBackground.createFromPrimitivesWithRegisteredAt(
-                uuid.toString(),
-                url,
-                prompt,
-                title,
-                description,
-                createdAt,
-                registeredAt);
-    }
-
-    public static AIBackgroundEntity fromDomainModel(AIBackground aiBackground) {
-        return new AIBackgroundEntity(aiBackground.uuid(), aiBackground.url(), aiBackground.prompt(),
-                aiBackground.title(), aiBackground.description(), aiBackground.createdAt(),
-                aiBackground.registeredAt());
     }
 
 }

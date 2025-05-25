@@ -40,18 +40,4 @@ public final class UserEntity {
         this.registeredAt = registeredAt;
     }
 
-    public User toDomainModel() {
-        return User.createFromPrimitivesWithRegisteredAt(
-                uuid.toString(),
-                firstName,
-                lastName,
-                email,
-                hashedPassword,
-                registeredAt);
-    }
-
-    public static UserEntity fromDomainModel(User user) {
-        return new UserEntity(user.uuid(), user.firstName(), user.lastName(), user.email(), user.hashedPassword(),
-                user.registeredAt());
-    }
 }
