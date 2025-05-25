@@ -3,8 +3,6 @@ package com.snapthumb.thumbnailgenerator.user_management.infrastructure.entities
 import java.time.Instant;
 import java.util.UUID;
 
-import com.snapthumb.thumbnailgenerator.user_management.domain.User;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;

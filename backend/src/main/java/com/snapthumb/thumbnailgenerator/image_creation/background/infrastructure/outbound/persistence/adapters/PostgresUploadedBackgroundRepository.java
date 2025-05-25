@@ -7,7 +7,6 @@ import org.springframework.stereotype.Repository;
 
 import com.snapthumb.thumbnailgenerator.image_creation.background.domain.uploaded_background.UploadedBackground;
 import com.snapthumb.thumbnailgenerator.image_creation.background.domain.uploaded_background.UploadedBackgroundRepository;
-import com.snapthumb.thumbnailgenerator.image_creation.background.infrastructure.entities.UploadedBackgroundEntity;
 import com.snapthumb.thumbnailgenerator.image_creation.background.infrastructure.mappers.UploadedBackgroundMapper;
 import com.snapthumb.thumbnailgenerator.image_creation.background.infrastructure.outbound.persistence.JpaUploadedBackgroundRepository;
 

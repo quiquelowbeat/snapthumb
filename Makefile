@@ -27,3 +27,13 @@ validate:
 	@echo "✅ Quality checks passed!"
 
 	@echo "\n✨ All validations passed successfully!"
+
+help:
+	@echo "\n📚 Available commands:"
+	@echo "  make run         - Run the application"
+	@echo "  make run-debug   - Run the application in debug mode"
+	@echo "  make build       - Build the application"
+	@echo "  make validate    - Run tests and quality checks"
+	@echo "  make help        - Show this help message"
+	@echo "\n"
+

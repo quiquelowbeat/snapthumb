@@ -3,8 +3,6 @@ package com.snapthumb.thumbnailgenerator.image_creation.background.infrastructur
 import java.time.Instant;
 import java.util.UUID;
 
-import com.snapthumb.thumbnailgenerator.image_creation.background.domain.uploaded_background.UploadedBackground;
-
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
