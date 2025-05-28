@@ -26,31 +26,21 @@ A lightning-fast Spring Boot application that transforms your YouTube thumbnails
 
 ### 📋 Prerequisites
 
-- Java 17 or higher
-- Maven
-- Docker and Docker Compose (optional)
+- Java 17
+- Maven 3.9.6
+- Docker and Docker Compose
 
 ### 💻 Installation
 
-1. **Clone the repository:**
+**Clone the repository:**
    ```bash
    git clone https://github.com/yourusername/thumbnailgenerator.git
    cd thumbnailgenerator/backend
    ```
 
-2. **Build the application:**
-   ```bash
-   mvn clean install
-   ```
-
-3. **Run the application:**
-   ```bash
-   mvn spring-boot:run
-   ```
-
 ### 🐳 Docker Setup
 
-Alternatively, use Docker for a containerized setup:
+Use Docker for a containerized setup:
 
    ```bash
    docker-compose up -d
