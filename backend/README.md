@@ -1,42 +1,74 @@
-# Project Name
+# 🎨 Thumbnail Generator Backend
 
-A brief description of what this project does and who it's for.
+A lightning-fast Spring Boot application that transforms your YouTube thumbnails using cutting-edge AI technology. This backend service powers the SnapThumb platform, making professional-quality thumbnails accessible to everyone.
 
-## Features
+## ✨ Features
 
-- Feature 1
-- Feature 2
-- Feature 3
+- 🎯 AI-powered thumbnail generation using Stable Diffusion/ControlNet
+- 👤 Smart image processing with face detection and intelligent cropping
+- 🔒 Enterprise-grade security with authentication and authorization
+- ☁️ Seamless cloud storage integration with AWS S3
+- 📚 Comprehensive RESTful API documentation
 
-## Getting Started
+## 🛠️ Tech Stack
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
+- ☕ Java 17
+- 🌱 Spring Boot 3.3.5
+- 🛡️ Spring Security
+- 💾 Spring Data JPA
+- 🐘 PostgreSQL (Production)
+- 💿 H2 (Development/Testing)
+- 🐳 Docker & Docker Compose
+- ☁️ AWS S3
+- 📝 OpenAPI/Swagger
 
-### Prerequisites
+## 🚀 Getting Started
 
-What things you need to install the software and how to install them.
+### 📋 Prerequisites
 
-bash
-npm install
+- Java 17 or higher
+- Maven
+- Docker and Docker Compose (optional)
 
-### Installing 
+### 💻 Installation
 
-A step by step series of examples that tell you how to get a development environment running.
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/yourusername/thumbnailgenerator.git
+   cd thumbnailgenerator/backend
+   ```
 
-## Usage
+2. **Build the application:**
+   ```bash
+   mvn clean install
+   ```
 
-Provide instructions and examples for use.
+3. **Run the application:**
+   ```bash
+   mvn spring-boot:run
+   ```
 
-## Contributing
+### 🐳 Docker Setup
 
-Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests to us.
+Alternatively, use Docker for a containerized setup:
 
-## License
+   ```bash
+   docker-compose up -d
+   ```
 
-This project is licensed under the [LICENSE NAME] License - see the [LICENSE.md](LICENSE.md) file for details
+## 📚 API Documentation
 
-## Acknowledgments
+API documentation is available via Swagger UI when the application is running:
 
-* Hat tip to anyone whose code was used
-* Inspiration
-* etc
+http://localhost:8080/swagger-ui.html
+
+## 🏗️ Project Structure
+
+The application follows a clean/hexagonal architecture with:
+- Domain layer: Core business logic and entities
+- Application layer: Use cases and services
+- Infrastructure layer: External systems integration (DB, S3, AI models)
+
+## 📄 License
+
+[Your License] - See LICENSE.md file for details
